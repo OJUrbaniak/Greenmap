@@ -1,4 +1,2 @@
 # Greenmap
-First commit on my branch
-
-Implemented base Point of Interest class in MainActivity
+First commit is based on the project on Google Drive
