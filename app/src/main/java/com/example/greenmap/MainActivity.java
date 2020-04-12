@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         double lon;
         int distanceFromUser; //This gets set later
 
-        public PointOfInterest(String name, String desc, Double lat, Double lon, int type, int reviewRating) {
+        PointOfInterest(String name, String desc, Double lat, Double lon, int type, int reviewRating) {
             this.name = name;
             this.desc = desc;
             this.lat = lat;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         boolean bottleFilling;
         boolean filtered;
 
-        public WaterFountainPOI(String name, String desc, Double lat, Double lon, int type, int reviewRating, int carbonSaved, boolean safeToDrinkStraight, boolean bottleFilling, boolean filtered) {
+        WaterFountainPOI(String name, String desc, Double lat, Double lon, int type, int reviewRating, int carbonSaved, boolean safeToDrinkStraight, boolean bottleFilling, boolean filtered) {
             super(name, desc, lat, lon, type, reviewRating);
             this.carbonSaved = carbonSaved;
             this.safeToDrinkStraight = safeToDrinkStraight;
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         boolean covered;
 
-        public BikeRackPOI(String name, String desc, Double lat, Double lon, int type, int reviewRating) {
+        BikeRackPOI(String name, String desc, Double lat, Double lon, int type, int reviewRating) {
             super(name, desc, lat, lon, type, reviewRating);
         }
     }
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
         String binType;
 
-        public RecyclingBinPOI(String name, String desc, Double lat, Double lon, int type, int reviewRating, String binType) {
+        RecyclingBinPOI(String name, String desc, Double lat, Double lon, int type, int reviewRating, String binType) {
             super(name, desc, lat, lon, type, reviewRating);
             this.binType = binType;
         }
