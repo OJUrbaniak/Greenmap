@@ -2,6 +2,8 @@ package com.example.greenmap;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
+
+import android.graphics.Point;
 import android.view.View;
 import android.content.Intent;
 
@@ -20,6 +22,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
+    PointOfInterest[] sampleData = new PointOfInterest[] { new PointOfInterest("Switzerland",	46.818188,8.227512), new PointOfInterest("Ireland", 53.41291,-8.24389	), new PointOfInterest("United Kingdom", 55.378051,-3.435973)};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         googleMap.addMarker(new MarkerOptions().position(guild)
                 .title("UOL Guild"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(guild));
+
+        for (int i = 0; i < sampleData.length; i++) {
+            System.out.println("Plotting Item "+i);
+            PointOfInterest curr = sampleData[i];
+            mapAPI.addMarker(new MarkerOptions().position(curr.coords)).setTitle(curr.name);
+        }
     }
 
     /* This is an example method which places a marker on the map *//*
@@ -72,17 +81,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         int carbonSaved; //Will have to decide what this is for different POIs and whether it will change over time
         int reviewRating;
 
-        double lat;
-        double lon;
+        LatLng coords;
         int distanceFromUser; //This gets set later
 
         PointOfInterest(String name, String desc, Double lat, Double lon, int type, int reviewRating) {
             this.name = name;
             this.desc = desc;
-            this.lat = lat;
-            this.lon = lon;
+            coords = new LatLng(lat, lon);
             this.type = type;
             this.reviewRating = reviewRating;
+        }
+
+        PointOfInterest(String name, Double lat, Double lon) {
+            this.name = name;
+            coords = new LatLng(lat, lon);
         }
     }
 
