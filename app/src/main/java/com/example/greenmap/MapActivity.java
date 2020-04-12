@@ -32,11 +32,21 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     @Override
     public void onMapReady(GoogleMap googleMap){
+        mapAPI = googleMap;
         LatLng guild = new LatLng(53.405403,-2.966129);
-        //V dont work idk why
-        //mapAPI.addMarker(new MarkerOptions().position(guild).title("Liverpool guild of students"));
-        //mapAPI.moveCamera(CameraUpdateFactory.newLatLng(guild));
+        googleMap.addMarker(new MarkerOptions().position(guild)
+                .title("UOL Guild"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(guild));
     }
+
+    /* This is an example method which places a marker on the map *//*
+    public void testAddMarker(View view) {
+        LatLng liverpool = new LatLng(53.400002, 	-2.983333);
+        mapAPI.addMarker(new MarkerOptions().position(liverpool)
+                .title("Marker in the pool"));
+        mapAPI.moveCamera(CameraUpdateFactory.newLatLng(liverpool));
+    }
+    */
 
     public void goToNearbyList(View view){
         Intent intent = new Intent(this, NearbyList.class);
