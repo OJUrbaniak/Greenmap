@@ -30,4 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private class PointOfInterest {
+        //Base point of interest class for types to expand upon
+        int x;
+        int y;
+        int distanceFromUser; //This gets set later
+
+        String id;
+        String name;
+        String desc;
+    }
 }
