@@ -58,17 +58,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     */
 
     public void goToNearbyList(View view){
-        Intent intent = new Intent(this, NearbyList.class);
+        Intent intent = new Intent(this, NearbyListActivity.class);
         startActivity(intent);
     }
 
     public void goToProfile(View view){
-        Intent intent = new Intent(this, Profile.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 
     public void goToFilters(View view){
-        Intent intent = new Intent(this, Filters.class);
+        Intent intent = new Intent(this, FiltersActivity.class);
         startActivity(intent);
     }
 
