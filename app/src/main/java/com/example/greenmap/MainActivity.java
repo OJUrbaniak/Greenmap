@@ -1,12 +1,11 @@
 package com.example.greenmap;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-
 import android.content.Intent;
-
 import android.view.View;
+
+import android.graphics.Point;
 
 public class MainActivity extends AppCompatActivity {
 
