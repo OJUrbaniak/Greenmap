@@ -17,7 +17,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
-public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ViewPOIActivity extends FragmentActivity implements OnMapReadyCallback {
 
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
@@ -25,7 +25,7 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_bike);
+        setContentView(R.layout.activity_view_p_o_i);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
@@ -33,12 +33,17 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        //idk
+        //
     }
 
-    public void backToProfile(View view){
-        Intent intent = new Intent(this,ProfileActivity.class);
+    public void goToEdit(View view){
+        Intent intent = new Intent(this,EditPOIActivity.class);
         startActivity(intent);
     }
-}
 
+    public void goToDelete(View view){
+        Intent intent = new Intent(this,DeletePOIActivity.class);
+        startActivity(intent);
+    }
+
+}

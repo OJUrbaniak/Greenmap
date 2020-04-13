@@ -19,6 +19,11 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToCreated(View view){
+        Intent intent = new Intent (this,CreatedListActivity.class);
+        startActivity(intent);
+    }
+
     public void goToTOS(View view){
         Intent intent = new Intent(this,TermsOfServiceActivity.class);
         startActivity(intent);
