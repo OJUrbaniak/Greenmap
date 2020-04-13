@@ -17,6 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".AboutUsActivity"></activity>
+        <activity android:name=".PrivacyPolicyActivity" />
+        <activity android:name=".TermsOfServiceActivity" />
         <activity android:name=".Filters" />
         <activity android:name=".NearbyList" />
         <activity android:name=".Profile" />
