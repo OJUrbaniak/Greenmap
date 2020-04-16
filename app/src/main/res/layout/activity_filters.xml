@@ -125,7 +125,7 @@
         app:layout_constraintTop_toTopOf="@+id/view2" />
 
     <CheckBox
-        android:id="@+id/checkBox15"
+        android:id="@+id/showBins"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
@@ -189,7 +189,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <CheckBox
-        android:id="@+id/checkBox13"
+        android:id="@+id/showRacks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"
@@ -198,7 +198,7 @@
         app:layout_constraintTop_toTopOf="@+id/view" />
 
     <CheckBox
-        android:id="@+id/checkBox14"
+        android:id="@+id/showTaps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#FFFFFF"

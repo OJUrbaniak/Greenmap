@@ -7,14 +7,14 @@ public class PointOfInterest {
     String id; //Set as data is pulled from db, used to keep track of POIs
     String name;
     String desc;
-    int type;       //char r = recycling, b = bike rack, w = waterfountain
+    char type;       //char r = recycling, b = bike rack, w = waterfountain
     int carbonSaved; //Will have to decide what this is for different POIs and whether it will change over time
     int reviewRating;
 
     LatLng coords;
     int distanceFromUser; //This gets set later
 
-    PointOfInterest(String name, String desc, Double lat, Double lon, int type, int reviewRating) {
+    PointOfInterest(String name, String desc, Double lat, Double lon, char type, int reviewRating) {
         this.name = name;
         this.desc = desc;
         coords = new LatLng(lat, lon);
@@ -22,8 +22,9 @@ public class PointOfInterest {
         this.reviewRating = reviewRating;
     }
 
-    PointOfInterest(String name, Double lat, Double lon) {
+    PointOfInterest(String name, char type, Double lat, Double lon) {
         this.name = name;
+        this.type = type;
         coords = new LatLng(lat, lon);
     }
 }
