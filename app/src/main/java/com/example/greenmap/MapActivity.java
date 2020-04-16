@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.graphics.Point;
+import android.util.Log;
 import android.view.View;
 import android.content.Intent;
 
@@ -12,6 +13,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -46,16 +48,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             PointOfInterest curr = sampleData[i];
             mapAPI.addMarker(new MarkerOptions().position(curr.coords)).setTitle(curr.name);
         }
+        mapAPI.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                Log.d("Map","CAMERA MOVED to "+mapAPI.getCameraPosition().target);
+            }
+        });
+        //mapAPI.setOnCameraMoveListener(cameraMove());
     }
-
-    /* This is an example method which places a marker on the map *//*
-    public void testAddMarker(View view) {
-        LatLng liverpool = new LatLng(53.400002, 	-2.983333);
-        mapAPI.addMarker(new MarkerOptions().position(liverpool)
-                .title("Marker in the pool"));
-        mapAPI.moveCamera(CameraUpdateFactory.newLatLng(liverpool));
-    }
-    */
 
     public void goToNearbyList(View view){
         Intent intent = new Intent(this, NearbyListActivity.class);
