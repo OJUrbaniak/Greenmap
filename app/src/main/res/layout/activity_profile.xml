@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#353535">
 
     <TextView
         android:id="@+id/textView17"
@@ -13,6 +13,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="44dp"
         android:text=" Username"
+        android:textColor="#F4F4F4"
         android:textSize="30sp"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="parent" />
@@ -21,8 +22,11 @@
         android:id="@+id/textView20"
         android:layout_width="184dp"
         android:layout_height="26dp"
-        android:layout_marginTop="20dp"
-        android:text="Points:"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="40dp"
+        android:text="Carbon Points:"
+        android:textAlignment="center"
+        android:textColor="#F4F4F4"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/imageView4" />
@@ -41,9 +45,11 @@
         android:id="@+id/button6"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="32dp"
+        android:background="#777777"
         android:onClick="goToCreatePOI"
         android:text="Create a point of interest"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView20" />
@@ -53,8 +59,10 @@
         android:layout_width="225dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        android:background="#777777"
         android:onClick="goToCreated"
         android:text="View my points of interest"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button6" />
@@ -64,7 +72,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:background="#777777"
         android:text="Sign out"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button7" />
@@ -74,8 +84,10 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:background="#777777"
         android:onClick="goToAU"
         android:text="About Us"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button10" />
@@ -85,8 +97,10 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:background="#777777"
         android:onClick="goToPP"
         android:text="Privacy Policy"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button11" />
@@ -96,8 +110,10 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:background="#777777"
         android:onClick="goToTOS"
         android:text="Terms of Service"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button8" />

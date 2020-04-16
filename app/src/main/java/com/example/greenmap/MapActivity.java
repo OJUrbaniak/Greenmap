@@ -9,6 +9,8 @@ import android.view.View;
 import android.content.Intent;
 
 import android.os.Bundle;
+import android.widget.Button;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,6 +24,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    User user;
+    Button profileButton;
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
     PointOfInterest[] sampleData = new PointOfInterest[] { new PointOfInterest("Switzerland",	46.818188,8.227512), new PointOfInterest("Ireland", 53.41291,-8.24389	), new PointOfInterest("United Kingdom", 55.378051,-3.435973)};
@@ -30,6 +34,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        profileButton = findViewById(R.id.button27);
+
+        //Get user from login
+        Intent i = getIntent();
+        user = (User)i.getSerializableExtra("User");
+
+        profileButton.setText(user.username);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
@@ -64,6 +76,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     public void goToProfile(View view){
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("User", user);
         startActivity(intent);
     }
 
