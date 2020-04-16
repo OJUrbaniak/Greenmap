@@ -24,7 +24,7 @@ public class FiltersActivity extends AppCompatActivity {
     TextView tapRange;
     TextView tapMinRating;
 
-    SharedPreferences pref = this.getSharedPreferences("com.example.greenmap", Context.MODE_PRIVATE);
+    SharedPreferences pref = null;
     Preferences userPref = null;
 
     @Override
@@ -39,12 +39,13 @@ public class FiltersActivity extends AppCompatActivity {
         tapRange = findViewById(R.id.textView14);
         tapMinRating = findViewById(R.id.textView15);
 
-        loadPreferences();
+        //loadPreferences();
 
         numberPOI = findViewById(R.id.textView16);
     }
 
     public void savePreferences(View view) {    //CALLED BY SAVE FILTERS BUTTON
+        pref = this.getSharedPreferences("com.example.greenmap", Context.MODE_PRIVATE);
         Preferences userPref = new Preferences(
                 rackCovered.isChecked(),
                 rackRange.getText().toString(),
@@ -62,14 +63,20 @@ public class FiltersActivity extends AppCompatActivity {
     }
 
     private void loadPreferences() {
-        Gson gson = new Gson();
-        if (pref.contains("userPref")) {
-            String json = pref.getString("userPref","");
-            Preferences deviceUserPref = gson.fromJson(json, Preferences.class);
-            userPref = deviceUserPref;
+        if (this.getSharedPreferences("com.example.greenmap", Context.MODE_PRIVATE) != null) {
+            pref = this.getSharedPreferences("com.example.greenmap", Context.MODE_PRIVATE);
+            Gson gson = new Gson();
+            if (pref.contains("userPref")) {
+                String json = pref.getString("userPref","");
+                Preferences deviceUserPref = gson.fromJson(json, Preferences.class);
+                userPref = deviceUserPref;
+            }
+            else {
+                Log.d("PREF-LOAD","No preferences detected");
+                userPref = new Preferences();
+            }
         }
         else {
-            Log.d("PREF-LOAD","No preferences detected");
             userPref = new Preferences();
         }
         showPreferences(userPref);
