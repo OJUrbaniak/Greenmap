@@ -43,8 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_dialog_map"
-        tools:srcCompat="@drawable/GreenMapNewColour" />
+        app:srcCompat="@mipmap/greenmaplogo_foreground" />
 
     <TextView
         android:id="@+id/textView3"
@@ -77,14 +76,17 @@
         android:id="@+id/button"
         android:layout_width="144dp"
         android:layout_height="81dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="68dp"
         android:backgroundTint="#61892F"
         android:fontFamily="casual"
         android:onClick="goToSignup"
         android:text="Sign Up!"
         android:textColor="#C9C9CA"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
