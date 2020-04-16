@@ -23,4 +23,9 @@ public class CreatePOIActivity extends AppCompatActivity {
         Intent intent = new Intent(this,CreateWaterActivity.class);
         startActivity(intent);
     }
+
+    public void goToCreateBin(View view){
+        Intent intent = new Intent(this,CreateBinActivity.class);
+        startActivity(intent);
+    }
 }
