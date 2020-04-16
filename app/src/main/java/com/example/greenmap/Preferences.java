@@ -3,6 +3,9 @@ package com.example.greenmap;
 import android.util.Log;
 
 public class Preferences {
+    boolean showRacks;
+    boolean showTaps;
+    boolean showBins;
     boolean rackCovered;
     boolean drinkingTap;
     boolean tapBottleRefill;
@@ -10,6 +13,9 @@ public class Preferences {
     int minRating;
 
     public Preferences() {
+        this.showRacks = true;
+        this.showTaps = true;
+        this.showBins = true;
         this.rackCovered = false;       //defaults
         this.drinkingTap = false;       //defaults
         this.tapBottleRefill = false;   //defaults
@@ -17,7 +23,10 @@ public class Preferences {
         this.minRating = 0;          //defaults
     }
 
-    public Preferences(boolean rackCovered, boolean drinkingTap, boolean tapBottleRefill, int tapRange, int tapMinRating) {
+    public Preferences(boolean showRacks, boolean showTaps, boolean showBins, boolean rackCovered, boolean drinkingTap, boolean tapBottleRefill, int tapRange, int tapMinRating) {
+        this.showRacks = showRacks;
+        this.showTaps = showTaps;
+        this.showBins = showBins;
         this.rackCovered = rackCovered;
         this.drinkingTap = drinkingTap;
         this.tapBottleRefill = tapBottleRefill;

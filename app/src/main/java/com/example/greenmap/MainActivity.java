@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
 
     User[] validUsers = {new User(1, "cockman", "ilovepeepee", 74),
                          new User(2, "hoboson", "manlovestrash", 91),
-                         new User(3, "wadeeb", "showbob", 2),};
+                         new User(3, "wadeeb", "showbob", 2),
+                         new User(4,"test","", 99)};
 
     //Button signupButton;     -- a method already exists for this
 

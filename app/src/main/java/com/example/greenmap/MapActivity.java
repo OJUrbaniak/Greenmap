@@ -28,7 +28,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     Button profileButton;
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
-    PointOfInterest[] sampleData = new PointOfInterest[] { new PointOfInterest("Switzerland",	46.818188,8.227512), new PointOfInterest("Ireland", 53.41291,-8.24389	), new PointOfInterest("United Kingdom", 55.378051,-3.435973)};
+    PointOfInterest[] sampleData = new PointOfInterest[] {
+            new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
+            new PointOfInterest("Ireland", 'w',53.41291,-8.24389	),
+            new PointOfInterest("United Kingdom", 'b',55.378051,-3.435973)
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
