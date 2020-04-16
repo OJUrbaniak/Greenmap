@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/checkbox_off_background"
-        tools:srcCompat="@mipmap/greenmaplogo_foreground" />
+        tools:srcCompat="@mipmap/GreenMapLogo_foreground" />
 
     <fragment
         android:id="@+id/mapAPI"
