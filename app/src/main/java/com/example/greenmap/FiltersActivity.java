@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -17,12 +16,10 @@ public class FiltersActivity extends AppCompatActivity {
 
     TextView numberPOI;
     CheckBox rackCovered;
-    TextView rackRange;
-    TextView rackMinRating;
     CheckBox drinkingTap;
     CheckBox tapBottleRefill;
-    TextView tapRange;
-    TextView tapMinRating;
+    TextView range;
+    TextView minRating;
 
     SharedPreferences pref = null;
     Preferences userPref = null;
@@ -32,12 +29,10 @@ public class FiltersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filters);
         rackCovered = findViewById(R.id.checkBox);
-        rackRange = findViewById(R.id.textView7);
-        rackMinRating = findViewById(R.id.textView2);
         drinkingTap = findViewById(R.id.checkBox2);
         tapBottleRefill = findViewById(R.id.checkBox3);
-        tapRange = findViewById(R.id.textView14);
-        tapMinRating = findViewById(R.id.textView15);
+        range = findViewById(R.id.textView14);//
+        minRating = findViewById(R.id.textView15);//
 
         //loadPreferences();
 
@@ -48,12 +43,10 @@ public class FiltersActivity extends AppCompatActivity {
         pref = this.getSharedPreferences("com.example.greenmap", Context.MODE_PRIVATE);
         Preferences userPref = new Preferences(
                 rackCovered.isChecked(),
-                rackRange.getText().toString(),
-                rackMinRating.getText().toString(),
                 drinkingTap.isChecked(),
                 tapBottleRefill.isChecked(),
-                tapRange.getText().toString(),
-                tapMinRating.getText().toString()
+                range.getText().toString(),
+                minRating.getText().toString()
         );
         SharedPreferences.Editor prefsEdit = pref.edit();
         Gson gson = new Gson();
@@ -84,11 +77,9 @@ public class FiltersActivity extends AppCompatActivity {
 
     private void showPreferences(Preferences p) {
         rackCovered.setChecked(p.rackCovered);
-        rackRange.setText(p.rackRange);
-        rackMinRating.setText(p.rackMinRating);
         drinkingTap.setChecked(p.drinkingTap);
         tapBottleRefill.setChecked(p.tapBottleRefill);
-        tapRange.setText(p.tapRange);
-        tapMinRating.setText(p.tapMinRating);
+        range.setText(p.range);
+        minRating.setText(p.minRating);
     }
 }
