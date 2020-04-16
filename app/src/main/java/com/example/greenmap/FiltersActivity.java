@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -18,8 +19,9 @@ public class FiltersActivity extends AppCompatActivity {
     CheckBox rackCovered;
     CheckBox drinkingTap;
     CheckBox tapBottleRefill;
-    TextView range;
-    TextView minRating;
+    EditText range;
+    EditText minRating;
+    CheckBox binCovered;
 
     SharedPreferences pref = null;
     Preferences userPref = null;
@@ -31,23 +33,30 @@ public class FiltersActivity extends AppCompatActivity {
         rackCovered = findViewById(R.id.checkBox);
         drinkingTap = findViewById(R.id.checkBox2);
         tapBottleRefill = findViewById(R.id.checkBox3);
-        range = findViewById(R.id.textView14);//
-        minRating = findViewById(R.id.textView15);//
+        binCovered = findViewById(R.id.checkBox11);
+        range = findViewById(R.id.editText10);//
+        minRating = findViewById(R.id.editText11);//
 
-        //loadPreferences();
+        loadPreferences();
 
         numberPOI = findViewById(R.id.textView16);
     }
 
     public void savePreferences(View view) {    //CALLED BY SAVE FILTERS BUTTON
-        pref = this.getSharedPreferences("com.example.greenmap", Context.MODE_PRIVATE);
-        Preferences userPref = new Preferences(
+        Log.d("PREF-LOAD","Save button hit trying to save prefs");
+        pref = getSharedPreferences("com.example.greenmap", 0);
+        try {
+            userPref = new Preferences(
                 rackCovered.isChecked(),
                 drinkingTap.isChecked(),
                 tapBottleRefill.isChecked(),
-                range.getText().toString(),
-                minRating.getText().toString()
-        );
+                Integer.parseInt(range.getText().toString()),
+                Integer.parseInt(minRating.getText().toString())
+            );
+        }
+        catch (NumberFormatException e) {
+            Log.d("SavePreferences","Parsing error");
+        }
         SharedPreferences.Editor prefsEdit = pref.edit();
         Gson gson = new Gson();
         String json = gson.toJson(userPref);
@@ -56,30 +65,32 @@ public class FiltersActivity extends AppCompatActivity {
     }
 
     private void loadPreferences() {
-        if (this.getSharedPreferences("com.example.greenmap", Context.MODE_PRIVATE) != null) {
-            pref = this.getSharedPreferences("com.example.greenmap", Context.MODE_PRIVATE);
+        pref = getSharedPreferences("com.example.greenmap", 0);
+        if (pref.contains("userPref")) {
+            Log.d("PREF-LOAD","Preferences detected");
             Gson gson = new Gson();
-            if (pref.contains("userPref")) {
-                String json = pref.getString("userPref","");
-                Preferences deviceUserPref = gson.fromJson(json, Preferences.class);
-                userPref = deviceUserPref;
-            }
-            else {
-                Log.d("PREF-LOAD","No preferences detected");
-                userPref = new Preferences();
-            }
+            String json = pref.getString("userPref","");
+            Preferences deviceUserPref = gson.fromJson(json, Preferences.class);
+            userPref = deviceUserPref;
         }
         else {
+            Log.d("PREF-LOAD","No preferences detected");
             userPref = new Preferences();
         }
         showPreferences(userPref);
     }
 
     private void showPreferences(Preferences p) {
-        rackCovered.setChecked(p.rackCovered);
-        drinkingTap.setChecked(p.drinkingTap);
-        tapBottleRefill.setChecked(p.tapBottleRefill);
-        range.setText(p.range);
-        minRating.setText(p.minRating);
+        if ((rackCovered.isChecked() == true && p.rackCovered == false) || (rackCovered.isChecked() == false && p.rackCovered == true)) {
+            rackCovered.toggle();
+        }
+        if ((drinkingTap.isChecked() == true && p.drinkingTap == false) || (drinkingTap.isChecked() == false && p.drinkingTap == true)) {
+            drinkingTap.toggle();
+        }
+        if ((tapBottleRefill.isChecked() == true && p.tapBottleRefill == false) || (tapBottleRefill.isChecked() == false && p.tapBottleRefill == true)) {
+            tapBottleRefill.toggle();
+        }
+        range.setText(Integer.toString(p.range));
+        minRating.setText(Integer.toString(p.minRating));
     }
 }

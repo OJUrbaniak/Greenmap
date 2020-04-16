@@ -17,16 +17,11 @@ public class Preferences {
         this.minRating = 0;          //defaults
     }
 
-    public Preferences(boolean rackCovered, boolean drinkingTap, boolean tapBottleRefill, String tapRange, String tapMinRating) {
-        try {
-            this.rackCovered = rackCovered;
-            this.drinkingTap = false;
-            this.tapBottleRefill = false;
-            this.range = 500; try { Integer.parseInt(tapRange); } catch (NumberFormatException ex) {Log.e("PrefError","tapRange not a number");};
-            this.minRating = 0; try { Integer.parseInt(tapMinRating); } catch (NumberFormatException ex) {Log.e("PrefError","tapMinRating not a number");};
-        }
-        catch (Exception ex) {
-            Log.e("PrefError","ONE OR MORE SETTINGS NOT INTS");
-        }
+    public Preferences(boolean rackCovered, boolean drinkingTap, boolean tapBottleRefill, int tapRange, int tapMinRating) {
+        this.rackCovered = rackCovered;
+        this.drinkingTap = drinkingTap;
+        this.tapBottleRefill = tapBottleRefill;
+        this.range = tapRange;
+        this.minRating = tapMinRating;
     }
 }
