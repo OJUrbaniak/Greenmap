@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ReportPOIActivity"></activity>
+        <activity android:name=".CreateBinActivity"></activity>
+        <activity android:name=".ReportPOIActivity" />
         <activity android:name=".RatePOIActivity" />
         <activity android:name=".DeletePOIActivity" />
         <activity android:name=".EditPOIActivity" />
