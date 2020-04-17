@@ -35,6 +35,11 @@ public class ProfileActivity extends AppCompatActivity {
         carbonPointsLabel.setText("Carbon Points: " + user.carbon_saved_value);
     }
 
+    public void signOut(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     public void goToCreatePOI(View view){
         Intent intent = new Intent (this,CreatePOIActivity.class);
         startActivity(intent);

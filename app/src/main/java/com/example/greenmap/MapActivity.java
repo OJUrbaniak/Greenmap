@@ -35,6 +35,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     };
 
     @Override
+    public void onBackPressed() { } //Disable back button being pressed - dont wanna go back to login/sign up
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);

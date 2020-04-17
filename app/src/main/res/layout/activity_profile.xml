@@ -8,16 +8,16 @@
 
     <TextView
         android:id="@+id/textView17"
-        android:layout_width="217dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="224dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="44dp"
         android:fontFamily="casual"
         android:text=" Username"
+        android:textAlignment="center"
         android:textColor="#F4F4F4"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,8 +39,8 @@
         android:id="@+id/imageView4"
         android:layout_width="108dp"
         android:layout_height="108dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_foreground" />
@@ -82,6 +82,7 @@
         android:layout_marginTop="40dp"
         android:background="#777777"
         android:fontFamily="sans-serif-light"
+        android:onClick="signOut"
         android:text="Sign out"
         android:textColor="#F4F4F4"
         android:textSize="15sp"

@@ -30,7 +30,7 @@
         android:ems="10"
         android:fontFamily="casual"
         android:hint="Password"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|textPassword"
         android:textAlignment="center"
         android:textColor="#CFCFCF"
         app:layout_constraintEnd_toEndOf="parent"

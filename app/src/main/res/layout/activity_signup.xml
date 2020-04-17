@@ -25,12 +25,28 @@
         android:ems="10"
         android:fontFamily="casual"
         android:hint="Password"
-        android:inputType="textPersonName"
+        android:inputType="textPassword"
         android:textAlignment="center"
         android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpUserNameLabel" />
+
+    <EditText
+        android:id="@+id/signUpEmailAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:fontFamily="casual"
+        android:hint="Email Address"
+        android:inputType="textPersonName"
+        android:textAlignment="center"
+        android:textColor="#F4F4F4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signUpPWordLabel" />
 
     <TextView
         android:id="@+id/createAccountLabel"
@@ -65,14 +81,17 @@
         android:id="@+id/createAccountButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="66dp"
+        android:layout_marginTop="61dp"
         android:backgroundTint="#777777"
         android:fontFamily="sans-serif-light"
         android:onClick="createAccount"
         android:text="@string/create_button"
         android:textAlignment="center"
         android:textColor="#F4F4F4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpPWordLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/signUpEmailAddress"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
