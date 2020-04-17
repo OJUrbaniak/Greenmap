@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background=" #353535"
     tools:context=".CreateBikeActivity">
 
     <fragment
@@ -23,12 +23,12 @@
         android:id="@+id/textView29"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:text="Name:"
-        android:textColor="#000000"
+        android:layout_marginTop="32dp"
+        android:fontFamily="casual"
+        android:text="Name"
+        android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.047"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
@@ -36,10 +36,11 @@
         android:id="@+id/textView21"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="56dp"
+        android:fontFamily="casual"
         android:text="Description:"
-        android:textColor="#000000"
+        android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29" />
@@ -48,12 +49,11 @@
         android:id="@+id/editText12"
         android:layout_width="243dp"
         android:layout_height="56dp"
-        android:layout_marginStart="41dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="104dp"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:textColor="#F4F4F4"
         app:layout_constraintStart_toEndOf="@+id/textView21"
         app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
@@ -61,21 +61,25 @@
         android:id="@+id/checkBox4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="45dp"
         android:text="Covered"
+        android:textColor="#F4F4F4"
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+        app:layout_constraintTop_toBottomOf="@+id/editText12" />
 
     <Button
         android:id="@+id/button14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="98dp"
-        android:layout_marginBottom="76dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginBottom="112dp"
+        android:backgroundTint=" #777777"
         android:onClick="backToProfile"
         android:text="Create"
+        android:textColor="#F4F4F4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
