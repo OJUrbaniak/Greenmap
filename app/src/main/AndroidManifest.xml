@@ -17,11 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateBinActivity"></activity>
+        <activity android:name=".EditWaterActivity"></activity>
+        <activity android:name=".EditBinActivity" />
+        <activity android:name=".CreateBinActivity" />
         <activity android:name=".ReportPOIActivity" />
         <activity android:name=".RatePOIActivity" />
         <activity android:name=".DeletePOIActivity" />
-        <activity android:name=".EditPOIActivity" />
+        <activity android:name=".EditBikeActivity" />
         <activity android:name=".ViewPOIActivity" />
         <activity android:name=".CreatedListActivity" />
         <activity android:name=".CreateWaterActivity" />

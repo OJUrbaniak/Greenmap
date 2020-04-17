@@ -5,86 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#353535"
-    tools:context=".CreateBinActivity">
-
-    <TextView
-        android:id="@+id/textView44"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="44dp"
-        android:fontFamily="casual"
-        android:text="Name"
-        android:textColor="#F4F4F4"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textView45"
-        app:layout_constraintTop_toBottomOf="@+id/mapAPI2" />
-
-    <TextView
-        android:id="@+id/textView45"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:fontFamily="casual"
-        android:text="Description:"
-        android:textColor="#F4F4F4"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/editText9"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapAPI2" />
-
-    <EditText
-        android:id="@+id/editText9"
-        android:layout_width="243dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="16dp"
-        android:ems="10"
-        android:fontFamily="casual"
-        android:inputType="textPersonName"
-        android:textColor="#F4F4F4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView44" />
-
-    <EditText
-        android:id="@+id/editText7"
-        android:layout_width="243dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:fontFamily="casual"
-        android:inputType="textPersonName"
-        android:textColor="#F4F4F4"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView44"
-        app:layout_constraintEnd_toEndOf="@+id/editText9" />
-
-    <CheckBox
-        android:id="@+id/checkBox17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
-        android:text="Covered"
-        android:textColor="#F4F4F4"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText9" />
-
-    <Button
-        android:id="@+id/button30"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="110dp"
-        android:backgroundTint=" #777777"
-        android:onClick="backToProfile"
-        android:text="Create"
-        android:textColor="#F4F4F4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    tools:context=".EditBikeActivity">
 
     <fragment
-        android:id="@+id/mapAPI2"
+        android:id="@+id/mapAPI"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="382dp"
         android:layout_height="272dp"
@@ -94,5 +18,82 @@
         app:layout_constraintTop_toTopOf="parent">
 
     </fragment>
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="44dp"
+        android:fontFamily="casual"
+        android:text="Name:"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="45dp"
+        android:fontFamily="casual"
+        android:text="Description:"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView29" />
+
+    <EditText
+        android:id="@+id/editText12"
+        android:layout_width="243dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="104dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="#F4F4F4"
+        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
+
+    <EditText
+        android:id="@+id/editText8"
+        android:layout_width="243dp"
+        android:layout_height="56dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="#F4F4F4"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView29"
+        app:layout_constraintEnd_toEndOf="@+id/editText12" />
+
+    <CheckBox
+        android:id="@+id/checkBox4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:text="Covered"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText12" />
+
+    <Button
+        android:id="@+id/button32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="46dp"
+        android:layout_marginBottom="112dp"
+        android:backgroundTint=" #777777"
+        android:onClick="backToView"
+        android:text="Confirm"
+        android:textColor="#F4F4F4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
