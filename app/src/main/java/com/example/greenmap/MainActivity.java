@@ -39,7 +39,7 @@ public class MainActivity<user1> extends AppCompatActivity {
 
         //Get Users from DB and populate validUsers vector
 
-        final String userParams[] = {"cock@cock.com", "cockman", "ilovepeepee", "74"};
+        final String userParams[] = {"insertUser.php","peepeebutthole@poo.peepee", "shitwhore", "ilovepeepee", "74"};
 
 
         mainHeader = findViewById(R.id.textView3);
@@ -50,8 +50,8 @@ public class MainActivity<user1> extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InsertUserTask insertUser = new InsertUserTask();
-                insertUser.execute(userParams);
+                DBINT.insertAdmin(1, 2);
+                //DBINT.insertBikeRack(69.69, 69.420, 1, "hobo bikes", 25, "hobos like this bike rack", true );
             }
         });
         //signupButton = findViewById(R.id.button);
@@ -64,7 +64,6 @@ public class MainActivity<user1> extends AppCompatActivity {
                 mainHeader.setText("Welcome back, " + validUsers[i].username + "!");
                 Intent intent = new Intent(this, MapActivity.class);
                 intent.putExtra("User", validUsers[i]);
-
                 startActivity(intent);
                 break;
             } else {
