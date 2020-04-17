@@ -1,21 +1,14 @@
 package com.example.greenmap;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 import android.content.Intent;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.OnMapReadyCallback;
 
 public class ViewPOIActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -37,8 +30,14 @@ public class ViewPOIActivity extends FragmentActivity implements OnMapReadyCallb
     }
 
     public void goToEdit(View view){
-        Intent intent = new Intent(this,EditPOIActivity.class);
+        //if POI type is bike
+        Intent intent = new Intent(this, EditBikeActivity.class);
+        //if type is bin
+        // Intent intent = new Intent(this, EditBinActivity.class);
+        //if type is water
+        // Intent intent = new Intent(this, EditWaterActivity.class);
         startActivity(intent);
+
     }
 
     public void goToDelete(View view){

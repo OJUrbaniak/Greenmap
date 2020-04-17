@@ -6,17 +6,16 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
 
-public class CreateBinActivity extends AppCompatActivity {
+public class EditWaterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_bin);
-
+        setContentView(R.layout.activity_edit_water);
     }
 
-    public void backToProfile(View view){
-        Intent intent = new Intent(this,ProfileActivity.class);
+    public void backToView(View view){
+        Intent intent = new Intent(this,ViewPOIActivity.class);
         startActivity(intent);
     }
 }

@@ -23,13 +23,13 @@
         android:id="@+id/textView29"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="44dp"
         android:fontFamily="casual"
-        android:text="Name"
+        android:text="Name:"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView21"
         app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <TextView
@@ -37,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="45dp"
         android:fontFamily="casual"
         android:text="Description:"
         android:textColor="#F4F4F4"
@@ -56,6 +56,16 @@
         android:textColor="#F4F4F4"
         app:layout_constraintStart_toEndOf="@+id/textView21"
         app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
+
+    <EditText
+        android:id="@+id/editText8"
+        android:layout_width="243dp"
+        android:layout_height="56dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="#F4F4F4"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView29"
+        app:layout_constraintEnd_toEndOf="@+id/editText12" />
 
     <CheckBox
         android:id="@+id/checkBox4"
