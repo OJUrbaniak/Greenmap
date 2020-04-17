@@ -12,17 +12,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Vector;
+
+public class MainActivity<user1> extends AppCompatActivity {
 
     TextView mainHeader;
     EditText userNameField;
     EditText passwordField;
     Button loginButton;
 
-    User[] validUsers = {new User(1, "cockman", "ilovepeepee", 74),
-                         new User(2, "hoboson", "manlovestrash", 91),
-                         new User(3, "wadeeb", "showbob", 2),
-                         new User(4,"test","", 99)};
+    databaseInterface DBINT = new databaseInterface();
+
+
+    User validUsers[] = {new User(1, "cockman", "ilovepeepee", 74, "cock@cock.com"),
+                      new User(2, "hoboson", "manlovestrash", 91, "cock@cock.com"),
+                      new User(3, "wadeeb", "showbob", 2, "cock@cock.com"),
+                      new User(4,"test","", 99, "cock@cock.com")};
+
 
     //Button signupButton;     -- a method already exists for this
 
@@ -31,10 +37,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Get Users from DB and populate validUsers vector
+
+        final String userParams[] = {"cock@cock.com", "cockman", "ilovepeepee", "74"};
+
+
         mainHeader = findViewById(R.id.textView3);
         userNameField = findViewById(R.id.editText);
         passwordField = findViewById(R.id.editText2);
         loginButton = findViewById(R.id.button2);
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                InsertUserTask insertUser = new InsertUserTask();
+                insertUser.execute(userParams);
+            }
+        });
         //signupButton = findViewById(R.id.button);
     }
 
@@ -45,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 mainHeader.setText("Welcome back, " + validUsers[i].username + "!");
                 Intent intent = new Intent(this, MapActivity.class);
                 intent.putExtra("User", validUsers[i]);
+
                 startActivity(intent);
                 break;
             } else {
