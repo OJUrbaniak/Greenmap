@@ -2,8 +2,6 @@ package com.example.greenmap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,18 +18,21 @@ public class FiltersActivity extends AppCompatActivity {
     CheckBox showRacks;
     CheckBox rackCovered;
 
+    TextView warningTextLabel;
+
     CheckBox showTaps;
     CheckBox drinkingTap;
     CheckBox tapBottleRefill;
 
     CheckBox showBins;
-    CheckBox binCovered;
 
     EditText range;
     EditText minRating;
 
     SharedPreferences pref = null;
     Preferences userPref = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,44 +42,55 @@ public class FiltersActivity extends AppCompatActivity {
         showTaps = findViewById(R.id.showTaps);
         showBins = findViewById(R.id.showBins);
 
+        warningTextLabel = findViewById(R.id.warningTextLabel);
+
         rackCovered = findViewById(R.id.checkBox);
         drinkingTap = findViewById(R.id.checkBox2);
         tapBottleRefill = findViewById(R.id.checkBox3);
-        binCovered = findViewById(R.id.checkBox11);
 
-        range = findViewById(R.id.editText10);
-        minRating = findViewById(R.id.editText11);
+        range = findViewById(R.id.rangeText);
+        minRating = findViewById(R.id.ratingNumber);
 
         loadPreferences();
 
-        numberPOI = findViewById(R.id.textView16);
+        numberPOI = findViewById(R.id.warningTextLabel);
     }
 
     public void savePreferences(View view) {    //CALLED BY SAVE FILTERS BUTTON
-        Log.d("PREF-LOAD","Save button hit trying to save prefs");
-        pref = getSharedPreferences("com.example.greenmap", 0);
-        try {
-            userPref = new Preferences(
-                    showRacks.isChecked(),
-                    showTaps.isChecked(),
-                    showBins.isChecked(),
-                    rackCovered.isChecked(),
-                    drinkingTap.isChecked(),
-                    tapBottleRefill.isChecked(),
-                    Integer.parseInt(range.getText().toString()),
-                    Integer.parseInt(minRating.getText().toString())
-            );
+        String rangeText = range.getText().toString();
+        int rangeValue = Integer.parseInt(rangeText);
+        if(rangeValue <= 500 || rangeValue >= 1){
+            Log.i("WADEEB", "SHADEEB");
+            warningTextLabel.setText("");
+            Log.d("PREF-LOAD","Save button hit trying to save prefs");
+            pref = getSharedPreferences("com.example.greenmap", 0);
+            try {
+                userPref = new Preferences(
+                        showRacks.isChecked(),
+                        showTaps.isChecked(),
+                        showBins.isChecked(),
+                        rackCovered.isChecked(),
+                        drinkingTap.isChecked(),
+                        tapBottleRefill.isChecked(),
+                        Integer.parseInt(range.getText().toString()),
+                        Integer.parseInt(minRating.getText().toString())
+                );
+            }
+            catch (NumberFormatException e) {
+                Log.d("SavePreferences","Parsing error");
+            }
+            SharedPreferences.Editor prefsEdit = pref.edit();
+            Gson gson = new Gson();
+            String json = gson.toJson(userPref);
+            prefsEdit.putString("userPref", json);
+            prefsEdit.commit();
+    //        Intent intent = new Intent(this, MapActivity.class);
+    //        startActivity(intent);
+        } else {
+            Log.i("SHRONSON", "WONSON");
+            warningTextLabel.setText("Please enter a range between 1-500");
+            range.setText("");
         }
-        catch (NumberFormatException e) {
-            Log.d("SavePreferences","Parsing error");
-        }
-        SharedPreferences.Editor prefsEdit = pref.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(userPref);
-        prefsEdit.putString("userPref", json);
-        prefsEdit.commit();
-//        Intent intent = new Intent(this, MapActivity.class);
-//        startActivity(intent);
     }
 
     private void loadPreferences() {

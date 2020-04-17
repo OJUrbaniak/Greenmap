@@ -189,7 +189,7 @@ class databaseInterface{
     }
 
     public boolean getTemplate(){
- return true;
+        return true;
     }
 
     public boolean getPOI(){

@@ -23,8 +23,8 @@
 
     <View
         android:id="@+id/view"
-        android:layout_width="278dp"
-        android:layout_height="97dp"
+        android:layout_width="275dp"
+        android:layout_height="96dp"
         android:layout_marginTop="24dp"
         android:background="#777777"
         android:visibility="visible"
@@ -35,8 +35,8 @@
 
     <View
         android:id="@+id/view3"
-        android:layout_width="278dp"
-        android:layout_height="97dp"
+        android:layout_width="277dp"
+        android:layout_height="49dp"
         android:layout_marginTop="12dp"
         android:background="#777777"
         android:visibility="visible"
@@ -47,8 +47,8 @@
 
     <View
         android:id="@+id/view2"
-        android:layout_width="278dp"
-        android:layout_height="144dp"
+        android:layout_width="277dp"
+        android:layout_height="176dp"
         android:layout_marginTop="12dp"
         android:background="#777777"
         android:visibility="visible"
@@ -71,33 +71,35 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <CheckBox
-        android:id="@+id/checkBox11"
-        android:layout_width="96dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="12dp"
-        android:checked="true"
-        android:fontFamily="sans-serif-light"
-        android:text="Covered"
-        android:textColor="#F4F4F4"
-        app:layout_constraintEnd_toEndOf="@+id/view3"
-        app:layout_constraintStart_toStartOf="@+id/view3"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-    <CheckBox
         android:id="@+id/checkBox2"
         android:layout_width="136dp"
         android:layout_height="33dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:checked="true"
         android:fontFamily="sans-serif-light"
         android:text="Drinking tap"
         android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/view2"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <CheckBox
         android:id="@+id/checkBox3"
+        android:layout_width="136dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="8dp"
+        android:checked="true"
+        android:fontFamily="sans-serif-light"
+        android:text="Filtered"
+        android:textColor="#F4F4F4"
+        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox14" />
+
+    <CheckBox
+        android:id="@+id/checkBox14"
         android:layout_width="136dp"
         android:layout_height="33dp"
         android:layout_marginTop="8dp"
@@ -165,11 +167,11 @@
         android:layout_marginStart="20dp"
         android:fontFamily="casual"
         android:foregroundTint="#000000"
-        android:text="Range (metres)"
+        android:text="Range (1-500m)"
         android:textColor="#F4F4F4"
         android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/editText10"
-        app:layout_constraintTop_toTopOf="@+id/editText10" />
+        app:layout_constraintStart_toEndOf="@+id/rangeText"
+        app:layout_constraintTop_toTopOf="@+id/rangeText" />
 
     <TextView
         android:id="@+id/textView15"
@@ -177,14 +179,14 @@
         android:layout_height="wrap_content"
         android:fontFamily="casual"
         android:foregroundTint="#000000"
-        android:text="Minimum Rating"
+        android:text="Minimum Rating (1-5)"
         android:textColor="#F4F4F4"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/textView14"
-        app:layout_constraintTop_toTopOf="@+id/editText11" />
+        app:layout_constraintTop_toTopOf="@+id/ratingNumber" />
 
     <EditText
-        android:id="@+id/editText11"
+        android:id="@+id/ratingNumber"
         android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
@@ -194,10 +196,10 @@
         android:textColor="#F4F4F4"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText10" />
+        app:layout_constraintTop_toBottomOf="@+id/rangeText" />
 
     <EditText
-        android:id="@+id/editText10"
+        android:id="@+id/rangeText"
         android:layout_width="85dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
@@ -210,10 +212,23 @@
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/warningTextLabel"
+        android:layout_width="270dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="casual"
+        android:textAlignment="center"
+        android:textColor="#CF0000"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingNumber" />
+
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="280dp"
         android:layout_height="34dp"
-        android:layout_marginTop="42dp"
         android:fontFamily="casual"
         android:text="Number of POI's found:"
         android:textAlignment="center"
@@ -223,8 +238,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText11"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/warningTextLabel"
+        app:layout_constraintVertical_bias="0.21" />
 
     <CheckBox
         android:id="@+id/showRacks"
