@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
+        android:id="@+id/nearbyPOITable"
         android:layout_width="409dp"
         android:layout_height="684dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,25 +35,25 @@
                 android:id="@+id/textView32"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="Bin" />
+                android:text="Name" />
 
             <TextView
                 android:id="@+id/textView26"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="House" />
+                android:text="Type" />
 
             <TextView
                 android:id="@+id/textView25"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:text="5 stars" />
+                android:text="Rating" />
 
             <TextView
                 android:id="@+id/textView24"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:text="6.9m" />
+                android:text="Distance" />
 
             <Button
                 android:id="@+id/button23"

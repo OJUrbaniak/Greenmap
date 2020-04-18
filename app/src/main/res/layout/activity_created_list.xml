@@ -23,13 +23,13 @@
                 android:id="@+id/textView22"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Oskars Stinky bin" />
+                android:text="Name" />
 
             <TextView
                 android:id="@+id/textView23"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Oskars stinky house" />
+                android:text="Description" />
 
             <Button
                 android:id="@+id/button16"

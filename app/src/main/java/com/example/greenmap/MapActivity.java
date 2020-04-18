@@ -41,9 +41,9 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     SupportMapFragment mapFragment;
     PointOfInterest[] data = new PointOfInterest[] {
-            new WaterFountainPOI("Switzerland","mountains", 46.818188,8.227512,'w',5,10,true,true,true),
-            new BikeRackPOI("Ireland","trouble",53.41291,-8.24389,'b',3),
-            new RecyclingBinPOI("United Kingdom","boris",55.378051,-3.435973,'b',2,"ok")
+            new WaterFountainPOI(0,"Switzerland","mountains", 46.818188,8.227512,'w',5,true,true,true,200),
+            new BikeRackPOI(1,"Ireland","trouble",53.41291,-8.24389,'b',3,50),
+            new RecyclingBinPOI(2,"United Kingdom","boris",55.378051,-3.435973,'b',2,"ok",100)
 //            new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
 //            new PointOfInterest("Ireland", 'w',53.41291,-8.24389	),
 //            new PointOfInterest("United Kingdom", 'b',55.378051,-3.435973)
@@ -135,13 +135,14 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     //!--Movement between views functions--!
     public void goToNearbyList(View view){
         Intent intent = new Intent(this, NearbyListActivity.class);
+        intent.putExtra("dataArray", data); //data will store the POIs retrieved from DB
         startActivity(intent);
     }
 
     public void goToProfile(View view){
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("User", user);
-        intent.putExtra("dataArray", data);
+        intent.putExtra("dataArray", data); //This then goes to CreatedListActivity, dataArray will need to be changed to an array of the USER CREATED POIs
         startActivity(intent);
     }
 

@@ -4,10 +4,10 @@ public class WaterFountainPOI extends PointOfInterest {
     boolean safeToDrinkStraight;
     boolean bottleFilling;
     boolean filtered;
+    int carbonSaved = 2;
 
-    WaterFountainPOI(String name, String desc, Double lat, Double lon, char type, int reviewRating, int carbonSaved, boolean safeToDrinkStraight, boolean bottleFilling, boolean filtered) {
-        super(name, desc, lat, lon, type, reviewRating);
-        this.carbonSaved = carbonSaved;
+    WaterFountainPOI(int id, String name, String desc, Double lat, Double lon, char type, int reviewRating, boolean safeToDrinkStraight, boolean bottleFilling, boolean filtered, double distance) {
+        super(id, name, desc, lat, lon, type, reviewRating, distance);
         this.safeToDrinkStraight = safeToDrinkStraight;
         this.bottleFilling = bottleFilling;
         this.filtered = filtered;
