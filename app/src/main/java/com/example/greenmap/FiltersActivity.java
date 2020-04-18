@@ -2,6 +2,7 @@ package com.example.greenmap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,8 @@ public class FiltersActivity extends AppCompatActivity {
     EditText range;
     EditText minRating;
 
+    User user;
+
     SharedPreferences pref = null;
     Preferences userPref = null;
 
@@ -51,6 +54,10 @@ public class FiltersActivity extends AppCompatActivity {
         range = findViewById(R.id.rangeText);
         minRating = findViewById(R.id.ratingNumber);
 
+        //Get user from login
+        Intent i = getIntent();
+        user = (User)i.getSerializableExtra("User");
+
         loadPreferences();
 
         numberPOI = findViewById(R.id.warningTextLabel);
@@ -60,7 +67,6 @@ public class FiltersActivity extends AppCompatActivity {
         String rangeText = range.getText().toString();
         int rangeValue = Integer.parseInt(rangeText);
         if(rangeValue <= 500 || rangeValue >= 1){
-            Log.i("WADEEB", "SHADEEB");
             warningTextLabel.setText("");
             Log.d("PREF-LOAD","Save button hit trying to save prefs");
             pref = getSharedPreferences("com.example.greenmap", 0);
@@ -84,10 +90,11 @@ public class FiltersActivity extends AppCompatActivity {
             String json = gson.toJson(userPref);
             prefsEdit.putString("userPref", json);
             prefsEdit.commit();
-    //        Intent intent = new Intent(this, MapActivity.class);
-    //        startActivity(intent);
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putExtra("User", user);
+            startActivity(intent);
         } else {
-            Log.i("SHRONSON", "WONSON");
+            Log.i("warning Label", "out of range");
             warningTextLabel.setText("Please enter a range between 1-500");
             range.setText("");
         }
