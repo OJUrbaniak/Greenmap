@@ -61,6 +61,8 @@ public class ViewPOIActivity extends FragmentActivity implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        //Disable any movement of the map
+        googleMap.getUiSettings().setAllGesturesEnabled(false);
         LatLng currLatLng = new LatLng(currentPOI.getCoords().latitude, currentPOI.getCoords().longitude);
         //Create a marker
         MarkerOptions marker = new MarkerOptions().position(currLatLng).title(currentPOI.name);
