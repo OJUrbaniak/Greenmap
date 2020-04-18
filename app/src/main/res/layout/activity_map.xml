@@ -22,8 +22,8 @@
     <fragment
         android:id="@+id/mapAPI"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="400dp"
-        android:layout_height="297dp"
+        android:layout_width="418dp"
+        android:layout_height="515dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
@@ -32,114 +32,19 @@
 
     </fragment>
 
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="395dp"
-        android:layout_height="200dp"
-        android:layout_marginBottom="5dp"
-        android:background="#353535"
-        android:collapseColumns=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#6B6E70">
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:background="#777777"
-                android:fontFamily="casual"
-                android:text="Name"
-                android:textAlignment="center"
-                android:textColor="#C9C9CA"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:background="#777777"
-                android:fontFamily="casual"
-                android:text="Description"
-                android:textAlignment="center"
-                android:textColor="#C9C9CA"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:background="#777777"
-                android:fontFamily="casual"
-                android:text="Distance"
-                android:textAlignment="center"
-                android:textColor="#C9C9CA"
-                android:textSize="18sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="129dp">
-
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="#474B4F"
-                android:fontFamily="sans-serif-light"
-                android:text="Oskars stinky bin"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="#474B4F"
-                android:fontFamily="sans-serif-light"
-                android:text="Oskars stinky house"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
-                android:background="#474B4F"
-                android:fontFamily="sans-serif-light"
-                android:text="6.9m"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-        </TableRow>
-    </TableLayout>
-
     <Button
         android:id="@+id/button5"
         android:layout_width="196dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint=" #777777"
         android:onClick="goToNearbyList"
         android:text="^"
-        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <Button
         android:id="@+id/button26"
