@@ -140,6 +140,11 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         startActivity(intent);
     }
 
+    public void goToCreatePOI(View view){
+        Intent intent = new Intent(this, CreatePOIActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onCameraMove() {
         cameraLoc = mapAPI.getCameraPosition().target;
