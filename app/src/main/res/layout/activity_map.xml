@@ -76,4 +76,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingAddButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="placeMarker"
+        android:src="@drawable/ic_add_black_24dp"
+        tools:layout_editor_absoluteX="339dp"
+        tools:layout_editor_absoluteY="578dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

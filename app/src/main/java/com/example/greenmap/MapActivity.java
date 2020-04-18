@@ -1,13 +1,11 @@
 package com.example.greenmap;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
 import android.location.Location;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.content.Intent;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -23,18 +20,19 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-public class MapActivity extends FragmentActivity {
+public class MapActivity extends FragmentActivity implements
+        GoogleMap.OnCameraMoveListener,
+        OnMapReadyCallback {
 
     User user;
+    LatLng cameraLoc;
     Button profileButton;
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
@@ -62,18 +60,18 @@ public class MapActivity extends FragmentActivity {
 
         profileButton = findViewById(R.id.button27);
 
+
+
         //Get user from the previous page
         Intent i = getIntent();
         user = (User)i.getSerializableExtra("User");
 
         profileButton.setText(user.username);
 
-
-
         //Initialise
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         client = LocationServices.getFusedLocationProviderClient(this);
-
+        supportMapFragment.getMapAsync(MapActivity.this);
         //Check permission for location
         if(ActivityCompat.checkSelfPermission(MapActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             //When permission is granted
@@ -85,6 +83,13 @@ public class MapActivity extends FragmentActivity {
             ActivityCompat.requestPermissions(MapActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
     }
+
+//    @Override
+//    public void o
+//    public void onMapReady(GoogleMap googleMap){
+//        googleMap = mapAPI;
+//        mapAPI.setOnCameraMoveListener(this);
+//    }
 
     private void getCurrentLocation() {
         //Initialize task location
@@ -169,6 +174,39 @@ public class MapActivity extends FragmentActivity {
     public void goToFilters(View view){
         Intent intent = new Intent(this, FiltersActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onCameraMove() {
+        cameraLoc = mapAPI.getCameraPosition().target;
+        Log.d("CMOVE","Camera moved, lat "+cameraLoc.latitude + " lon "+cameraLoc.longitude);
+//        LatLng cameraLoc = mapAPI.getCameraPosition().target;
+//        MarkerOptions cameraCenter = new MarkerOptions().position(cameraLoc).title("Current location");
+//        //Add marker on map
+//        mapAPI.addMarker(cameraCenter);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mapAPI = googleMap;
+        mapAPI.setOnCameraMoveListener(this);
+    }
+
+    boolean userMarkerPlaced = false;
+    Marker userMarker;
+
+    public void placeMarker(View view) {
+        if (cameraLoc != null) {
+            Log.d("CMOVE","Placing point");
+            MarkerOptions cameraCenter = new MarkerOptions().position(cameraLoc).title("Point Location");
+            if (userMarkerPlaced == false) {
+                userMarker = mapAPI.addMarker(cameraCenter);
+            }
+            else {
+                userMarker.remove();
+                userMarker = mapAPI.addMarker(cameraCenter);
+            }
+        }
     }
 }
 
