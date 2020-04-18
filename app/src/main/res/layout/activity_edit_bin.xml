@@ -65,18 +65,6 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/textView46"
         app:layout_constraintEnd_toEndOf="@+id/editText15" />
 
-    <CheckBox
-        android:id="@+id/checkBox18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
-        android:text="Covered"
-        android:textColor="#F4F4F4"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText15" />
-
     <Button
         android:id="@+id/button31"
         android:layout_width="wrap_content"
@@ -88,6 +76,7 @@
         android:textColor="#F4F4F4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText15" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
