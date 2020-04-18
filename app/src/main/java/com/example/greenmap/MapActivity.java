@@ -33,9 +33,12 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     User user;
     LatLng cameraLoc;
     Button profileButton;
+    Button confirmButton;
     GoogleMap mapAPI;
     FloatingActionButton plotButton;
-
+    boolean userMarkerPlaced = false;
+    Marker userMarker;
+    
     SupportMapFragment mapFragment;
     PointOfInterest[] sampleData = new PointOfInterest[] {
             new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
@@ -58,6 +61,9 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
         profileButton = findViewById(R.id.button27);
         plotButton = findViewById(R.id.floatingAddButton);
+        confirmButton = findViewById(R.id.button3);
+
+        confirmButton.setVisibility(View.GONE);
 
         //Get user from the previous page
         Intent i = getIntent();
@@ -152,14 +158,12 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         mapAPI.setOnCameraMoveListener(this);
     }
 
-    boolean userMarkerPlaced = false;
-    Marker userMarker;
-
     public void placeMarker(View view) {
         if (cameraLoc != null) {
             Log.d("CMOVE","Placing point");
             MarkerOptions cameraCenter = new MarkerOptions().position(cameraLoc).title("POI Location");
             if (userMarkerPlaced == false) {
+                confirmButton.setVisibility(View.VISIBLE);
                 userMarkerPlaced = true;
                 userMarker = mapAPI.addMarker(cameraCenter);
                 //plotButton.setImageDrawable();
@@ -167,10 +171,10 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 //plotButton.setImageDrawable(R.drawable.ic_add_black_24dp);
             }
             else {
+                confirmButton.setVisibility(View.GONE);
                 userMarkerPlaced = false;
                 userMarker.remove();
                 plotButton.setImageResource(R.drawable.ic_add_black_24dp);
-                //userMarker = mapAPI.addMarker(cameraCenter);
             }
         }
     }
