@@ -38,9 +38,9 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     FloatingActionButton plotButton;
     boolean userMarkerPlaced = false;
     Marker userMarker;
-    
+
     SupportMapFragment mapFragment;
-    PointOfInterest[] sampleData = new PointOfInterest[] {
+    PointOfInterest[] data = new PointOfInterest[] {
             new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
             new PointOfInterest("Ireland", 'w',53.41291,-8.24389	),
             new PointOfInterest("United Kingdom", 'b',55.378051,-3.435973)
@@ -138,6 +138,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void goToProfile(View view){
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("User", user);
+        intent.putExtra("dataArray", data);
         startActivity(intent);
     }
 
