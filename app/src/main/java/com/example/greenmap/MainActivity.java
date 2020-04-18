@@ -66,7 +66,7 @@ public class MainActivity<user1> extends AppCompatActivity {
             if(userNameField.getText().toString().equals(validUsers[i].username) && passwordField.getText().toString().equals(validUsers[i].password)) {
                 mainHeader.setText("Welcome back, " + validUsers[i].username + "!");
                 Intent intent = new Intent(this, MapActivity.class);
-                intent.putExtra("User", validUsers[i]);
+                intent.putExtra("User", (Parcelable) validUsers[i]);
                 startActivity(intent);
                 break;
             } else {

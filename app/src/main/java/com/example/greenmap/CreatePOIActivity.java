@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.View;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -11,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class CreatePOIActivity extends AppCompatActivity {
 
     Coords location;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,27 +21,38 @@ public class CreatePOIActivity extends AppCompatActivity {
 
         //Get location from the previous page
         Intent i = getIntent();
-        location = (Coords)i.getSerializableExtra("Location");
+        //location = (Coords)i.getSerializableExtra("Location");
+
+        if (getIntent().getExtras() != null) {
+            user = getIntent().getExtras().getParcelable("User");
+            location = getIntent().getExtras().getParcelable("Location");
+        }
     }
 
     public void goToCreateBike(View view){
         Intent intent = new Intent(this,CreateBikeActivity.class);
-        Coords nextLocation = new Coords(location.latitude, location.longitude);
-        intent.putExtra("Location", nextLocation);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
         startActivity(intent);
     }
 
     public void goToCreateWater(View view) {
         Intent intent = new Intent(this,CreateWaterActivity.class);
-        Coords nextLocation = new Coords(location.latitude, location.longitude);
-        intent.putExtra("Location", nextLocation);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
         startActivity(intent);
     }
 
     public void goToCreateBin(View view){
         Intent intent = new Intent(this,CreateBinActivity.class);
-        Coords nextLocation = new Coords(location.latitude, location.longitude);
-        intent.putExtra("Location", nextLocation);
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
         startActivity(intent);
     }
 }

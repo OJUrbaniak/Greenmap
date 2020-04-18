@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import android.os.Parcelable;
 import android.view.View;
 
 import android.content.Intent;
@@ -47,7 +48,7 @@ public class SignupActivity extends AppCompatActivity {
 
             User user = new User(1, username, password, 0, email);
             Intent intent = new Intent(this, MapActivity.class);
-            intent.putExtra("User", user);
+            intent.putExtra("User", (Parcelable) user);
             startActivity(intent);
         } else {
             mainHeader.setText("Please enter valid credentials");

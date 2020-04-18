@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.content.Intent;
@@ -141,7 +142,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     public void goToProfile(View view){
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("User", user);
+        intent.putExtra("User", (Parcelable) user);
         intent.putExtra("dataArray", data); //This then goes to CreatedListActivity, dataArray will need to be changed to an array of the USER CREATED POIs
         startActivity(intent);
     }
@@ -153,8 +154,11 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     public void goToCreatePOI(View view){
         Intent intent = new Intent(this, CreatePOIActivity.class);
+        Bundle bundle = new Bundle();
         Coords location = new Coords(cameraLoc.latitude, cameraLoc.longitude);
-        intent.putExtra("Location", location);
+        bundle.putParcelable("Location", location);
+        bundle.putParcelable("User", user);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

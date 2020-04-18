@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -91,7 +92,7 @@ public class FiltersActivity extends AppCompatActivity {
             prefsEdit.putString("userPref", json);
             prefsEdit.commit();
             Intent intent = new Intent(this, MapActivity.class);
-            intent.putExtra("User", user);
+            intent.putExtra("User", (Parcelable) user);
             startActivity(intent);
         } else {
             Log.i("warning Label", "out of range");
