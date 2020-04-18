@@ -38,8 +38,7 @@ public class NearbyListActivity extends AppCompatActivity {
     }
 
     public void backToMap(View view){
-        Intent intent = new Intent(this,MapActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     public void goToRate(View view){
