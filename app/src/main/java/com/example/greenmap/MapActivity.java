@@ -158,7 +158,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void placeMarker(View view) {
         if (cameraLoc != null) {
             Log.d("CMOVE","Placing point");
-            MarkerOptions cameraCenter = new MarkerOptions().position(cameraLoc).title("Point Location");
+            MarkerOptions cameraCenter = new MarkerOptions().position(cameraLoc).title("POI Location");
             if (userMarkerPlaced == false) {
                 userMarkerPlaced = true;
                 userMarker = mapAPI.addMarker(cameraCenter);
