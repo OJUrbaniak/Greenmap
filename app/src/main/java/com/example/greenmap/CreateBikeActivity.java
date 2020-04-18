@@ -22,10 +22,16 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
 
+    Coords location;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_bike);
+
+        //Get location from the previous page
+        Intent i = getIntent();
+        location = (Coords)i.getSerializableExtra("Location");
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
@@ -33,7 +39,22 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        //idk
+        if (location != null){
+            //Sync the map
+            mapFragment.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    //Initialise the latitude and longitude
+                    LatLng latLng = new LatLng(location.latitude, location.longitude);
+                    //Create a marker
+                    MarkerOptions options = new MarkerOptions().position(latLng).title("POI Location");
+                    //Zoom in on the map
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+                    //Add marker on map
+                    googleMap.addMarker(options);
+                }
+            });
+        }
     }
 
     public void backToProfile(View view){

@@ -148,6 +148,8 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     public void goToCreatePOI(View view){
         Intent intent = new Intent(this, CreatePOIActivity.class);
+        Coords location = new Coords(cameraLoc.latitude, cameraLoc.longitude);
+        intent.putExtra("Location", location);
         startActivity(intent);
     }
 
