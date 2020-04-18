@@ -26,13 +26,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements
+        GoogleMap.OnCameraMoveListener,
+        OnMapReadyCallback {
 
     User user;
     LatLng cameraLoc;
     Button profileButton;
     GoogleMap mapAPI;
+    FloatingActionButton plotButton;
+
     SupportMapFragment mapFragment;
     PointOfInterest[] sampleData = new PointOfInterest[] {
             new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
@@ -53,7 +58,11 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
+//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+//        fetchLastLocation();
+
         profileButton = findViewById(R.id.button27);
+        plotButton = findViewById(R.id.floatingAddButton);
 
         //Get user from the previous page
         Intent i = getIntent();
@@ -76,6 +85,13 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             ActivityCompat.requestPermissions(MapActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
     }
+
+//    @Override
+//    public void o
+//    public void onMapReady(GoogleMap googleMap){
+//        googleMap = mapAPI;
+//        mapAPI.setOnCameraMoveListener(this);
+//    }
 
     private void getCurrentLocation() {
         //Initialize task location
@@ -115,6 +131,32 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         }
     }
 
+    //    @Override
+//    public void onMapReady(GoogleMap googleMap){
+//
+//
+////        mapAPI = googleMap;
+////        LatLng guild = new LatLng(53.405403,-2.966129);
+////        googleMap.addMarker(new MarkerOptions().position(guild)
+////                .title("UOL Guild"));
+////        googleMap.moveCamera(CameraUpdateFactory.newLatLng(guild));
+////
+////        for (int i = 0; i < sampleData.length; i++) {
+////            System.out.println("Plotting Item "+i);
+////            PointOfInterest curr = sampleData[i];
+////            mapAPI.addMarker(new MarkerOptions().position(curr.coords)).setTitle(curr.name);
+////        }
+////        mapAPI.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+////            @Override
+////            public void onCameraMove() {
+////                Log.d("Map","CAMERA MOVED to "+mapAPI.getCameraPosition().target);
+////            }
+////        });
+////        //mapAPI.setOnCameraMoveListener(cameraMove());
+//    }
+
+
+
     //Disable back button being pressed - dont wanna go back to login/sign up
     @Override
     public void onBackPressed() { }
@@ -140,10 +182,6 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void onCameraMove() {
         cameraLoc = mapAPI.getCameraPosition().target;
         Log.d("CMOVE","Camera moved, lat "+cameraLoc.latitude + " lon "+cameraLoc.longitude);
-//        LatLng cameraLoc = mapAPI.getCameraPosition().target;
-//        MarkerOptions cameraCenter = new MarkerOptions().position(cameraLoc).title("Current location");
-//        //Add marker on map
-//        mapAPI.addMarker(cameraCenter);
     }
 
     @Override
@@ -162,10 +200,15 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             if (userMarkerPlaced == false) {
                 userMarkerPlaced = true;
                 userMarker = mapAPI.addMarker(cameraCenter);
+                //plotButton.setImageDrawable();
+                plotButton.setImageResource(R.drawable.ic_clear_black_24dp);
+                //plotButton.setImageDrawable(R.drawable.ic_add_black_24dp);
             }
             else {
+                userMarkerPlaced = false;
                 userMarker.remove();
-                userMarker = mapAPI.addMarker(cameraCenter);
+                plotButton.setImageResource(R.drawable.ic_add_black_24dp);
+                //userMarker = mapAPI.addMarker(cameraCenter);
             }
         }
     }
