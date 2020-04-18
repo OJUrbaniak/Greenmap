@@ -10,6 +10,7 @@ import android.content.Intent;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -19,7 +20,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    GoogleMap mapAPI;
     SupportMapFragment mapFragment;
 
     Coords location;
@@ -39,6 +39,8 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        //Disable any movement of the map
+        googleMap.getUiSettings().setAllGesturesEnabled(false);
         if (location != null){
             //Sync the map
             mapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -47,7 +49,7 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
                     //Initialise the latitude and longitude
                     LatLng latLng = new LatLng(location.latitude, location.longitude);
                     //Create a marker
-                    MarkerOptions options = new MarkerOptions().position(latLng).title("POI Location");
+                    MarkerOptions options = new MarkerOptions().position(latLng).title("New Bike Rack");
                     //Zoom in on the map
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                     //Add marker on map

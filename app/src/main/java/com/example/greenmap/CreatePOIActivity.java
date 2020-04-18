@@ -31,11 +31,15 @@ public class CreatePOIActivity extends AppCompatActivity {
 
     public void goToCreateWater(View view) {
         Intent intent = new Intent(this,CreateWaterActivity.class);
+        Coords nextLocation = new Coords(location.latitude, location.longitude);
+        intent.putExtra("Location", nextLocation);
         startActivity(intent);
     }
 
     public void goToCreateBin(View view){
         Intent intent = new Intent(this,CreateBinActivity.class);
+        Coords nextLocation = new Coords(location.latitude, location.longitude);
+        intent.putExtra("Location", nextLocation);
         startActivity(intent);
     }
 }

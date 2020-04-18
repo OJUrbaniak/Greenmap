@@ -10,9 +10,8 @@
     <fragment
         android:id="@+id/mapAPI"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="382dp"
-        android:layout_height="272dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="408dp"
+        android:layout_height="299dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -87,9 +86,11 @@
         android:layout_marginTop="46dp"
         android:layout_marginBottom="112dp"
         android:backgroundTint=" #777777"
+        android:fontFamily="sans-serif-light"
         android:onClick="backToProfile"
         android:text="Create"
         android:textColor="#F4F4F4"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
