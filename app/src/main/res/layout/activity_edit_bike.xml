@@ -20,7 +20,7 @@
     </fragment>
 
     <TextView
-        android:id="@+id/textView29"
+        android:id="@+id/nameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -29,11 +29,11 @@
         android:text="Name:"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textView21"
+        app:layout_constraintStart_toStartOf="@+id/descLabel"
         app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <TextView
-        android:id="@+id/textView21"
+        android:id="@+id/descLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
@@ -43,7 +43,7 @@
         android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView29" />
+        app:layout_constraintTop_toBottomOf="@+id/nameLabel" />
 
     <EditText
         android:id="@+id/editText12"
@@ -54,7 +54,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="#F4F4F4"
-        app:layout_constraintStart_toEndOf="@+id/textView21"
+        app:layout_constraintStart_toEndOf="@+id/descLabel"
         app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <EditText
@@ -64,7 +64,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="#F4F4F4"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView29"
+        app:layout_constraintBaseline_toBaselineOf="@+id/nameLabel"
         app:layout_constraintEnd_toEndOf="@+id/editText12" />
 
     <CheckBox

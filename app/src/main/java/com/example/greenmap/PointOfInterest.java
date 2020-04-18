@@ -13,15 +13,14 @@ public class PointOfInterest implements Serializable {
     int carbonSaved; //Will have to decide what this is for different POIs and whether it will change over time
     int reviewRating;
     double distance;
-
-    static LatLng coords;
+    Coords coords;
 
     public PointOfInterest(int id, String name, String desc, Double lat, Double lon, char type, int reviewRating) {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.type = type;
-        coords = new LatLng(lat, lon);
+        coords = new Coords(lat, lon);
         this.reviewRating = reviewRating;
     }
 
@@ -29,9 +28,13 @@ public class PointOfInterest implements Serializable {
         this.id = id;
         this.name = name;
         this.desc = desc;
-        coords = new LatLng(lat, lon);
+        coords = new Coords(lat, lon);
         this.type = type;
         this.reviewRating = reviewRating;
         this.distance = distance;
+    }
+
+    public Coords getCoords() {
+        return coords;
     }
 }

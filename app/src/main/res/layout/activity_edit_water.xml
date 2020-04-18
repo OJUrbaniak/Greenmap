@@ -19,7 +19,7 @@
     </fragment>
 
     <TextView
-        android:id="@+id/textView29"
+        android:id="@+id/nameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <TextView
-        android:id="@+id/textView21"
+        android:id="@+id/descLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
@@ -40,8 +40,8 @@
         android:text="Description:"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textView29"
-        app:layout_constraintTop_toBottomOf="@+id/textView29" />
+        app:layout_constraintStart_toStartOf="@+id/nameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/nameLabel" />
 
     <EditText
         android:id="@+id/editText6"
@@ -51,7 +51,7 @@
         android:fontFamily="casual"
         android:inputType="textPersonName"
         android:textColor="#F4F4F4"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView29"
+        app:layout_constraintBaseline_toBaselineOf="@+id/nameLabel"
         app:layout_constraintStart_toStartOf="@+id/editText12" />
 
     <EditText
@@ -62,8 +62,8 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="#F4F4F4"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView21"
-        app:layout_constraintStart_toEndOf="@+id/textView21" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/descLabel"
+        app:layout_constraintStart_toEndOf="@+id/descLabel" />
 
     <CheckBox
         android:id="@+id/checkBox4"
@@ -76,7 +76,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+        app:layout_constraintTop_toBottomOf="@+id/descLabel" />
 
     <CheckBox
         android:id="@+id/checkBox5"

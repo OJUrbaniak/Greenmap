@@ -24,7 +24,8 @@ public class NearbyListActivity extends AppCompatActivity {
         PointOfInterest[] data = new PointOfInterest[]{};
         data = (PointOfInterest[]) getIntent().getSerializableExtra("dataArray");
         for (int i = 0; i < data.length; i++) {
-            Log.d("CreatedListActivity","Item "+i+": "+data[i].name);
+            PointOfInterest currItem = data[i];
+            Log.d("ViewPOI","NEARBY Item "+i+": "+currItem.name+" lat "+currItem.getCoords().latitude+" lon "+currItem.getCoords().longitude);
             TableRow tr = new TableRow(this);
             TextView name = new TextView(this); name.setText(data[i].name);
             TextView desc = new TextView(this); desc.setText(data[i].desc);
@@ -39,15 +40,5 @@ public class NearbyListActivity extends AppCompatActivity {
 
     public void backToMap(View view){
         finish();
-    }
-
-    public void goToRate(View view){
-        Intent intent = new Intent(this,RatePOIActivity.class);
-        startActivity(intent);
-    }
-
-    public void goToReport(View view){
-        Intent intent = new Intent(this,ReportPOIActivity.class);
-        startActivity(intent);
     }
 }

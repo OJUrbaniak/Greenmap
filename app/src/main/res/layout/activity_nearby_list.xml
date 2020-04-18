@@ -55,19 +55,12 @@
                 android:layout_height="wrap_content"
                 android:text="Distance" />
 
-            <Button
-                android:id="@+id/button23"
+            <TextView
+                android:id="@+id/textView89"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="goToRate"
-                android:text="Rate" />
+                android:text="View POI" />
 
-            <Button
-                android:id="@+id/button22"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="goToReport"
-                android:text="Report" />
         </TableRow>
 
     </TableLayout>
