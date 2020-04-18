@@ -24,7 +24,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="418dp"
         android:layout_height="515dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
         android:id="@+id/button5"
         android:layout_width="196dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="20dp"
         android:backgroundTint=" #777777"
         android:onClick="goToNearbyList"
         android:text="^"
@@ -80,16 +80,16 @@
         android:id="@+id/floatingAddButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="442dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginBottom="18dp"
         android:backgroundTint=" #777777"
         android:clickable="true"
         android:onClick="placeMarker"
         android:src="@drawable/ic_add_black_24dp"
         android:tint="#F4F4F4"
         app:layout_constraintBottom_toBottomOf="@+id/mapAPI"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/mapAPI"
         app:layout_constraintVertical_bias="0.0"
         app:rippleColor="#FFFFFF" />
@@ -107,5 +107,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/mapAPI"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_clear_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/mapAPI"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mapAPI" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

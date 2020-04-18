@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.content.Intent;
@@ -28,8 +29,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.Serializable;
-
 public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback {
 
     User user;
@@ -46,6 +45,9 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             new WaterFountainPOI(0,"Switzerland","mountains", 46.818188,8.227512,'w',5,true,true,true,200),
             new BikeRackPOI(1,"Ireland","trouble",53.41291,-8.24389,'b',3,50),
             new RecyclingBinPOI(2,"United Kingdom","boris",55.378051,-3.435973,'b',2,"ok",100)
+//            new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
+//            new PointOfInterest("Ireland", 'w',53.41291,-8.24389	),
+//            new PointOfInterest("United Kingdom", 'b',55.378051,-3.435973)
     };
 
     //For user location
@@ -134,14 +136,14 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     //!--Movement between views functions--!
     public void goToNearbyList(View view){
         Intent intent = new Intent(this, NearbyListActivity.class);
-        intent.putExtra("dataArray", (Serializable) data); //data will store the POIs retrieved from DB
+        intent.putExtra("dataArray", data); //data will store the POIs retrieved from DB
         startActivity(intent);
     }
 
     public void goToProfile(View view){
         Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra("User", user);
-        intent.putExtra("dataArray", (Serializable) data); //This then goes to CreatedListActivity, dataArray will need to be changed to an array of the USER CREATED POIs
+        intent.putExtra("User", (Parcelable) user);
+        intent.putExtra("dataArray", data); //This then goes to CreatedListActivity, dataArray will need to be changed to an array of the USER CREATED POIs
         startActivity(intent);
     }
 
@@ -152,8 +154,11 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     public void goToCreatePOI(View view){
         Intent intent = new Intent(this, CreatePOIActivity.class);
+        Bundle bundle = new Bundle();
         Coords location = new Coords(cameraLoc.latitude, cameraLoc.longitude);
-        intent.putExtra("Location", location);
+        bundle.putParcelable("Location", location);
+        bundle.putParcelable("User", user);
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 

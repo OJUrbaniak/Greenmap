@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 import android.content.Intent;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,18 +20,32 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 public class CreateWaterActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    int carbon_points_saved = 15;
+
     SupportMapFragment mapFragment;
 
+    TextView nameView;
+
     Coords location;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_water);
 
-        //Get location from the previous page
-        Intent i = getIntent();
-        location = (Coords)i.getSerializableExtra("Location");
+//        //Get location from the previous page
+//        Intent i = getIntent();
+//        location = (Coords)i.getSerializableExtra("Location");
+
+        nameView = findViewById(R.id.nameView);
+
+        if (getIntent().getExtras() != null) {
+            user = getIntent().getExtras().getParcelable("User");
+            location = getIntent().getExtras().getParcelable("Location");
+        }
+
+        nameView.setText(user.username);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
