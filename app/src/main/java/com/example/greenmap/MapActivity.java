@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MapActivity extends FragmentActivity implements
         GoogleMap.OnCameraMoveListener,
@@ -35,6 +36,8 @@ public class MapActivity extends FragmentActivity implements
     LatLng cameraLoc;
     Button profileButton;
     GoogleMap mapAPI;
+    FloatingActionButton plotButton;
+
     SupportMapFragment mapFragment;
     PointOfInterest[] sampleData = new PointOfInterest[] {
             new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
@@ -59,8 +62,7 @@ public class MapActivity extends FragmentActivity implements
 //        fetchLastLocation();
 
         profileButton = findViewById(R.id.button27);
-
-
+        plotButton = findViewById(R.id.floatingAddButton);
 
         //Get user from the previous page
         Intent i = getIntent();
@@ -180,10 +182,6 @@ public class MapActivity extends FragmentActivity implements
     public void onCameraMove() {
         cameraLoc = mapAPI.getCameraPosition().target;
         Log.d("CMOVE","Camera moved, lat "+cameraLoc.latitude + " lon "+cameraLoc.longitude);
-//        LatLng cameraLoc = mapAPI.getCameraPosition().target;
-//        MarkerOptions cameraCenter = new MarkerOptions().position(cameraLoc).title("Current location");
-//        //Add marker on map
-//        mapAPI.addMarker(cameraCenter);
     }
 
     @Override
@@ -202,10 +200,15 @@ public class MapActivity extends FragmentActivity implements
             if (userMarkerPlaced == false) {
                 userMarkerPlaced = true;
                 userMarker = mapAPI.addMarker(cameraCenter);
+                //plotButton.setImageDrawable();
+                plotButton.setImageResource(R.drawable.ic_clear_black_24dp);
+                //plotButton.setImageDrawable(R.drawable.ic_add_black_24dp);
             }
             else {
+                userMarkerPlaced = false;
                 userMarker.remove();
-                userMarker = mapAPI.addMarker(cameraCenter);
+                plotButton.setImageResource(R.drawable.ic_add_black_24dp);
+                //userMarker = mapAPI.addMarker(cameraCenter);
             }
         }
     }
