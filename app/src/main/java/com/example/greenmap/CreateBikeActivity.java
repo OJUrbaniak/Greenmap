@@ -87,17 +87,19 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
         }
     }
 
-    public void createPressed(){
+    public void createPressed(View view){
         //Check the information boxes have been filled
         if(nameBox.getText().length() > 0 && descBox.getText().length() > 0) {
             //If so then insert into the database
-            DBI.insertBikeRack((float) location.latitude, (float) location.longitude, user.userID, nameBox.getText().toString(), carbon_points_saved, descBox.getText().toString(), coveredCheckBox.isChecked());
+            DBI.insertUser("HADOOB", "SHRONGONE", "PASSMYASS", 25);
+            //DBI.insertBikeRack((float) location.latitude, (float) location.longitude, user.userID, nameBox.getText().toString(), carbon_points_saved, descBox.getText().toString(), coveredCheckBox.isChecked());
+            Bundle bundle = new Bundle();
+            Intent intent = new Intent(this, MapActivity.class);
+            bundle.putParcelable("Location", location);
+            bundle.putParcelable("User", user);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
-    }
-
-    public void backToProfile(View view){
-        Intent intent = new Intent(this,ProfileActivity.class);
-        startActivity(intent);
     }
 }
 

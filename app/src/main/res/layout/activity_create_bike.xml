@@ -87,7 +87,7 @@
         android:layout_marginBottom="112dp"
         android:backgroundTint=" #777777"
         android:fontFamily="sans-serif-light"
-        android:onClick="backToProfile"
+        android:onClick="createPressed"
         android:text="Create"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
