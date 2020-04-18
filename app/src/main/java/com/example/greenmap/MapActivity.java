@@ -200,6 +200,7 @@ public class MapActivity extends FragmentActivity implements
             Log.d("CMOVE","Placing point");
             MarkerOptions cameraCenter = new MarkerOptions().position(cameraLoc).title("Point Location");
             if (userMarkerPlaced == false) {
+                userMarkerPlaced = true;
                 userMarker = mapAPI.addMarker(cameraCenter);
             }
             else {
