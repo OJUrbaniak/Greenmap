@@ -7,6 +7,9 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 import android.content.Intent;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,9 +26,16 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
 
     int carbon_points_saved = 25;
 
+    databaseInterface DBI = new databaseInterface();
+
     SupportMapFragment mapFragment;
 
     TextView nameView;
+    TextView descLabel;
+    EditText nameBox;
+    EditText descBox;
+    CheckBox coveredCheckBox;
+    Button createButton;
 
     Coords location;
     User user;
@@ -39,14 +49,17 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
         //Intent i = getIntent();
         //location = (Coords)i.getSerializableExtra("Location");
 
-        nameView = findViewById(R.id.nameView);
+        nameView = findViewById(R.id.nameLabel);
+        descLabel = findViewById(R.id.descLabel);
+        nameBox = findViewById(R.id.nameBox);
+        descBox = findViewById(R.id.descBox);
+        coveredCheckBox = findViewById(R.id.coveredCheckBox);
+        createButton = findViewById(R.id.createButton);
 
         if (getIntent().getExtras() != null) {
             user = getIntent().getExtras().getParcelable("User");
             location = getIntent().getExtras().getParcelable("Location");
         }
-
-        nameView.setText(user.username);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
@@ -74,9 +87,19 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
         }
     }
 
-    public void backToProfile(View view){
-        Intent intent = new Intent(this,ProfileActivity.class);
-        startActivity(intent);
+    public void createPressed(View view){
+        //Check the information boxes have been filled
+        if(nameBox.getText().length() > 0 && descBox.getText().length() > 0) {
+            //If so then insert into the database
+            DBI.insertUser("HADOOB", "SHRONGONE", "PASSMYASS", 25);
+            //DBI.insertBikeRack((float) location.latitude, (float) location.longitude, user.userID, nameBox.getText().toString(), carbon_points_saved, descBox.getText().toString(), coveredCheckBox.isChecked());
+            Bundle bundle = new Bundle();
+            Intent intent = new Intent(this, MapActivity.class);
+            bundle.putParcelable("Location", location);
+            bundle.putParcelable("User", user);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 }
 

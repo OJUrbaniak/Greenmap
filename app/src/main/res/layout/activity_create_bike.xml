@@ -45,7 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/nameLabel" />
 
     <EditText
-        android:id="@+id/editText12"
+        android:id="@+id/descBox"
         android:layout_width="243dp"
         android:layout_height="56dp"
         android:layout_marginStart="28dp"
@@ -57,17 +57,17 @@
         app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <EditText
-        android:id="@+id/editText8"
+        android:id="@+id/nameBox"
         android:layout_width="243dp"
         android:layout_height="56dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="#F4F4F4"
         app:layout_constraintBaseline_toBaselineOf="@+id/nameLabel"
-        app:layout_constraintEnd_toEndOf="@+id/editText12" />
+        app:layout_constraintEnd_toEndOf="@+id/descBox" />
 
     <CheckBox
-        android:id="@+id/checkBox4"
+        android:id="@+id/coveredCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
@@ -77,17 +77,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText12" />
+        app:layout_constraintTop_toBottomOf="@+id/descBox" />
 
     <Button
-        android:id="@+id/button14"
+        android:id="@+id/createButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
         android:layout_marginBottom="112dp"
         android:backgroundTint=" #777777"
         android:fontFamily="sans-serif-light"
-        android:onClick="backToProfile"
+        android:onClick="createPressed"
         android:text="Create"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
@@ -95,6 +95,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox4" />
+        app:layout_constraintTop_toBottomOf="@+id/coveredCheckBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

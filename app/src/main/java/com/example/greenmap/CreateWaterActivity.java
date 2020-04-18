@@ -38,7 +38,7 @@ public class CreateWaterActivity extends FragmentActivity implements OnMapReadyC
 //        Intent i = getIntent();
 //        location = (Coords)i.getSerializableExtra("Location");
 
-        nameView = findViewById(R.id.nameView);
+        nameView = findViewById(R.id.nameLabel);
 
         if (getIntent().getExtras() != null) {
             user = getIntent().getExtras().getParcelable("User");

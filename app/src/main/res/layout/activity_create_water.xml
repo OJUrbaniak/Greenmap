@@ -44,17 +44,17 @@
         app:layout_constraintTop_toBottomOf="@+id/nameLabel" />
 
     <EditText
-        android:id="@+id/editText6"
+        android:id="@+id/nameBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
         android:textColor="#F4F4F4"
         app:layout_constraintBaseline_toBaselineOf="@+id/nameLabel"
-        app:layout_constraintStart_toStartOf="@+id/editText12" />
+        app:layout_constraintStart_toStartOf="@+id/descBox" />
 
     <EditText
-        android:id="@+id/editText12"
+        android:id="@+id/descBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -65,12 +65,12 @@
         app:layout_constraintStart_toEndOf="@+id/descLabel" />
 
     <CheckBox
-        android:id="@+id/checkBox4"
+        android:id="@+id/coveredCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="casual"
-        android:text="Drinking Tap"
+        android:text="drinkingCheckBox"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/descLabel" />
 
     <CheckBox
-        android:id="@+id/checkBox5"
+        android:id="@+id/bottleTapCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -88,10 +88,10 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox4" />
+        app:layout_constraintTop_toBottomOf="@+id/coveredCheckBox" />
 
     <Button
-        android:id="@+id/button14"
+        android:id="@+id/createButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -104,7 +104,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox5" />
+        app:layout_constraintTop_toBottomOf="@+id/bottleTapCheckBox" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
