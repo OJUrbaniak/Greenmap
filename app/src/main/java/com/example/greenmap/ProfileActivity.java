@@ -40,11 +40,6 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void goToCreatePOI(View view){
-        Intent intent = new Intent (this,CreatePOIActivity.class);
-        startActivity(intent);
-    }
-
     public void goToCreated(View view){
         Intent intent = new Intent (this,CreatedListActivity.class);
         startActivity(intent);
@@ -62,6 +57,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void goToAU(View view){
         Intent intent = new Intent(this,AboutUsActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToFollowers(View view){
+        Intent intent = new Intent(this,FollowersActivity.class);
         startActivity(intent);
     }
 }
