@@ -27,9 +27,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-public class MapActivity extends FragmentActivity implements
-        GoogleMap.OnCameraMoveListener,
-        OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback {
 
     User user;
     LatLng cameraLoc;
@@ -55,12 +53,7 @@ public class MapActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-//        fetchLastLocation();
-
         profileButton = findViewById(R.id.button27);
-
-
 
         //Get user from the previous page
         Intent i = getIntent();
@@ -83,13 +76,6 @@ public class MapActivity extends FragmentActivity implements
             ActivityCompat.requestPermissions(MapActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
     }
-
-//    @Override
-//    public void o
-//    public void onMapReady(GoogleMap googleMap){
-//        googleMap = mapAPI;
-//        mapAPI.setOnCameraMoveListener(this);
-//    }
 
     private void getCurrentLocation() {
         //Initialize task location
@@ -128,32 +114,6 @@ public class MapActivity extends FragmentActivity implements
             }
         }
     }
-
-    //    @Override
-//    public void onMapReady(GoogleMap googleMap){
-//
-//
-////        mapAPI = googleMap;
-////        LatLng guild = new LatLng(53.405403,-2.966129);
-////        googleMap.addMarker(new MarkerOptions().position(guild)
-////                .title("UOL Guild"));
-////        googleMap.moveCamera(CameraUpdateFactory.newLatLng(guild));
-////
-////        for (int i = 0; i < sampleData.length; i++) {
-////            System.out.println("Plotting Item "+i);
-////            PointOfInterest curr = sampleData[i];
-////            mapAPI.addMarker(new MarkerOptions().position(curr.coords)).setTitle(curr.name);
-////        }
-////        mapAPI.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
-////            @Override
-////            public void onCameraMove() {
-////                Log.d("Map","CAMERA MOVED to "+mapAPI.getCameraPosition().target);
-////            }
-////        });
-////        //mapAPI.setOnCameraMoveListener(cameraMove());
-//    }
-
-
 
     //Disable back button being pressed - dont wanna go back to login/sign up
     @Override

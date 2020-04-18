@@ -46,25 +46,10 @@
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <Button
-        android:id="@+id/button6"
-        android:layout_width="225dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="#777777"
-        android:fontFamily="sans-serif-light"
-        android:onClick="goToCreatePOI"
-        android:text="Create a point of interest"
-        android:textColor="#F4F4F4"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView20" />
-
-    <Button
         android:id="@+id/button7"
         android:layout_width="225dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="51dp"
         android:background="#777777"
         android:fontFamily="sans-serif-light"
         android:onClick="goToCreated"
@@ -73,13 +58,13 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
     <Button
         android:id="@+id/button8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="80dp"
         android:background="#777777"
         android:fontFamily="sans-serif-light"
         android:onClick="signOut"
@@ -87,6 +72,7 @@
         android:textColor="#F4F4F4"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button7" />
 
@@ -124,7 +110,7 @@
         android:id="@+id/button11"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="80dp"
         android:background="#777777"
         android:fontFamily="sans-serif-light"
         android:onClick="goToTOS"
@@ -132,6 +118,7 @@
         android:textColor="#F4F4F4"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button8" />
 </androidx.constraintlayout.widget.ConstraintLayout>
