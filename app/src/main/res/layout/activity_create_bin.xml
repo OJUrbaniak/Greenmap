@@ -7,6 +7,18 @@
     android:background="#353535"
     tools:context=".CreateBinActivity">
 
+    <fragment
+        android:id="@+id/mapAPI"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="411dp"
+        android:layout_height="300dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </fragment>
+
     <TextView
         android:id="@+id/textView44"
         android:layout_width="wrap_content"
@@ -18,7 +30,7 @@
         android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView45"
-        app:layout_constraintTop_toBottomOf="@+id/mapAPI2" />
+        app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <TextView
         android:id="@+id/textView45"
@@ -32,7 +44,7 @@
         app:layout_constraintEnd_toStartOf="@+id/editText9"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapAPI2" />
+        app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <EditText
         android:id="@+id/editText9"
@@ -58,41 +70,23 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/textView44"
         app:layout_constraintEnd_toEndOf="@+id/editText9" />
 
-    <CheckBox
-        android:id="@+id/checkBox17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="42dp"
-        android:text="Covered"
-        android:textColor="#F4F4F4"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText9" />
-
     <Button
         android:id="@+id/button30"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="113dp"
         android:layout_marginBottom="110dp"
         android:backgroundTint=" #777777"
+        android:fontFamily="sans-serif-light"
         android:onClick="backToProfile"
         android:text="Create"
         android:textColor="#F4F4F4"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <fragment
-        android:id="@+id/mapAPI2"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="382dp"
-        android:layout_height="272dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </fragment>
+        app:layout_constraintTop_toBottomOf="@+id/editText9"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
