@@ -91,8 +91,10 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
         //Check the information boxes have been filled
         if(nameBox.getText().length() > 0 && descBox.getText().length() > 0) {
             //If so then insert into the database
-            DBI.insertUser("HADOOB", "SHRONGONE", "PASSMYASS", 25);
+            //DBI.insertUser("HADOOB", "SHRONGONE", "PASSMYASS", 25);
+            //DBI.insertAdmin(5, 2);
             //DBI.insertBikeRack((float) location.latitude, (float) location.longitude, user.userID, nameBox.getText().toString(), carbon_points_saved, descBox.getText().toString(), coveredCheckBox.isChecked());
+            //DBI.insertRecyclingBin(50.30f, 70.30f, user.userID, nameBox.getText().toString(), carbon_points_saved, descBox.getText().toString(), "hobobin");
             Bundle bundle = new Bundle();
             Intent intent = new Intent(this, MapActivity.class);
             bundle.putParcelable("Location", location);
