@@ -23,10 +23,4 @@ public class PointOfInterest implements Serializable {
         this.type = type;
         this.reviewRating = reviewRating;
     }
-
-    PointOfInterest(String name, char type, Double lat, Double lon) {
-        this.name = name;
-        this.type = type;
-        coords = new LatLng(lat, lon);
-    }
 }

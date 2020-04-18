@@ -41,9 +41,12 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     SupportMapFragment mapFragment;
     PointOfInterest[] data = new PointOfInterest[] {
-            new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
-            new PointOfInterest("Ireland", 'w',53.41291,-8.24389	),
-            new PointOfInterest("United Kingdom", 'b',55.378051,-3.435973)
+            new WaterFountainPOI("Switzerland","mountains", 46.818188,8.227512,'w',5,10,true,true,true),
+            new BikeRackPOI("Ireland","trouble",53.41291,-8.24389,'b',3),
+            new RecyclingBinPOI("United Kingdom","boris",55.378051,-3.435973,'b',2,"ok")
+//            new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
+//            new PointOfInterest("Ireland", 'w',53.41291,-8.24389	),
+//            new PointOfInterest("United Kingdom", 'b',55.378051,-3.435973)
     };
 
     //For user location
