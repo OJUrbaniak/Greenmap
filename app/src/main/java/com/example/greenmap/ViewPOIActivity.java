@@ -56,14 +56,13 @@ public class ViewPOIActivity extends FragmentActivity implements OnMapReadyCallb
         typeLabel.setText(typeLabel.getText()+" "+ typeString);
         ratingLabel.setText(ratingLabel.getText()+" "+String.valueOf(currentPOI.reviewRating));
         descLabel.setText(descLabel.getText()+" "+String.valueOf(currentPOI.desc));
-        Log.d("ViewPOI","Coords of current POI are "+currentPOI.getCoords().latitude+" "+currentPOI.getCoords().longitude+", "+currentPOI.name);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         //Disable any movement of the map
         googleMap.getUiSettings().setAllGesturesEnabled(false);
-        LatLng currLatLng = new LatLng(currentPOI.getCoords().latitude, currentPOI.getCoords().longitude);
+        LatLng currLatLng = new LatLng(currentPOI.coords.latitude, currentPOI.coords.longitude);
         //Create a marker
         MarkerOptions marker = new MarkerOptions().position(currLatLng).title(currentPOI.name);
         googleMap.addMarker(marker);

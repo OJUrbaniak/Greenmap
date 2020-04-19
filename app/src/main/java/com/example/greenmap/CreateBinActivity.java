@@ -6,7 +6,11 @@ import androidx.fragment.app.FragmentActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +27,11 @@ public class CreateBinActivity extends FragmentActivity implements OnMapReadyCal
 
     TextView nameView;
 
+    EditText nameBox;
+    EditText descBox;
+
+    Spinner binType;
+
     Coords location;
     User user;
 
@@ -31,11 +40,17 @@ public class CreateBinActivity extends FragmentActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_bin);
 
-//        //Get location from the previous page
-//        Intent i = getIntent();
-//        location = (Coords)i.getSerializableExtra("Location");
-
+        //Finding components
         nameView = findViewById(R.id.nameView);
+
+        nameBox = findViewById(R.id.nameBox);
+        descBox = findViewById(R.id.descBox);
+        binType = findViewById(R.id.binTypeSpinner);
+
+        //Setting up binType spinner
+        String[] binTypes = new String[]{"Recycling, Other"};
+        ArrayAdapter<String> typesOfBin = new ArrayAdapter<String> (getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, binTypes);
+        binType.setAdapter(typesOfBin);
 
         if (getIntent().getExtras() != null) {
             user = getIntent().getExtras().getParcelable("User");
@@ -73,6 +88,27 @@ public class CreateBinActivity extends FragmentActivity implements OnMapReadyCal
                     googleMap.addMarker(options);
                 }
             });
+        }
+    }
+
+    public void createPOI(View view) {
+        try {
+            RecyclingBinPOI userPOI = new RecyclingBinPOI(
+                    1,
+                    nameBox.getText().toString(),
+                    descBox.getText().toString(),
+                    location.latitude,
+                    location.longitude,
+                    'w',
+                    binType.getSelectedItem().toString()
+            );
+            // SEND TO DB
+            databaseInterface db = new databaseInterface();
+            //db.insertBikeRack(userPOI);
+        }
+        catch (Exception e) {
+            // POI couldn't be made
+            Toast.makeText(getApplicationContext(), "Couldn't create POI", Toast.LENGTH_SHORT );
         }
     }
 }

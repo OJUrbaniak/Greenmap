@@ -7,7 +7,10 @@ import android.os.Bundle;
 import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 import android.content.Intent;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,6 +28,11 @@ public class CreateWaterActivity extends FragmentActivity implements OnMapReadyC
     SupportMapFragment mapFragment;
 
     TextView nameView;
+    CheckBox safeToDrinkStraight;
+    CheckBox bottleFilling;
+
+    EditText nameBox;
+    EditText descBox;
 
     Coords location;
     User user;
@@ -39,6 +47,10 @@ public class CreateWaterActivity extends FragmentActivity implements OnMapReadyC
 //        location = (Coords)i.getSerializableExtra("Location");
 
         nameView = findViewById(R.id.nameLabel);
+        nameBox = findViewById(R.id.nameBox);
+        descBox = findViewById(R.id.descBox);
+        safeToDrinkStraight = findViewById(R.id.safeToDrinkStraightCheckBox);
+        bottleFilling = findViewById(R.id.bottleTapCheckBox);
 
         if (getIntent().getExtras() != null) {
             user = getIntent().getExtras().getParcelable("User");
@@ -74,7 +86,29 @@ public class CreateWaterActivity extends FragmentActivity implements OnMapReadyC
     }
 
     public void backToProfile(View view){
-        Intent intent = new Intent(this,ProfileActivity.class);
-        startActivity(intent);
+        finish();
+    }
+
+    public void createPOI(View view) {
+        try {
+            WaterFountainPOI userPOI = new WaterFountainPOI(
+                    1,
+                    nameBox.getText().toString(),
+                    descBox.getText().toString(),
+                    location.latitude,
+                    location.longitude,
+                    'w',
+                    safeToDrinkStraight.isChecked(),
+                    bottleFilling.isChecked(),
+                    false
+            );
+            // SEND TO DB
+            databaseInterface db = new databaseInterface();
+            //db.insertWaterFountain(userPOI);
+        }
+        catch (Exception e) {
+            // POI couldn't be made
+            Toast.makeText(getApplicationContext(), "Couldn't create POI", Toast.LENGTH_SHORT );
+        }
     }
 }

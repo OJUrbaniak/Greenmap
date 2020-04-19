@@ -25,7 +25,6 @@ public class NearbyListActivity extends AppCompatActivity {
         data = (PointOfInterest[]) getIntent().getSerializableExtra("dataArray");
         for (int i = 0; i < data.length; i++) {
             final PointOfInterest currItem = data[i];
-            Log.d("ViewPOI","NEARBY Item "+i+": "+currItem.name+" lat "+currItem.getCoords().latitude+" lon "+currItem.getCoords().longitude);
             TableRow tr = new TableRow(this);
             TextView name = new TextView(this); name.setText(data[i].name);
             TextView desc = new TextView(this); desc.setText(data[i].desc);

@@ -65,12 +65,12 @@
         app:layout_constraintStart_toEndOf="@+id/descLabel" />
 
     <CheckBox
-        android:id="@+id/coveredCheckBox"
+        android:id="@+id/safeToDrinkStraightCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="casual"
-        android:text="drinkingCheckBox"
+        android:text="Appears to be safe to drink straight"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +88,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coveredCheckBox" />
+        app:layout_constraintTop_toBottomOf="@+id/safeToDrinkStraightCheckBox" />
 
     <Button
         android:id="@+id/createButton"

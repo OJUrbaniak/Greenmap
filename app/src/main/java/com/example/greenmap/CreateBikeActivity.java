@@ -1,7 +1,5 @@
 package com.example.greenmap;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
@@ -11,16 +9,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.OnMapReadyCallback;
 
 public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -53,7 +49,7 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
         descLabel = findViewById(R.id.descLabel);
         nameBox = findViewById(R.id.nameBox);
         descBox = findViewById(R.id.descBox);
-        coveredCheckBox = findViewById(R.id.coveredCheckBox);
+        coveredCheckBox = findViewById(R.id.safeToDrinkStraightCheckBox);
         createButton = findViewById(R.id.createButton);
 
         if (getIntent().getExtras() != null) {
@@ -87,6 +83,7 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
         }
     }
 
+    /*
     public void createPressed(View view){
         //Check the information boxes have been filled
         if(nameBox.getText().length() > 0 && descBox.getText().length() > 0) {
@@ -101,6 +98,28 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
             bundle.putParcelable("User", user);
             intent.putExtras(bundle);
             startActivity(intent);
+        }
+    }
+    */
+
+    public void createPOI(View view) {
+        try {
+            BikeRackPOI userPOI = new BikeRackPOI(
+                    1,
+                    nameBox.getText().toString(),
+                    descBox.getText().toString(),
+                    location.latitude,
+                    location.longitude,
+                    'w',
+                    coveredCheckBox.isChecked()
+            );
+            // SEND TO DB
+            databaseInterface db = new databaseInterface();
+            //db.insertBikeRack(userPOI);
+        }
+        catch (Exception e) {
+            // POI couldn't be made
+            Toast.makeText(getApplicationContext(), "Couldn't create POI", Toast.LENGTH_SHORT );
         }
     }
 }

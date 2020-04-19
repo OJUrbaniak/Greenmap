@@ -90,4 +90,13 @@
         app:layout_constraintTop_toBottomOf="@+id/descBox"
         app:layout_constraintVertical_bias="0.0" />
 
+    <Spinner
+        android:id="@+id/binTypeSpinner"
+        android:layout_width="243dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descBox" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

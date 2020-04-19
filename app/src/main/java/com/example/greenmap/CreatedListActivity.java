@@ -30,7 +30,6 @@ public class CreatedListActivity extends AppCompatActivity {
 
         for (int i = 0; i < data.length; i++) {
             final PointOfInterest currItem = data[i];
-            Log.d("ViewPOI","Item "+i+": "+currItem.name+" lat "+currItem.getCoords().latitude+" lon "+currItem.getCoords().longitude);
             TableRow tr = new TableRow(this);
             TextView name = new TextView(this); name.setText(currItem.name);
             TextView desc = new TextView(this); desc.setText(currItem.desc);
