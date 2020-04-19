@@ -70,9 +70,9 @@
                 android:id="@+id/button15"
                 android:layout_width="142dp"
                 android:layout_height="wrap_content"
-                android:background="#777777"
                 android:text="Add"
-                android:textColor="#F4F4F4" />
+                android:textColor="#F4F4F4"
+                android:background="@drawable/button_rounded" />
 
         </TableRow>
 

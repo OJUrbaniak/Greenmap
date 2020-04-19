@@ -67,7 +67,7 @@
         app:layout_constraintEnd_toEndOf="@+id/descBox" />
 
     <CheckBox
-        android:id="@+id/drinkingCheckBox"
+        android:id="@+id/safeToDrinkStraightCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
@@ -81,10 +81,11 @@
 
     <Button
         android:id="@+id/createButton"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
         android:layout_marginBottom="112dp"
+        android:background="@drawable/button_rounded"
         android:backgroundTint=" #777777"
         android:fontFamily="sans-serif-light"
         android:onClick="createPressed"
@@ -95,6 +96,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drinkingCheckBox" />
+        app:layout_constraintTop_toBottomOf="@+id/safeToDrinkStraightCheckBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,9 +35,10 @@
 
     <Button
         android:id="@+id/button12"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
+        android:background="@drawable/button_rounded"
         android:backgroundTint=" #777777"
         android:fontFamily="sans-serif-light"
         android:onClick="goToCreateBike"
@@ -50,9 +51,10 @@
 
     <Button
         android:id="@+id/button13"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
+        android:background="@drawable/button_rounded"
         android:backgroundTint=" #777777"
         android:fontFamily="sans-serif-light"
         android:onClick="goToCreateWater"
@@ -66,9 +68,10 @@
 
     <Button
         android:id="@+id/button28"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        android:background="@drawable/button_rounded"
         android:backgroundTint=" #777777"
         android:fontFamily="sans-serif-light"
         android:onClick="goToCreateBin"

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#353535"
     tools:context=".NearbyListActivity">
 
     <Button
@@ -11,9 +12,11 @@
         android:layout_width="196dp"
         android:layout_height="45dp"
         android:layout_marginBottom="3dp"
+        android:background="@drawable/button_rounded"
         android:onClick="backToMap"
         android:text="V"
-        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
+        android:textColor="#F4F4F4"
+        app:layout_constraintBottom_toTopOf="@+id/nearbyPOITable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,33 +36,38 @@
 
             <TextView
                 android:id="@+id/textView32"
-                android:layout_width="50dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Name" />
+                android:text="Name"
+                android:textColor="#F4F4F4" />
 
             <TextView
                 android:id="@+id/textView26"
-                android:layout_width="50dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="Type" />
+                android:text="Type"
+                android:textColor="#F4F4F4" />
 
             <TextView
                 android:id="@+id/textView25"
-                android:layout_width="70dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="Rating" />
+                android:text="Rating"
+                android:textColor="#F4F4F4" />
 
             <TextView
                 android:id="@+id/textView24"
-                android:layout_width="70dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
-                android:text="Distance" />
+                android:text="Distance"
+                android:textColor="#F4F4F4" />
 
             <TextView
                 android:id="@+id/textView89"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="View POI" />
+                android:text="View POI"
+                android:textColor="#F4F4F4" />
 
         </TableRow>
 
