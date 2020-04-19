@@ -2,6 +2,7 @@ package com.example.greenmap;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.content.Intent;
@@ -31,10 +32,11 @@ public class CreatedListActivity extends AppCompatActivity {
         for (int i = 0; i < data.length; i++) {
             final PointOfInterest currItem = data[i];
             TableRow tr = new TableRow(this);
-            TextView name = new TextView(this); name.setText(currItem.name);
-            TextView desc = new TextView(this); desc.setText(currItem.desc);
+            TextView name = new TextView(this); name.setText(currItem.name); name.setTextColor(Color.parseColor("#F4F4F4"));
+            TextView desc = new TextView(this); desc.setText(currItem.desc); desc.setTextColor(Color.parseColor("#F4F4F4"));
             Button viewButton = new Button(this);
-            viewButton.setText("View POI");
+            viewButton.setText("View POI"); viewButton.setBackgroundColor(Color.parseColor("#777777"));
+            viewButton.setTextColor(Color.parseColor("#F4F4F4")); viewButton.setBackground(getDrawable(R.drawable.button_rounded));
             viewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
