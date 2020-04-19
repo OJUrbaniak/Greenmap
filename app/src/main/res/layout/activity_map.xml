@@ -50,8 +50,9 @@
 
     <Button
         android:id="@+id/button26"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_rounded"
         android:backgroundTint=" #777777"
         android:fontFamily="casual"
         android:onClick="goToFilters"
@@ -65,8 +66,9 @@
 
     <Button
         android:id="@+id/button27"
-        android:layout_width="wrap_content"
+        android:layout_width="90dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/button_rounded"
         android:backgroundTint=" #777777"
         android:fontFamily="casual"
         android:onClick="goToProfile"

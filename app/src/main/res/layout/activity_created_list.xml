@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#353535"
     tools:context=".CreatedListActivity">
 
     <TableLayout
@@ -23,19 +24,25 @@
                 android:id="@+id/textView22"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Name" />
+                android:fontFamily="casual"
+                android:text="Name"
+                android:textColor="#F4F4F4" />
 
             <TextView
                 android:id="@+id/textView23"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Description" />
+                android:fontFamily="casual"
+                android:text="Description"
+                android:textColor="#F4F4F4" />
 
             <TextView
                 android:id="@+id/textView90"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View POI" />
+                android:layout_width="146dp"
+                android:layout_height="match_parent"
+                android:fontFamily="casual"
+                android:text="View POI"
+                android:textColor="#F4F4F4" />
 
         </TableRow>
 
@@ -43,22 +50,24 @@
 
     <EditText
         android:id="@+id/editText14"
-        android:layout_width="141dp"
-        android:layout_height="41dp"
+        android:layout_width="143dp"
+        android:layout_height="44dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
         android:ems="10"
+        android:fontFamily="casual"
         android:inputType="textPersonName"
         android:text="Search"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toStartOf="@+id/imageButton"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_width="51dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:background="#353535"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_menu_search" />

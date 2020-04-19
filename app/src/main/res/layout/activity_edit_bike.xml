@@ -82,10 +82,11 @@
 
     <Button
         android:id="@+id/button32"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="46dp"
         android:layout_marginBottom="112dp"
+        android:background="@drawable/button_rounded"
         android:backgroundTint=" #777777"
         android:onClick="backToView"
         android:text="Confirm"

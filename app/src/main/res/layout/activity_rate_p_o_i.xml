@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#353535"
     tools:context=".RatePOIActivity">
 
     <fragment
@@ -24,8 +25,9 @@
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:fontFamily="casual"
         android:text="Name:"
-        android:textColor="#000000"
+        android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
@@ -37,8 +39,9 @@
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:fontFamily="casual"
         android:text="Description:"
-        android:textColor="#000000"
+        android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
@@ -47,11 +50,13 @@
 
     <Button
         android:id="@+id/button24"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:background="@drawable/button_rounded"
         android:onClick="backToList"
         android:text="Rate"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkBox7" />
@@ -61,7 +66,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
+        android:buttonTint="#F4F4F4"
+        android:fontFamily="casual"
         android:text="5"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/checkBox9" />
 
@@ -70,7 +78,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:buttonTint="#F4F4F4"
+        android:fontFamily="casual"
         android:text="3"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toStartOf="@+id/checkBox9"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toEndOf="@+id/checkBox8"
@@ -81,7 +92,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
+        android:buttonTint="#F4F4F4"
+        android:fontFamily="casual"
         android:text="2"
+        android:textColor="#F4F4F4"
         app:layout_constraintStart_toEndOf="@+id/checkBox10"
         app:layout_constraintTop_toTopOf="@+id/checkBox7" />
 
@@ -90,7 +104,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
+        android:buttonTint="#F4F4F4"
+        android:fontFamily="casual"
         android:text="4"
+        android:textColor="#F4F4F4"
         app:layout_constraintEnd_toStartOf="@+id/checkBox6"
         app:layout_constraintTop_toTopOf="@+id/checkBox7" />
 
@@ -99,7 +116,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
+        android:buttonTint="#F4F4F4"
+        android:fontFamily="casual"
         android:text="1"
+        android:textColor="#F4F4F4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/checkBox8" />
 
