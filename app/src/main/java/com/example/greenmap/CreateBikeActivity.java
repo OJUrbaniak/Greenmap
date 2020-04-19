@@ -1,7 +1,5 @@
 package com.example.greenmap;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
@@ -14,13 +12,10 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.OnMapReadyCallback;
 
 public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -53,7 +48,7 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
         descLabel = findViewById(R.id.descLabel);
         nameBox = findViewById(R.id.nameBox);
         descBox = findViewById(R.id.descBox);
-        coveredCheckBox = findViewById(R.id.coveredCheckBox);
+        coveredCheckBox = findViewById(R.id.drinkingCheckBox);
         createButton = findViewById(R.id.createButton);
 
         if (getIntent().getExtras() != null) {

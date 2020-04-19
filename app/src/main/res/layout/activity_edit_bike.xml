@@ -68,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="@+id/descBox" />
 
     <CheckBox
-        android:id="@+id/coveredCheckBox"
+        android:id="@+id/drinkingCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="45dp"
@@ -94,6 +94,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coveredCheckBox" />
+        app:layout_constraintTop_toBottomOf="@+id/drinkingCheckBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

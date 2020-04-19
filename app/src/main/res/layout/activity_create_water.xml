@@ -65,12 +65,12 @@
         app:layout_constraintStart_toEndOf="@+id/descLabel" />
 
     <CheckBox
-        android:id="@+id/coveredCheckBox"
+        android:id="@+id/drinkingCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:fontFamily="casual"
-        android:text="drinkingCheckBox"
+        android:text="Drinking Tap"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,12 +83,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:fontFamily="casual"
-        android:text="Bottle Tap"
+        android:text="Filtered"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filteredCheckBox" />
+
+    <CheckBox
+        android:id="@+id/filteredCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="casual"
+        android:text="Bottle Refill"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/coveredCheckBox" />
+        app:layout_constraintTop_toBottomOf="@+id/drinkingCheckBox" />
 
     <Button
         android:id="@+id/createButton"

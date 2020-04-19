@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Vector;
+import java.util.concurrent.ExecutionException;
 
 public class MainActivity<user1> extends AppCompatActivity {
 
@@ -21,7 +22,9 @@ public class MainActivity<user1> extends AppCompatActivity {
     EditText passwordField;
     Button loginButton;
 
-    databaseInterface DBINT = new databaseInterface();
+    DatabaseInterfaceDBI newDBI = new DatabaseInterfaceDBI();
+
+   // databaseInterface DBINT = new databaseInterface();
 
 
     User validUsers[] = {new User(1, "cockman", "ilovepeepee", 74, "cock@cock.com"),
@@ -40,6 +43,14 @@ public class MainActivity<user1> extends AppCompatActivity {
         //Get Users from DB and populate validUsers vector
 
         final String userParams[] = {"insertUser.php","peepeebutthole@poo.peepee", "shitwhore", "ilovepeepee", "74"};
+
+        try {
+            User loginUser = newDBI.selectUserByLogin("wadeeb", "showbob");
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
 
         mainHeader = findViewById(R.id.textView3);
@@ -60,17 +71,18 @@ public class MainActivity<user1> extends AppCompatActivity {
         //signupButton = findViewById(R.id.button);
     }
 
-    public void goToMap(View view){
+    public void goToMap(View view){ //Login button
         //check if log in is correct:
         for (int i = 0; i < validUsers.length; i++) {
             if(userNameField.getText().toString().equals(validUsers[i].username) && passwordField.getText().toString().equals(validUsers[i].password)) {
+                //Log.i("EMAIL RETRIEVED ",loginUser.email);
                 mainHeader.setText("Welcome back, " + validUsers[i].username + "!");
                 Intent intent = new Intent(this, MapActivity.class);
                 intent.putExtra("User", (Parcelable) validUsers[i]);
                 startActivity(intent);
                 break;
             } else {
-                mainHeader.setText("Incorrect credentials! (whore)");
+                mainHeader.setText("Incorrect credentials!");
             }
         }
     }
