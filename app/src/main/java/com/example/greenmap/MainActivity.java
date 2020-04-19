@@ -12,10 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity<user1> extends AppCompatActivity {
+public class MainActivity<user1> extends databaseInteracter {
 
     TextView mainHeader;
     EditText userNameField;
@@ -34,6 +38,17 @@ public class MainActivity<user1> extends AppCompatActivity {
 
 
     //Button signupButton;     -- a method already exists for this
+    @Override
+    public void  resultsReturned(String results){
+        Log.i("dbi", "from Main results= "+ results);
+        //new user(Integer.parseInt(obj.getString("User_ID").replaceAll("[\\D]", "")), obj.getString("Username"), obj.getString("Password"), Integer.parseInt(obj.getString("Carbon_Saved_Points").replaceAll("[\\D]", "")), obj.getString("Email"));
+        JsonParser parser = new JsonParser();
+        JsonElement jEle = parser.parse(results);
+        Log.i("dbi", String.valueOf(jEle));
+        //User loginUser = new User(Integer.parseInt(jEle.getString("User_ID").replaceAll("[\\D]", "")), obj.getString("Username"), obj.getString("Password"), Integer.parseInt(obj.getString("Carbon_Saved_Points").replaceAll("[\\D]", "")), obj.getString("Email"));
+        //    JsonArray jsonArray = jsonElement.getAsJsonArray();
+        //Log.i("dbi", String.valueOf(jsonArray));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +60,15 @@ public class MainActivity<user1> extends AppCompatActivity {
         final String userParams[] = {"insertUser.php","peepeebutthole@poo.peepee", "shitwhore", "ilovepeepee", "74"};
 
         try {
-            User loginUser = newDBI.selectUserByLogin("wadeeb", "showbob");
+            Log.i("dbi", "calling selectUserByLogin");
+            User loginUser = newDBI.selectUserByLogin("user", "pass", this);
+            //Log.i("dbi", loginUser.email);
         } catch (ExecutionException e) {
             e.printStackTrace();
+            Log.i("dbi",e.getMessage());
         } catch (InterruptedException e) {
             e.printStackTrace();
+            Log.i("dbi", e.getMessage());
         }
 
 

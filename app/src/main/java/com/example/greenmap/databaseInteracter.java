@@ -1,0 +1,9 @@
+package com.example.greenmap;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+class databaseInteracter extends AppCompatActivity {
+    public void resultsReturned(String results){
+
+    }
+}

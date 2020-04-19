@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.*;
 
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.JsonReader;
 import android.util.Log;
@@ -28,19 +29,67 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import com.google.gson.*;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 class DatabaseInterfaceDBI{
 
     User returnedUser;
 
-    private static final String domain = "http://192.168.1.177/";
+    private static final String domain = "http://192.168.0.27/";
 
     public void databaseInterface(){
     }
 
-    ListenerImplementation valueListener = new ListenerImplementation();
+    private void runHTML(final String[] strings, final databaseInteracter interacter){
 
+         class SendPostWithReturnTask extends AsyncTask<Void, Void, String> {
+
+            DatabaseInterfaceDBI DBI = new DatabaseInterfaceDBI();
+
+            //PrintListener listener;
+
+            //SendPostWithReturnTask(PrintListener mPrintListener) {
+                //this.listener = mPrintListener;
+            //}
+
+            @Override
+            protected String doInBackground(Void... voids)  {
+                String jStr = null;
+                try {
+                    DBI.trustAllCertificates();
+                    jStr = DBI.sendPost(strings[0], strings[1]);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return jStr;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Log.i("Json array before listener function", String.valueOf(result));
+                try {
+                    Log.i("dbi", "result= "+result);
+                    interacter.resultsReturned(result);
+
+                } catch (Exception e) {
+                    Log.i("dbi", "Error");
+                    e.printStackTrace();
+                }
+                //this.listener.getResult(result);
+            }
+        }
+        SendPostWithReturnTask sendP = new SendPostWithReturnTask();
+         sendP.execute();
+    }
+
+    private void returnPOIs(String POIdata){
+        JsonArray jArray = jsonFromString(POIdata);
+        JsonObject jObj= jArray.get(0).getAsJsonObject();
+        Log.i("dbi", jObj.get("Email").getAsString());
+    }
     private static String convertStreamToString(InputStream is) {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -95,12 +144,15 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    private static JSONArray jsonFromString(String jsonObjectStr) {
+    private static JsonArray jsonFromString(String jsonObjectStr) {
 
         try {
             //JsonReader jsonReader = new JsonReader(new StringReader(jsonObjectStr));
-            JSONArray jsonArray = new JSONArray(jsonObjectStr);
+            //String json = gson.toJson(obj);
             //jsonReader.close();
+            JsonParser parser = new JsonParser();
+            JsonElement jsonElement = parser.parse(jsonObjectStr);
+            JsonArray jsonArray = jsonElement.getAsJsonArray();
             Log.i("jsonfromstring jsonarray", String.valueOf(jsonArray));
             return jsonArray;
         } catch (Exception ex){
@@ -109,7 +161,7 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    JSONArray sendPost(String params, String path) throws Exception {
+    String sendPost(String params, String path) throws Exception {
 
         String url = domain + path;
 
@@ -149,9 +201,9 @@ class DatabaseInterfaceDBI{
             return null;
         }
         else {
-            JSONObject obj = new JSONObject(jsonReply);
-            Log.i("test 50000", String.valueOf(obj));
-            return jsonFromString(jsonReply);
+            JsonArray jArray = jsonFromString(jsonReply);
+            Log.i("dbi", "jArray= " + jArray);
+            return jsonReply;
         }
 
 
@@ -242,21 +294,23 @@ class DatabaseInterfaceDBI{
     //userTable
 
     public User[] selectUserbyID(int userID){
-        String SQLquery  = "Select User From GreenMap.`User`";// WHERE User_ID = *" + Integer.toString(userID);
+        /*String SQLquery  = "Select User From GreenMap.`User`";// WHERE User_ID = *" + Integer.toString(userID);
         try {
-            JSONArray jArray = sendPost("query="+SQLquery, "select.php");
-            JSONObject obj;
-            User[] userArray = new User[jArray.length()];
-            for(int n = 0; n < jArray.length(); n++)
+            JsonArray jArray = sendPost("query="+SQLquery, "select.php");
+            JsonObject obj;
+            JsonElement ele;
+            User[] userArray = new User[jArray.size()];
+            for(int n = 0; n < jArray.size(); n++)
             {
-                obj = jArray.getJSONObject(n);
-                userArray[n] = new User(Integer.parseInt(obj.getString("User_ID").replaceAll("[\\D]", "")), obj.getString("Username"), obj.getString("Password"), Integer.parseInt(obj.getString("Carbon_Saved_Points").replaceAll("[\\D]", "")), obj.getString("Email"));
+                ele = jArray.get(n);
+                obj = ele.getAsJsonObject();
+                userArray[n] = new User(Integer.parseInt(obj.getAsString("User_ID").replaceAll("[\\D]", "")), obj.getString("Username"), obj.getString("Password"), Integer.parseInt(obj.getString("Carbon_Saved_Points").replaceAll("[\\D]", "")), obj.getString("Email"));
             }
             return userArray;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);*/
             return null;
-        }
+        //}
     }
 
 //    String urlParameters  = "email= "+Email+"&username="+Username+"&password="+Password+"&carbon_points_saved="+Float.toString(Carbon_Saved_Points)+"f";;
@@ -266,13 +320,15 @@ class DatabaseInterfaceDBI{
 //        insertUser.execute(params);
 //        return true;
 
-    public User selectUserByLogin(String user, String pass) throws ExecutionException, InterruptedException {
+    public User selectUserByLogin(String user, String pass, databaseInteracter dbInteracter) throws ExecutionException, InterruptedException {
         String SQLquery  = "SELECT * " + "FROM GreenMap.User" + " WHERE (\""+ user + "\" = User.Username) AND (\""+ pass + "\" = User.Password)";
         String[] params = {"query=" + SQLquery, "select.php"};
-        this.valueListener = new ListenerImplementation();
-        SendPostWithReturnTask selectUserByLogin = new SendPostWithReturnTask(this.valueListener);
-        selectUserByLogin.execute(params).get();
-        return this.valueListener.returnedUser;
+        runHTML(params, dbInteracter);
+        //this.valueListener = new ListenerImplementation();
+        //SendPostWithReturnTask selectUserByLogin = new SendPostWithReturnTask(this.valueListener);
+        //selectUserByLogin.execute(params).get();
+        //return this.valueListener.returnedUser;
+        return null;
     }
 
     //following table
@@ -325,7 +381,7 @@ class DatabaseInterfaceDBI{
     }
 
     public boolean selectBinOnly(float lat, float lon, int numberOfPOIs){
-        String SQLquery  = "SELECT RecyclingBinPOI.Name, RecyclingBinPOI.Carbon_Saved_Value, RecyclingBinPOI.Description, RecyclingBinPOI.Review_Rating, RecyclingBinPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+        /*String SQLquery  = "SELECT RecyclingBinPOI.Name, RecyclingBinPOI.Carbon_Saved_Value, RecyclingBinPOI.Description, RecyclingBinPOI.Review_Rating, RecyclingBinPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                 " FROM GreenMap.RecyclingBinPOI INNER JOIN GreenMap.POI " +
                 "WHERE (Type = 'r') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) IS NOT NULL) ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit "+ Integer.toString(numberOfPOIs);
         try {
@@ -343,7 +399,7 @@ class DatabaseInterfaceDBI{
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
             return false;
-        }
+        }*/
         return false;
     }
 
