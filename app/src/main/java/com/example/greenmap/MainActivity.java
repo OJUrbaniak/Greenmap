@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.util.Vector;
@@ -45,6 +46,10 @@ public class MainActivity<user1> extends databaseInteracter {
         JsonParser parser = new JsonParser();
         JsonElement jEle = parser.parse(results);
         Log.i("dbi", String.valueOf(jEle));
+        JsonArray jArray = jEle.getAsJsonArray();
+        JsonObject jObj = jArray.get(0).getAsJsonObject();
+        Log.i("dbi", "email="+ jObj.get("Email").getAsString());
+        Log.i("dbi", "pass= "+ jObj.get("Password").getAsString());
         //User loginUser = new User(Integer.parseInt(jEle.getString("User_ID").replaceAll("[\\D]", "")), obj.getString("Username"), obj.getString("Password"), Integer.parseInt(obj.getString("Carbon_Saved_Points").replaceAll("[\\D]", "")), obj.getString("Email"));
         //    JsonArray jsonArray = jsonElement.getAsJsonArray();
         //Log.i("dbi", String.valueOf(jsonArray));
@@ -61,7 +66,7 @@ public class MainActivity<user1> extends databaseInteracter {
 
         try {
             Log.i("dbi", "calling selectUserByLogin");
-            User loginUser = newDBI.selectUserByLogin("user", "pass", this);
+            User loginUser = newDBI.selectUserByLogin("wadeeb", "showbob", this);
             //Log.i("dbi", loginUser.email);
         } catch (ExecutionException e) {
             e.printStackTrace();

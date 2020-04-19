@@ -1,6 +1,5 @@
 
 package com.example.greenmap;
-import com.example.greenmap.User;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
