@@ -19,40 +19,42 @@
         android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout3" />
+        app:layout_constraintTop_toBottomOf="@+id/FollowingTable" />
 
     <TextView
         android:id="@+id/textView5"
-        android:layout_width="121dp"
-        android:layout_height="23dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
         android:fontFamily="casual"
         android:text="Following:"
         android:textAlignment="center"
         android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="121dp"
-        android:layout_height="23dp"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="casual"
         android:text="Followers:"
         android:textAlignment="center"
         android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TableLayout
-        android:id="@+id/tableLayout3"
+        android:id="@+id/FollowingTable"
         android:layout_width="409dp"
         android:layout_height="431dp"
         android:layout_marginTop="10dp"
-        android:background="#A7A4A4"
+        android:background="#353535"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6">
@@ -65,9 +67,9 @@
                 android:id="@+id/textView9"
                 android:layout_width="205dp"
                 android:layout_height="wrap_content"
-                android:background="#777777"
                 android:singleLine="true"
                 android:text="Name"
+                android:background="#777777"
                 android:textAlignment="center"
                 android:textColor="#F4F4F4" />
 
@@ -81,28 +83,25 @@
                 android:textColor="#F4F4F4" />
         </TableRow>
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="205dp"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="Stinky Oskar"
-                android:textAlignment="center"
-                android:textColor="#F4F4F4" />
-
-            <TextView
-                android:id="@+id/textView16"
-                android:layout_width="205dp"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textAlignment="center"
-                android:textColor="#F4F4F4" />
-
-        </TableRow>
-
     </TableLayout>
+
+    <TextView
+        android:id="@+id/followingCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:text="0"
+        android:textColor="#F4F4F4"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/followerCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:text="0"
+        android:textColor="#F4F4F4"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toTopOf="@+id/textView6" />
 </androidx.constraintlayout.widget.ConstraintLayout>
