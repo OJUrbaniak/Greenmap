@@ -210,11 +210,14 @@ class DatabaseInterfaceDBI{
 
     //------insert statements-------
     public boolean insertUser(String Email, String Username, String Password, float Carbon_Saved_Points){
-        String urlParameters  = "email= "+Email+"&username="+Username+"&password="+Password+"&carbon_saved_points="+Float.toString(Carbon_Saved_Points)+"f";;
+        String urlParameters  = "email= "+Email+"&username="+Username+"&password="+Password+"&carbon_points_saved="+Float.toString(Carbon_Saved_Points)+"f";;
+        String[] params = {urlParameters, "insertUser.php"};
         try {
-            sendPost(urlParameters, "insertUser.php");
+            SendPostTask insertUser = new SendPostTask();
+            insertUser.execute(params);
             return true;
         } catch (Exception ex) {
+            Log.i("INSERT USER EXCEPTION", "INSERTION ERROR");
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -322,6 +325,13 @@ class DatabaseInterfaceDBI{
     public User selectUserByLogin(String user, String pass, databaseInteracter dbInteracter) throws ExecutionException, InterruptedException {
         String SQLquery  = "SELECT * " + "FROM GreenMap.User" + " WHERE (\""+ user + "\" = User.Username) AND (\""+ pass + "\" = User.Password)";
         String[] params = {"query=" + SQLquery, "select.php"};
+        runHTML(params, dbInteracter);
+        return null;
+    }
+
+    public User selectUserByUserName(String user, databaseInteracter dbInteracter) throws ExecutionException, InterruptedException {
+        String SQLquery  = "SELECT * " + "FROM GreenMap.User" + " WHERE (\""+ user + "\" = User.Username)";
+        String[] params = {"query="+SQLquery, "select.php"};
         runHTML(params, dbInteracter);
         return null;
     }
