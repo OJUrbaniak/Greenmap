@@ -182,7 +182,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     @Override
     public void onCameraMove() {
         cameraLoc = mapAPI.getCameraPosition().target;
-        Log.d("CMOVE","Camera moved, lat "+cameraLoc.latitude + " lon "+cameraLoc.longitude);
+        //Log.d("CMOVE","Camera moved, lat "+cameraLoc.latitude + " lon "+cameraLoc.longitude);
     }
 
     @Override
@@ -205,7 +205,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void placeMarker(View view) {
         if (cameraLoc != null) {
             Log.d("CMOVE","Placing point");
-            MarkerOptions cameraCenter = new MarkerOptions().position(cameraLoc).title("POI Location");
+            MarkerOptions cameraCenter = new MarkerOptions().position(cameraLoc).title("New POI Location");
             if (userMarkerPlaced == false) {
                 confirmButton.setVisibility(View.VISIBLE);
                 userMarkerPlaced = true;
