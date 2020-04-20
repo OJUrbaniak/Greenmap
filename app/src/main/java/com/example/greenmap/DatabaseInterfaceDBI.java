@@ -42,7 +42,7 @@ class DatabaseInterfaceDBI{
     public void databaseInterface(){
     }
 
-    private void runHTML(final String[] strings, final databaseInteracter interacter){
+    private void runHTML(final String[] strings, final databaseInteracter interacter) throws ExecutionException, InterruptedException {
 
          class SendPostWithReturnTask extends AsyncTask<Void, Void, String> {
 
@@ -81,7 +81,7 @@ class DatabaseInterfaceDBI{
             }
         }
         SendPostWithReturnTask sendP = new SendPostWithReturnTask();
-         sendP.execute();
+        sendP.execute().get();
     }
 
     private void returnPOIs(String POIdata){
@@ -323,10 +323,6 @@ class DatabaseInterfaceDBI{
         String SQLquery  = "SELECT * " + "FROM GreenMap.User" + " WHERE (\""+ user + "\" = User.Username) AND (\""+ pass + "\" = User.Password)";
         String[] params = {"query=" + SQLquery, "select.php"};
         runHTML(params, dbInteracter);
-        //this.valueListener = new ListenerImplementation();
-        //SendPostWithReturnTask selectUserByLogin = new SendPostWithReturnTask(this.valueListener);
-        //selectUserByLogin.execute(params).get();
-        //return this.valueListener.returnedUser;
         return null;
     }
 
