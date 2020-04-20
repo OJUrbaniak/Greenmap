@@ -46,6 +46,8 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     boolean userMarkerPlaced = false;
     Marker userMarker;
 
+    boolean searchResultsRetrieved = false;
+
     SupportMapFragment mapFragment;
     PointOfInterest[] data = new PointOfInterest[] {
             new WaterFountainPOI(0,"Switzerland","mountains", 46.818188,8.227512,'w',5,true,true,true,200),
@@ -67,9 +69,11 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        searchResultsRetrieved = false;
+
         //TESTING
         DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
-        dbi.insertWaterFountain(53.4061f ,-2.9643f, "JoeTest", 20, "wadeeb full", 5, true, true, true);
+        //dbi.insertWaterFountain(53.4061f ,-2.9643f, "JoeLatLonTest2", 20, "joetest", 5, true, true, true);
         dbi.selectWaterPOIs(53.4053f, -2.9660f, 1000, true, true, true, this);
         //TESTING
 
@@ -185,6 +189,17 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void onMapReady(GoogleMap googleMap) {
         mapAPI = googleMap;
         mapAPI.setOnCameraMoveListener(this);
+        for(int i = 0; i < searchResults.size(); i++) {
+            //Initialise the latitude and longitude
+            LatLng latLng = new LatLng(searchResults.get(i).Lat, searchResults.get(i).Lng);
+            //Create a marker
+            if(searchResults.get(i).Type.equals("w")){
+                Log.i("Adding marker", searchResults.get(i).Name);
+                MarkerOptions waterMarker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(searchResults.get(i).Name);
+                mapAPI.addMarker(waterMarker); //Add marker on map
+                Log.i("MAP MARKER ADDED", "HADEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEB");
+            }
+        }
     }
 
     public void placeMarker(View view) {
@@ -200,11 +215,14 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 //plotButton.setImageDrawable(R.drawable.ic_add_black_24dp);
             }
             else {
+                Log.i("CAMERA LOC", "IS NOT NULL BUT USERMARKERPLACED IS TRUE");
                 confirmButton.setVisibility(View.GONE);
                 userMarkerPlaced = false;
                 userMarker.remove();
                 plotButton.setImageResource(R.drawable.ic_add_black_24dp);
             }
+        } else {
+            Log.i("CAMERA LOC", "IS NULL");
         }
     }
 
@@ -213,6 +231,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         if(jArray.size() > 0) {
             float rating;
             for(int n = 0; n < jArray.size(); n++) {
+                Log.i("JARRAYS FAT ASS SIZE IS", String.valueOf(jArray.size()));
                 Log.i("dbiMap", "POI found");
                 JsonObject jObj = jArray.get(0).getAsJsonObject(); //Get the POI object
                 //Define attributes for passing user information around front end
@@ -222,16 +241,9 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 Log.i("POI search info class check", searchResults.get(0).Name);
             }
             Log.i("SEARCH RESULTS SIZE TWO DING", String.valueOf(searchResults.size()));
+            searchResultsRetrieved = true;
             //Loop round search results and display on map
-            for(int i = 0; i < searchResults.size(); i++) {
-                //Initialise the latitude and longitude
-                LatLng latLng = new LatLng(searchResults.get(i).Lat, searchResults.get(i).Lng);
-                //Create a marker
-                if(searchResults.get(i).Type.equals("w")){
-                    MarkerOptions waterMarker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(searchResults.get(i).Name);
-                    mapAPI.addMarker(waterMarker); //Add marker on map
-                }
-            }
+
         } else {
             //no POIs found
         }
