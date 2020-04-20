@@ -37,11 +37,11 @@ public class AccountSearchActivity extends AppCompatActivity {
 
             TextView name = new TextView(this); name.setText(user);
             name.setTextColor(Color.parseColor("#F4F4F4"));
-            name.setWidth(270); name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            name.setWidth(500); name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             Button add = new Button(this);
             add.setText("Follow"); add.setBackground(getDrawable(R.drawable.button_rounded));
-            add.setTextColor(Color.parseColor("#F4F4F4")); add.setWidth(142);
+            add.setTextColor(Color.parseColor("#F4F4F4")); add.setWidth(500);
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

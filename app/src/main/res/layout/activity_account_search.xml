@@ -46,7 +46,7 @@
 
     <TableLayout
         android:id="@+id/nameTable"
-        android:layout_width="412dp"
+        android:layout_width="410dp"
         android:layout_height="519dp"
         android:layout_marginTop="15dp"
         android:background="#353535"
