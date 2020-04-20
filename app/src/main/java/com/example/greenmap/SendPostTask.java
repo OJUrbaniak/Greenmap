@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SendPostTask extends AsyncTask<String, Void, String> {
-    databaseInterface DBI = new databaseInterface();
+    DatabaseInterfaceDBI DBI = new DatabaseInterfaceDBI();
     @Override
     protected String doInBackground(String[] params) {
         try {

@@ -69,7 +69,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
         //TESTING
         DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
-        dbi.insertWaterFountain(53.4061f ,-2.9643f, "JoeTest", 20, "wadeeb full", 5, true, true, true);
+        //dbi.insertWaterFountain(53.4061f ,-2.9643f, "JoeTest", 20, "wadeeb full", 5, true, true, true);
         dbi.selectWaterPOIs(53.4053f, -2.9660f, 1000, true, true, true, this);
         //TESTING
 
