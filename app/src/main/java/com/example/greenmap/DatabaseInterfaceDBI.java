@@ -37,7 +37,7 @@ class DatabaseInterfaceDBI{
 
     User returnedUser;
 
-    private static final String domain = "http://192.168.0.27/";
+    private static final String domain = "http://192.168.1.177/";
 
     public void databaseInterface(){
     }
@@ -257,8 +257,10 @@ class DatabaseInterfaceDBI{
 
     public boolean insertWaterFountain(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, boolean Drink_Straight_Tap, boolean Bottle_Filling_Tap, boolean Filtered){
         String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&drink_straight_tap="+Boolean.toString(Drink_Straight_Tap)+"&bottle_filling_tap="+Boolean.toString(Bottle_Filling_Tap)+"&filtered="+Boolean.toString(Filtered)+"&no_reviews=";
+        String[] params = {urlParameters, "insertWaterFountain.php"};
         try {
-            sendPost(urlParameters, "insertWaterFountain.php");
+            SendPostTask insertWaterFountain = new SendPostTask();
+            insertWaterFountain.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);

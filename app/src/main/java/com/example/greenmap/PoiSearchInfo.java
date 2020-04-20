@@ -9,16 +9,16 @@ package com.example.greenmap;
  *
  * @author Laurence
  */
-public class poiSearchInfo {
+public class PoiSearchInfo {
     public String Name;
     public String Description;
-    public char Type;
+    public String Type;
     public double Rating;
     public float Lng;
     public float Lat;
     public int PoiID;
     
-    public poiSearchInfo(String name, String description, char type, float rating, float lat, float lng, int poiID){
+    public PoiSearchInfo(String name, String description, String type, float rating, float lat, float lng, int poiID){
         this.Name = name;
         this.Description = description;
         this.Type = type;
