@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.content.Intent;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -28,9 +30,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
-public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback, databaseInteracter {
 
+    ArrayList<poiSearchInfo> searchResults  = new ArrayList<poiSearchInfo>();;
     User user;
     LatLng cameraLoc;
     Button profileButton;
@@ -60,6 +65,12 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //TESTING
+        DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
+        dbi.selectWaterPOIs(20.555574f, 20.555574f, 1000, true, true, true, this);
+        //TESTING
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
@@ -196,6 +207,23 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 userMarker.remove();
                 plotButton.setImageResource(R.drawable.ic_add_black_24dp);
             }
+        }
+    }
+
+    @Override
+    public void resultsReturned(JsonArray jArray) {
+        if(jArray.size() > 0) {
+            float rating;
+            for(int n = 0; n < jArray.size(); n++) {
+                Log.i("dbiMap", "POI found");
+                JsonObject jObj = jArray.get(0).getAsJsonObject(); //Get the user object
+                //Define attributes for passing user information around front end
+                rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
+                searchResults.add(new poiSearchInfo(jObj.get("Name").toString(), jObj.get("Description").toString(), jObj.get("Type").getAsString().charAt(0), rating, jObj.get("Latitude").getAsFloat(), jObj.get("Longitude").getAsFloat(), jObj.get("POI_ID").getAsInt()));
+                Log.i("dbiMap", "added POI name= "+ jObj.get("Name").toString());
+            }
+        } else {
+            //no POIs found
         }
     }
 }

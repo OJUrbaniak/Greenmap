@@ -1,6 +1,5 @@
 
 package com.example.greenmap;
-import com.example.greenmap.User;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -18,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.*;
 
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.JsonReader;
 import android.util.Log;
@@ -28,18 +28,65 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import com.google.gson.*;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 
 class DatabaseInterfaceDBI{
 
     User returnedUser;
 
-    private static final String domain = "http://192.168.1.177/";
+    private static final String domain = "http://192.168.0.27/";
 
     public void databaseInterface(){
     }
 
-    ListenerImplementation valueListener = new ListenerImplementation();
+    private void runHTML(final String[] strings, final databaseInteracter interacter) throws ExecutionException, InterruptedException {
+
+         class SendPostWithReturnTask extends AsyncTask<Void, Void, String> {
+
+            DatabaseInterfaceDBI DBI = new DatabaseInterfaceDBI();
+
+            //PrintListener listener;
+
+            //SendPostWithReturnTask(PrintListener mPrintListener) {
+                //this.listener = mPrintListener;
+            //}
+
+            @Override
+            protected String doInBackground(Void... voids)  {
+                String jStr = null;
+                try {
+                    DBI.trustAllCertificates();
+                    jStr = DBI.sendPost(strings[0], strings[1]);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return jStr;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                Log.i("Json array before listener function", String.valueOf(result));
+                try {
+                    Log.i("dbi", "result= "+result);
+
+                    JsonParser parser = new JsonParser();
+                    JsonElement jsonElement = parser.parse(result);
+                    JsonArray jsonArray = jsonElement.getAsJsonArray();
+                    interacter.resultsReturned(jsonArray);
+
+                } catch (Exception e) {
+                    Log.i("dbi", "Error");
+                    e.printStackTrace();
+                }
+                //this.listener.getResult(result);
+            }
+        }
+        SendPostWithReturnTask sendP = new SendPostWithReturnTask();
+        sendP.execute().get();
+    }
 
     private static String convertStreamToString(InputStream is) {
 
@@ -95,12 +142,15 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    private static JSONArray jsonFromString(String jsonObjectStr) {
+    private static JsonArray jsonFromString(String jsonObjectStr) {
 
         try {
             //JsonReader jsonReader = new JsonReader(new StringReader(jsonObjectStr));
-            JSONArray jsonArray = new JSONArray(jsonObjectStr);
+            //String json = gson.toJson(obj);
             //jsonReader.close();
+            JsonParser parser = new JsonParser();
+            JsonElement jsonElement = parser.parse(jsonObjectStr);
+            JsonArray jsonArray = jsonElement.getAsJsonArray();
             Log.i("jsonfromstring jsonarray", String.valueOf(jsonArray));
             return jsonArray;
         } catch (Exception ex){
@@ -109,7 +159,7 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    JSONArray sendPost(String params, String path) throws Exception {
+    String sendPost(String params, String path) throws Exception {
 
         String url = domain + path;
 
@@ -149,9 +199,9 @@ class DatabaseInterfaceDBI{
             return null;
         }
         else {
-            JSONObject obj = new JSONObject(jsonReply);
-            Log.i("test 50000", String.valueOf(obj));
-            return jsonFromString(jsonReply);
+            JsonArray jArray = jsonFromString(jsonReply);
+            Log.i("dbi", "jArray= " + jArray);
+            return jsonReply;
         }
 
 
@@ -159,11 +209,14 @@ class DatabaseInterfaceDBI{
 
     //------insert statements-------
     public boolean insertUser(String Email, String Username, String Password, float Carbon_Saved_Points){
-        String urlParameters  = "email= "+Email+"&username="+Username+"&password="+Password+"&carbon_saved_points="+Float.toString(Carbon_Saved_Points)+"f";;
+        String urlParameters  = "email= "+Email+"&username="+Username+"&password="+Password+"&carbon_points_saved="+Float.toString(Carbon_Saved_Points)+"f";;
+        String[] params = {urlParameters, "insertUser.php"};
         try {
-            sendPost(urlParameters, "insertUser.php");
+            SendPostTask insertUser = new SendPostTask();
+            insertUser.execute(params);
             return true;
         } catch (Exception ex) {
+            Log.i("INSERT USER EXCEPTION", "INSERTION ERROR");
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
@@ -242,21 +295,23 @@ class DatabaseInterfaceDBI{
     //userTable
 
     public User[] selectUserbyID(int userID){
-        String SQLquery  = "Select User From GreenMap.`User`";// WHERE User_ID = *" + Integer.toString(userID);
+        /*String SQLquery  = "Select User From GreenMap.`User`";// WHERE User_ID = *" + Integer.toString(userID);
         try {
-            JSONArray jArray = sendPost("query="+SQLquery, "select.php");
-            JSONObject obj;
-            User[] userArray = new User[jArray.length()];
-            for(int n = 0; n < jArray.length(); n++)
+            JsonArray jArray = sendPost("query="+SQLquery, "select.php");
+            JsonObject obj;
+            JsonElement ele;
+            User[] userArray = new User[jArray.size()];
+            for(int n = 0; n < jArray.size(); n++)
             {
-                obj = jArray.getJSONObject(n);
-                userArray[n] = new User(Integer.parseInt(obj.getString("User_ID").replaceAll("[\\D]", "")), obj.getString("Username"), obj.getString("Password"), Integer.parseInt(obj.getString("Carbon_Saved_Points").replaceAll("[\\D]", "")), obj.getString("Email"));
+                ele = jArray.get(n);
+                obj = ele.getAsJsonObject();
+                userArray[n] = new User(Integer.parseInt(obj.getAsString("User_ID").replaceAll("[\\D]", "")), obj.getString("Username"), obj.getString("Password"), Integer.parseInt(obj.getString("Carbon_Saved_Points").replaceAll("[\\D]", "")), obj.getString("Email"));
             }
             return userArray;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);*/
             return null;
-        }
+        //}
     }
 
 //    String urlParameters  = "email= "+Email+"&username="+Username+"&password="+Password+"&carbon_points_saved="+Float.toString(Carbon_Saved_Points)+"f";;
@@ -266,13 +321,18 @@ class DatabaseInterfaceDBI{
 //        insertUser.execute(params);
 //        return true;
 
-    public User selectUserByLogin(String user, String pass) throws ExecutionException, InterruptedException {
+    public User selectUserByLogin(String user, String pass, databaseInteracter dbInteracter) throws ExecutionException, InterruptedException {
         String SQLquery  = "SELECT * " + "FROM GreenMap.User" + " WHERE (\""+ user + "\" = User.Username) AND (\""+ pass + "\" = User.Password)";
         String[] params = {"query=" + SQLquery, "select.php"};
-        this.valueListener = new ListenerImplementation();
-        SendPostWithReturnTask selectUserByLogin = new SendPostWithReturnTask(this.valueListener);
-        selectUserByLogin.execute(params).get();
-        return this.valueListener.returnedUser;
+        runHTML(params, dbInteracter);
+        return null;
+    }
+
+    public User selectUserByUserName(String user, databaseInteracter dbInteracter) throws ExecutionException, InterruptedException {
+        String SQLquery  = "SELECT * " + "FROM GreenMap.User" + " WHERE (\""+ user + "\" = User.Username)";
+        String[] params = {"query="+SQLquery, "select.php"};
+        runHTML(params, dbInteracter);
+        return null;
     }
 
     //following table
@@ -302,72 +362,119 @@ class DatabaseInterfaceDBI{
 
 //Select statements for GreenMap
 
-    public boolean selectCoveredBikeOnly(boolean covered, float lat, float lon, int numberOfPOIs){
-        String SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Carbon_Saved_Value, BikeRackPOI.Description, BikeRackPOI.Review_Rating, BikeRackPOI.Covered, BikeRackPOI.No_Reviews, POI.Location " +
-                "FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI " +
-                "WHERE Covered = " + Boolean.toString(covered) + " AND Type = 'b' AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), Location) IS NOT NULL ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), Location) limit "+ Integer.toString(numberOfPOIs);
-        return false;
-    }
-
-
-    public boolean selectBikesOnly(float lat, float lon, int numberOfPOIs){
-        String SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Carbon_Saved_Value, BikeRackPOI.Description, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, POI.Location, BikeRackPOI.Covered" +
-                "FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI " +
-                "WHERE Type = 'b' AND (Distance =  +' Integer.toString(ditsance)'";
-        return false;
-    }
-
-    public boolean selectWaterOnly(float lat, float lon, int numberOfPOIs){
-        String SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Carbon_Saved_Value, WaterFountainPOI.Description, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, POI.Location, WaterFountainPOI.Bottle_Filling_Tap, WaterFountainPOI.Filtered, WaterFountainPOI.Drink_Straight_Tap  " +
-                "FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI " +
-                "WHERE Type = 'w' AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), Location) IS NOT NULL ORDER BY ST_Distance(POINT(-121.626, 47.8315), Location) limit "+ Integer.toString(numberOfPOIs);
-        return false;
-    }
-
-    public boolean selectBinOnly(float lat, float lon, int numberOfPOIs){
-        String SQLquery  = "SELECT RecyclingBinPOI.Name, RecyclingBinPOI.Carbon_Saved_Value, RecyclingBinPOI.Description, RecyclingBinPOI.Review_Rating, RecyclingBinPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
-                " FROM GreenMap.RecyclingBinPOI INNER JOIN GreenMap.POI " +
-                "WHERE (Type = 'r') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) IS NOT NULL) ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit "+ Integer.toString(numberOfPOIs);
+    public boolean selectBikePOIs(float lat, float lon, float distance, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                " FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI " +
+                "WHERE (Type = 'b') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         try {
-            JSONArray jArray = sendPost("query="+SQLquery, "select.php");
-            JSONObject obj;
-            User[] userArray = new User[jArray.length()];
-            for(int n = 0; n < jArray.length(); n++)
-            {
-                obj = jArray.getJSONObject(n);
-                userArray[n] = new User(Integer.parseInt(obj.getString("User_ID").replaceAll("[\\D]", "")), obj.getString("Username"), obj.getString("Password"), Integer.parseInt(obj.getString("Carbon_Saved_Points").replaceAll("[\\D]", "")), obj.getString("Email"));
-            }
-            //if (userArray[0] != null){
-            //return true;
-            //}
+            String[] params = {"query="+SQLquery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        return false;
+
     }
 
+    public boolean selectBikePOIs(float lat, float lon, float distance, boolean covered, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                " FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI " +
+                "WHERE (Type = 'b') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
 
-    public boolean filteredWaterFountainOnly(boolean filtered, float lat, float lon, int numberOfPOIs){
-        String SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Carbon_Saved_Value, WaterFountainPOI.Description, WaterFountainPOI.Review_Rating, WaterFountainPOI.Bottle_Filling_Tap, WaterFountainPOI.Filtered, WaterFountainPOI.Drink_Straight_Tap ,WaterFountainPOI.No_Reviews, POI.Location" +
-                "FROM GreenMap.'WaterFountainPOI' INNER JOIN GreenMap.'POI'" +
-                "WHERE Type = 'w' AND Filtered = " + Boolean.toString(filtered) + " AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), Location) IS NOT NULL ORDER BY ST_Distance(POINT(-121.626, 47.8315), Location) limit "+ Integer.toString(numberOfPOIs);
-        return false;
+        if (covered){
+            SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                    " FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI " +
+                    "WHERE (Type = 'b') AND (Covered = 1) (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+        }
+
+        try {
+            String[] params = {"query="+SQLquery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
-    public boolean drinkWaterFountainOnly(boolean filtered, boolean drink, float lat, float lon, int numberOfPOIs){
-        String SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Carbon_Saved_Value, WaterFountainPOI.Description, WaterFountainPOI.Review_Rating, WaterFountainPOI.Bottle_Filling_Tap, WaterFountainPOI.Filtered, WaterFountainPOI.Drink_Straight_Tap ,WaterFountainPOI.No_Reviews, POI.Location" +
-                "FROM GreenMap.'WaterFountainPOI' INNER JOIN GreenMap.'POI'" +
-                "WHERE Type = 'w' AND Filtered = " + Boolean.toString(filtered) + " AND Drink_Straight_Tap  = " + Boolean.toString(drink) + " AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), Location) IS NOT NULL ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), Location) limit "+ Integer.toString(numberOfPOIs);
-        return false;
+    public boolean selectRecyclingPOIs(float lat, float lon, float distance, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT RecyclingBinPOI.Name, RecyclingBinPOI.Description, POI.POI_ID, POI.Type, RecyclingBinPOI.Review_Rating, RecyclingBinPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                " FROM GreenMap.RecyclingBinPOI INNER JOIN GreenMap.POI " +
+                "WHERE (Type = 'r') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+        try {
+            String[] params = {"query="+SQLquery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
-    public boolean bottledWaterFountainOnly(boolean filtered, boolean bottle, float lat, float lon, int numberOfPOIs){
-        String SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Carbon_Saved_Value, WaterFountainPOI.Description, WaterFountainPOI.Review_Rating, WaterFountainPOI.Bottle_Filling_Tap, WaterFountainPOI.Filtered, WaterFountainPOI.Drink_Straight_Tap ,WaterFountainPOI.No_Reviews, POI.Location" +
-                "FROM GreenMap.'WaterFountainPOI' INNER JOIN GreenMap.'POI'" +
-                "WHERE Type = 'w' AND Filtered = " + Boolean.toString(filtered) + " AND Bottle_Filling_Tap = " + Boolean.toString(bottle) + " AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), Location) IS NOT NULL ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), Location) limit "+ Integer.toString(numberOfPOIs);
-        return false;
+    public boolean selectWaterPOIs(float lat, float lon, float distance, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI " +
+                "WHERE (Type = 'w') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+        try {
+            String[] params = {"query="+SQLquery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
+
+    public boolean selectWaterPOIs(float lat, float lon, float distance, boolean bottle, boolean drink, boolean filtered, databaseInteracter dbInteracter){
+        String SQLquery = null;
+        if (!bottle && !drink && !filtered){
+            SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                    " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI " +
+                    "WHERE (Type = 'w') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+        } else if (bottle && drink && filtered) {
+            SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                    " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI " +
+                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (Drink_Straight_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+        } else if (bottle && drink) {
+            SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                    " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI " +
+                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (Drink_Straight_Tap = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+        }else if (drink && filtered) {
+            SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                    " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI " +
+                    "WHERE (Type = 'w') AND (Drink_Straight_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+        } else if (bottle && filtered) {
+            SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                    " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI " +
+                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+        }else if (bottle) {
+            SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                    " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI " +
+                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+
+        }else if (drink) {
+            SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                    " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI " +
+                    "WHERE (Type = 'w') AND (Drink_Straight_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+
+        }else if (filtered){
+            SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                    " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI " +
+                    "WHERE (Type = 'w') AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+
+        }
+
+        try {
+            String[] params = {"query="+SQLquery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
 
 
     //--------update statements------

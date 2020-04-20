@@ -12,10 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity<user1> extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements databaseInteracter {
 
     TextView mainHeader;
     EditText userNameField;
@@ -24,34 +29,37 @@ public class MainActivity<user1> extends AppCompatActivity {
 
     DatabaseInterfaceDBI newDBI = new DatabaseInterfaceDBI();
 
-   // databaseInterface DBINT = new databaseInterface();
-
-
-    User validUsers[] = {new User(1, "cockman", "ilovepeepee", 74, "cock@cock.com"),
-                      new User(2, "hoboson", "manlovestrash", 91, "cock@cock.com"),
-                      new User(3, "wadeeb", "showbob", 2, "cock@cock.com"),
-                      new User(4,"test","", 99, "cock@cock.com")};
-
-
     //Button signupButton;     -- a method already exists for this
+    @Override
+    public void  resultsReturned(JsonArray jArray){ //Log In functionality using communication with the DB
+        if(jArray.size() > 0) {
+            JsonObject jObj = jArray.get(0).getAsJsonObject(); //Get the user object
+            //Define attributes for passing user information around front end
+            int userID = jObj.get("User_ID").getAsInt();
+            String email = jObj.get("Email").getAsString();
+            String username = jObj.get("Username").getAsString();
+            String password = jObj.get("Password").getAsString();
+            int carbon_saved_points = jObj.get("Carbon_Saved_Points").getAsInt();
+            Log.i("dbi", "Trying to log in");
+            if(userNameField.getText().toString().equals(username) && passwordField.getText().toString().equals(password)){
+                mainHeader.setText("Welcome back " + username + "!");
+                //Create user object and send to map
+                User userLogin = new User(userID, username, password, carbon_saved_points, email);
+                Intent intent = new Intent(this, MapActivity.class);
+                intent.putExtra("User", (Parcelable) userLogin);
+                startActivity(intent);
+            } else {
+                mainHeader.setText("Incorrect credentials");
+            }
+        } else {
+            mainHeader.setText("Incorrect credentials");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Get Users from DB and populate validUsers vector
-
-        final String userParams[] = {"insertUser.php","peepeebutthole@poo.peepee", "shitwhore", "ilovepeepee", "74"};
-
-        try {
-            User loginUser = newDBI.selectUserByLogin("wadeeb", "showbob");
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
 
         mainHeader = findViewById(R.id.textView3);
         userNameField = findViewById(R.id.editText);
@@ -68,30 +76,18 @@ public class MainActivity<user1> extends AppCompatActivity {
 //                //DBINT.insertRecyclingBin(50.04f, 50.05f, 15, "glass ting init", 20, "yeah this a gret bin", "glass");
 //            }
 //        });
-        //signupButton = findViewById(R.id.button);
     }
 
-    public void goToMap(View view){ //Login button
-        //check if log in is correct:
-        for (int i = 0; i < validUsers.length; i++) {
-            if(userNameField.getText().toString().equals(validUsers[i].username) && passwordField.getText().toString().equals(validUsers[i].password)) {
-                //Log.i("EMAIL RETRIEVED ",loginUser.email);
-                mainHeader.setText("Welcome back, " + validUsers[i].username + "!");
-                Intent intent = new Intent(this, MapActivity.class);
-                intent.putExtra("User", (Parcelable) validUsers[i]);
-                startActivity(intent);
-                break;
-            } else {
-                mainHeader.setText("Incorrect credentials!");
-            }
+    public void goToMap(View view) throws ExecutionException, InterruptedException { //Login button
+        //Check if log in is actually filled in:
+        if(userNameField.getText().length() > 0 && passwordField.getText().length() > 0) {
+            newDBI.selectUserByLogin(userNameField.getText().toString(), passwordField.getText().toString(), this);
         }
     }
 
     public void goToSignup(View view){
-
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
-
     }
 
 }
