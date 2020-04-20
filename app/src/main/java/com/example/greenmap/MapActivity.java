@@ -197,7 +197,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 Log.i("Adding marker", searchResults.get(i).Name);
                 MarkerOptions waterMarker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(searchResults.get(i).Name);
                 mapAPI.addMarker(waterMarker); //Add marker on map
-                Log.i("MAP MARKER ADDED", "HADEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEB");
+                Log.i("MAP MARKER ADDED", "added");
             }
         }
     }
