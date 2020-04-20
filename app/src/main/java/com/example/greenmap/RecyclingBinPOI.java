@@ -2,7 +2,7 @@ package com.example.greenmap;
 
 public class RecyclingBinPOI extends PointOfInterest {
     String binType;
-    int carbonSaved = 10;
+    int carbonSaved = 5;
 
 
     //With reviewRating and distance
