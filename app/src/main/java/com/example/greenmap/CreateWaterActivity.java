@@ -103,8 +103,8 @@ public class CreateWaterActivity extends FragmentActivity implements OnMapReadyC
                     false
             );
             // SEND TO DB
-            databaseInterface db = new databaseInterface();
-            //db.insertWaterFountain(userPOI);
+            DatabaseInterfaceDBI db = new DatabaseInterfaceDBI();
+            db.insertWaterFountain((float) userPOI.coords.latitude, (float) userPOI.coords.longitude,nameBox.getText().toString(),userPOI.carbonSaved,descBox.getText().toString(),22,safeToDrinkStraight.isChecked(),bottleFilling.isChecked(),false);
         }
         catch (Exception e) {
             // POI couldn't be made
