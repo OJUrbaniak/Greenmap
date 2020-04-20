@@ -4,7 +4,7 @@ public class WaterFountainPOI extends PointOfInterest {
     boolean safeToDrinkStraight;
     boolean bottleFilling;
     boolean filtered;
-    int carbonSaved = 2;
+    int carbonSaved = 10;
 
     //With reviewRating and distance - RETRIEVING FROM DB?
     WaterFountainPOI(int id, String name, String desc, Double lat, Double lon, char type, int reviewRating, boolean safeToDrinkStraight, boolean bottleFilling, boolean filtered, double distance) {

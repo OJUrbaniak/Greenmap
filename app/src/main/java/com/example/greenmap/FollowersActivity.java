@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class FollowersActivity extends AppCompatActivity {
+import com.google.gson.JsonArray;
+
+public class FollowersActivity extends AppCompatActivity implements databaseInteracter {
 
     TableLayout table;
     TextView followingCount;
@@ -60,5 +62,10 @@ public class FollowersActivity extends AppCompatActivity {
     public void goToSearch(View view){
         Intent intent = new Intent(this, AccountSearchActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void resultsReturned(JsonArray jArray) {
+
     }
 }
