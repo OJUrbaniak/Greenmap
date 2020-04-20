@@ -23,6 +23,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,7 +36,7 @@ import com.google.gson.JsonObject;
 
 public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback, databaseInteracter {
 
-    ArrayList<poiSearchInfo> searchResults  = new ArrayList<poiSearchInfo>();;
+    ArrayList<PoiSearchInfo> searchResults  = new ArrayList<PoiSearchInfo>();;
     User user;
     LatLng cameraLoc;
     Button profileButton;
@@ -68,7 +69,8 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
         //TESTING
         DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
-        dbi.selectWaterPOIs(20.555574f, 20.555574f, 1000, true, true, true, this);
+        dbi.insertWaterFountain(53.4061f ,-2.9643f, "JoeTest", 20, "wadeeb full", 5, true, true, true);
+        dbi.selectWaterPOIs(53.4053f, -2.9660f, 1000, true, true, true, this);
         //TESTING
 
         super.onCreate(savedInstanceState);
@@ -121,7 +123,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                             //Initialise the latitude and longitude
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                             //Create a marker
-                            MarkerOptions options = new MarkerOptions().position(latLng).title("Current location");
+                            MarkerOptions options = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)).title("Current location");
                             //Zoom in on the map
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                             //Add marker on map
@@ -211,16 +213,28 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     }
 
     @Override
-    public void resultsReturned(JsonArray jArray) {
+    public void resultsReturned(JsonArray jArray) { //Plot marker points after receiving them from the database
         if(jArray.size() > 0) {
             float rating;
             for(int n = 0; n < jArray.size(); n++) {
                 Log.i("dbiMap", "POI found");
-                JsonObject jObj = jArray.get(0).getAsJsonObject(); //Get the user object
+                JsonObject jObj = jArray.get(0).getAsJsonObject(); //Get the POI object
                 //Define attributes for passing user information around front end
                 rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
-                searchResults.add(new poiSearchInfo(jObj.get("Name").toString(), jObj.get("Description").toString(), jObj.get("Type").getAsString().charAt(0), rating, jObj.get("Latitude").getAsFloat(), jObj.get("Longitude").getAsFloat(), jObj.get("POI_ID").getAsInt()));
+                searchResults.add(new PoiSearchInfo(jObj.get("Name").toString(), jObj.get("Description").toString(), jObj.get("Type").getAsString(), rating, jObj.get("Latitude").getAsFloat(), jObj.get("Longitude").getAsFloat(), jObj.get("POI_ID").getAsInt()));
                 Log.i("dbiMap", "added POI name= "+ jObj.get("Name").toString());
+                Log.i("POI search info class check", searchResults.get(0).Name);
+            }
+            Log.i("SEARCH RESULTS SIZE TWO DING", String.valueOf(searchResults.size()));
+            //Loop round search results and display on map
+            for(int i = 0; i < searchResults.size(); i++) {
+                //Initialise the latitude and longitude
+                LatLng latLng = new LatLng(searchResults.get(i).Lat, searchResults.get(i).Lng);
+                //Create a marker
+                if(searchResults.get(i).Type.equals("w")){
+                    MarkerOptions waterMarker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(searchResults.get(i).Name);
+                    mapAPI.addMarker(waterMarker); //Add marker on map
+                }
             }
         } else {
             //no POIs found

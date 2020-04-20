@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements databaseInteracte
 
     DatabaseInterfaceDBI newDBI = new DatabaseInterfaceDBI();
 
-    //Button signupButton;     -- a method already exists for this
     @Override
     public void  resultsReturned(JsonArray jArray){ //Log In functionality using communication with the DB
         if(jArray.size() > 0) {
