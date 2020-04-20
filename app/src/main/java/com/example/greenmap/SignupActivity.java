@@ -39,7 +39,7 @@ public class SignupActivity extends AppCompatActivity implements databaseInterac
             String email = emailField.getText().toString();
             newDBI.insertUser(email, username, password, 0);
             mainHeader.setText("Account Created!");
-            User user = new User(1, username, password, 0, email);
+            User user = new User(jArray.get(0).getAsJsonObject().get("User_ID").getAsInt(), username, password, jArray.get(0).getAsJsonObject().get("Carbon_Saved_Points").getAsInt(), email);
             Intent intent = new Intent(this, MapActivity.class);
             intent.putExtra("User", (Parcelable) user);
             startActivity(intent);
