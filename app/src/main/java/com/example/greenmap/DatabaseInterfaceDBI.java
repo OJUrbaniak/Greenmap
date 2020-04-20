@@ -37,8 +37,8 @@ class DatabaseInterfaceDBI{
 
     User returnedUser;
 
-    private static final String domain = "http://192.168.1.177/";
-    //private static final String domain = "a8s8rpvg.epizy.com/"; //PHP server - doesnt work yet (for some reason?)
+    private static final String domain = "http://192.168.0.27/";
+    //private static final String domain = "a8s8rpvg.epizy.com/"; //PHP server - doesnt work yet (for some reason?) - ofc i doesnt nothing works
 
     public void databaseInterface(){
     }
@@ -269,8 +269,31 @@ class DatabaseInterfaceDBI{
         }
     }
 
+    public boolean insertWaterFountain(WaterFountainPOI poi, int userID){
+        String urlParameters  = "lat="+Float.toString((float)poi.coords.latitude)+"&long="+Float.toString((float)poi.coords.longitude)+"&user_ID="+Integer.toString(userID)+"&name="+poi.name+"&carbon_saved_value="+Integer.toString(poi.carbonSaved)+"&description="+poi.desc+"&drink_straight_tap="+Boolean.toString(poi.safeToDrinkStraight)+"&bottle_filling_tap="+Boolean.toString(poi.bottleFilling)+"&filtered="+Boolean.toString(poi.filtered)+"&no_reviews=";
+        String[] params = {urlParameters, "insertWaterFountain.php"};
+        try {
+            SendPostTask insertWaterFountain = new SendPostTask();
+            insertWaterFountain.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
     public boolean insertBikeRack(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID,  boolean Covered){
         String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&covered="+Boolean.toString(Covered);
+        try {
+            sendPost(urlParameters, "insertBikeRack.php");
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    public boolean insertBikeRack(BikeRackPOI poi, int userID){
+        String urlParameters  = "&covered="+Boolean.toString(poi.covered);
         try {
             sendPost(urlParameters, "insertBikeRack.php");
             return true;
@@ -282,6 +305,17 @@ class DatabaseInterfaceDBI{
 
     public boolean insertRecyclingBin(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, String Recycling_Bin_Type){
         String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&recycling_bin_type="+Recycling_Bin_Type;
+        try {
+            sendPost(urlParameters, "insertRecyclingBin.php");
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean insertRecyclingBin(RecyclingBinPOI poi, int userID){
+        String urlParameters  = "lat="+Float.toString((float)poi.coords.latitude)+"&long="+Float.toString((float)poi.coords.longitude)+"&user_ID="+Integer.toString(userID)+"&name="+poi.name+"&carbon_saved_value="+Integer.toString(poi.carbonSaved)+"&description="+poi.desc+"&recycling_bin_type="+poi.binType;
         try {
             sendPost(urlParameters, "insertRecyclingBin.php");
             return true;
