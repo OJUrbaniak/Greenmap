@@ -189,13 +189,13 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void onMapReady(GoogleMap googleMap) {
         mapAPI = googleMap;
         mapAPI.setOnCameraMoveListener(this);
-        for(int i = 0; i < searchResults.size(); i++) {
+        for(PoiSearchInfo currentX : searchResults) {
             //Initialise the latitude and longitude
-            LatLng latLng = new LatLng(searchResults.get(i).Lat, searchResults.get(i).Lng);
+            LatLng latLng = new LatLng(currentX.Lat, currentX.Lng);
             //Create a marker
-            if(searchResults.get(i).Type.equals("w")){
-                Log.i("Adding marker", searchResults.get(i).Name);
-                MarkerOptions waterMarker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(searchResults.get(i).Name);
+            if(currentX.Type.equals("w")){
+                Log.i("Adding marker", currentX.Name);
+                MarkerOptions waterMarker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(currentX.Name);
                 mapAPI.addMarker(waterMarker); //Add marker on map
                 Log.i("MAP MARKER ADDED", "added");
             }
@@ -233,12 +233,12 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             for(int n = 0; n < jArray.size(); n++) {
                 Log.i("JARRAYS FAT ASS SIZE IS", String.valueOf(jArray.size()));
                 Log.i("dbiMap", "POI found");
-                JsonObject jObj = jArray.get(0).getAsJsonObject(); //Get the POI object
+                JsonObject jObj = jArray.get(n).getAsJsonObject(); //Get the POI object
                 //Define attributes for passing user information around front end
                 rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
                 searchResults.add(new PoiSearchInfo(jObj.get("Name").toString(), jObj.get("Description").toString(), jObj.get("Type").getAsString(), rating, jObj.get("Latitude").getAsFloat(), jObj.get("Longitude").getAsFloat(), jObj.get("POI_ID").getAsInt()));
                 Log.i("dbiMap", "added POI name= "+ jObj.get("Name").toString());
-                Log.i("POI search info class check", searchResults.get(0).Name);
+                Log.i("POI search info class check", searchResults.get(n).Name);
             }
             Log.i("SEARCH RESULTS SIZE TWO DING", String.valueOf(searchResults.size()));
             searchResultsRetrieved = true;
