@@ -37,7 +37,7 @@ class DatabaseInterfaceDBI{
 
     User returnedUser;
 
-    private static final String domain = "http://192.168.0.27/";
+    private static final String domain = "http://192.168.1.10/";
     //private static final String domain = "a8s8rpvg.epizy.com/"; //PHP server - doesnt work yet (for some reason?) - ofc i doesnt nothing works
 
     public void databaseInterface(){
