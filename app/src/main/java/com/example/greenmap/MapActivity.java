@@ -69,12 +69,16 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
         confirmButton.setVisibility(View.GONE);
 
-        //Get user from the previous page
-        Intent i = getIntent();
-        user = (User)i.getSerializableExtra("User");
+        try {
+            //Get user from the previous page
+            Intent i = getIntent();
+            user = (User) i.getSerializableExtra("User");
 
-        profileButton.setText(user.username);
-
+            profileButton.setText(user.username);
+        }
+        catch (Exception e) {
+            Log.d("MapActivity","Exception user intent");
+        }
         //Initialise
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         client = LocationServices.getFusedLocationProviderClient(this);

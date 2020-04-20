@@ -85,7 +85,7 @@ public class FiltersActivity extends AppCompatActivity {
             }
             catch (NumberFormatException e) {
                 Log.d("SavePreferences","Parsing error");
-            }
+            }   
             SharedPreferences.Editor prefsEdit = pref.edit();
             Gson gson = new Gson();
             String json = gson.toJson(userPref);
