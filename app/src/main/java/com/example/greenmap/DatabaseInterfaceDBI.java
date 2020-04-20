@@ -37,7 +37,7 @@ class DatabaseInterfaceDBI{
 
     User returnedUser;
 
-    private static final String domain = "http://192.168.1.177/";
+    private static final String domain = "http://192.168.0.27/";
 
     public void databaseInterface(){
     }
@@ -71,7 +71,11 @@ class DatabaseInterfaceDBI{
                 Log.i("Json array before listener function", String.valueOf(result));
                 try {
                     Log.i("dbi", "result= "+result);
-                    interacter.resultsReturned(result);
+
+                    JsonParser parser = new JsonParser();
+                    JsonElement jsonElement = parser.parse(result);
+                    JsonArray jsonArray = jsonElement.getAsJsonArray();
+                    interacter.resultsReturned(jsonArray);
 
                 } catch (Exception e) {
                     Log.i("dbi", "Error");

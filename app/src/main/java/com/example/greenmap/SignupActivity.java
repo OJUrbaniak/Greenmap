@@ -32,12 +32,7 @@ public class SignupActivity extends databaseInteracter{
     DatabaseInterfaceDBI newDBI = new DatabaseInterfaceDBI();
 
     @Override
-    public void resultsReturned(String results){ //Sign up functionality using communication with the DB
-        Log.i("dbi", "from sign up results= "+ results);
-        JsonParser parser = new JsonParser();
-        JsonElement jEle = parser.parse(results); //Parse the results from the DBI Post
-        Log.i("dbi", String.valueOf(jEle));
-        JsonArray jArray = jEle.getAsJsonArray();
+    public void resultsReturned(JsonArray jArray){ //Sign up functionality using communication with the DB
         if(jArray.size() == 0) {
             String username = userNameField.getText().toString();
             String password = passwordField.getText().toString();

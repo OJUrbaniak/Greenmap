@@ -31,12 +31,7 @@ public class MainActivity extends databaseInteracter {
 
     //Button signupButton;     -- a method already exists for this
     @Override
-    public void  resultsReturned(String results){ //Log In functionality using communication with the DB
-        Log.i("dbi", "from log in results= "+ results);
-        JsonParser parser = new JsonParser();
-        JsonElement jEle = parser.parse(results); //Parse the results from the DBI Post
-        Log.i("dbi", String.valueOf(jEle));
-        JsonArray jArray = jEle.getAsJsonArray();
+    public void  resultsReturned(JsonArray jArray){ //Log In functionality using communication with the DB
         if(jArray.size() > 0) {
             JsonObject jObj = jArray.get(0).getAsJsonObject(); //Get the user object
             //Define attributes for passing user information around front end
