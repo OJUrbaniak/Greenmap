@@ -21,7 +21,7 @@ import com.google.gson.JsonParser;
 import java.util.concurrent.ExecutionException;
 
 
-public class SignupActivity extends databaseInteracter{
+public class SignupActivity extends AppCompatActivity implements databaseInteracter{
 
     TextView mainHeader;
     EditText userNameField;

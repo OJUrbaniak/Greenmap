@@ -20,7 +20,7 @@ import com.google.gson.JsonParser;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
-public class MainActivity extends databaseInteracter {
+public class MainActivity extends AppCompatActivity implements databaseInteracter {
 
     TextView mainHeader;
     EditText userNameField;
