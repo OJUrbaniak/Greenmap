@@ -115,7 +115,7 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
             );
             // SEND TO DB
             DatabaseInterfaceDBI db = new DatabaseInterfaceDBI();
-            db.insertBikeRack((float) userPOI.coords.latitude, (float) userPOI.coords.longitude, nameBox.getText().toString(), userPOI.carbonSaved, descBox.getText().toString(), 21, coveredCheckBox.isChecked());
+            //db.insertBikeRack((float) userPOI.coords.latitude, (float) userPOI.coords.longitude, nameBox.getText().toString(), userPOI.carbonSaved, descBox.getText().toString(), 21, coveredCheckBox.isChecked());
         }
         catch (Exception e) {
             // POI couldn't be made

@@ -104,7 +104,7 @@ public class CreateBinActivity extends FragmentActivity implements OnMapReadyCal
             );
             // SEND TO DB
             DatabaseInterfaceDBI db = new DatabaseInterfaceDBI();
-            db.insertRecyclingBin((float) userPOI.coords.latitude, (float) userPOI.coords.longitude, nameBox.getText().toString(), userPOI.carbonSaved, descBox.getText().toString(), 20, binType.getSelectedItem().toString());
+            //db.insertRecyclingBin((float) userPOI.coords.latitude, (float) userPOI.coords.longitude, nameBox.getText().toString(), userPOI.carbonSaved, descBox.getText().toString(), 20, binType.getSelectedItem().toString());
         }
         catch (Exception e) {
             // POI couldn't be made
