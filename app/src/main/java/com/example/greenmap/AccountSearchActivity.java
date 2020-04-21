@@ -63,7 +63,7 @@ public class AccountSearchActivity extends AppCompatActivity implements database
 
             Button add = new Button(this);
             add.setText("Follow"); add.setBackground(getDrawable(R.drawable.button_rounded));
-            add.setTextColor(Color.parseColor("#922a31")); add.setWidth(500);
+            add.setTextColor(Color.parseColor("#F4F4F4")); add.setWidth(300);
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -71,20 +71,33 @@ public class AccountSearchActivity extends AppCompatActivity implements database
                 }
             });
 
+
+            Button admin = new Button(this);
+            admin.setText("admin"); admin.setBackground(getDrawable(R.drawable.button_rounded));
+            admin.setTextColor(Color.parseColor("#F4F4F4")); admin.setWidth(300);
+            admin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    admin(result);
+                }
+            });
+
             //if admin add ban button
-            /*
+
             Button ban = new Button(this);
             ban.setText("Ban"); ban.setBackground(getDrawable(R.drawable.button_rounded));
-            ban.setTextColor(Color.parseColor("#F4F4F4")); ban.setWidth(500);
+            ban.setTextColor(Color.parseColor("#922a31")); ban.setWidth(300);
             ban.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ban(result);
                 }
             });
-             */
+
             tr.addView(name);
             tr.addView(add);
+            tr.addView(ban);
+            tr.addView(admin);
             nameTable.addView(tr);
 
         }
@@ -100,6 +113,12 @@ public class AccountSearchActivity extends AppCompatActivity implements database
         //add to followers
         Log.i("AccSearch", "banned user "+ user.username);
         dbi.banUser(user.userID);
+    }
+
+    public void admin(User user){
+        //add to followers
+        Log.i("AccSearch", "admined user "+ user.username);
+        dbi.insertAdmin(user.userID, 1);
     }
 
     @Override
