@@ -5,8 +5,12 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TableLayout;
+
+import java.util.ArrayList;
 import java.util.List;
 import android.widget.Button;
 import android.widget.TableRow;
@@ -19,6 +23,9 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
     TableLayout table;
     TextView followingCount;
     TextView followerCount;
+    ArrayList<User> searchResults  = new ArrayList<User>();
+    User currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +34,8 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
         table = findViewById(R.id.FollowingTable);
         followerCount = findViewById(R.id.followerCount);
         followingCount = findViewById(R.id.followingCount);
+        Intent i = getIntent();
+        currentUser = (User)i.getSerializableExtra("User");
 
         //needs to draw following from db
         User[] searchresults = {
@@ -41,6 +50,7 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
 
 
         for (User currUser: searchresults){
+
             String p = Integer.toString(currUser.carbon_saved_value);
             TableRow tr = new TableRow(this);
 
@@ -61,6 +71,7 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
 
     public void goToSearch(View view){
         Intent intent = new Intent(this, AccountSearchActivity.class);
+        intent.putExtra("User", (Parcelable) currentUser);
         startActivity(intent);
     }
 

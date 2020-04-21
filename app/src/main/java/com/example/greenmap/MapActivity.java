@@ -36,7 +36,7 @@ import com.google.gson.JsonObject;
 
 public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback, databaseInteracter {
 
-    ArrayList<PoiSearchInfo> searchResults  = new ArrayList<PoiSearchInfo>();;
+    ArrayList<PoiSearchInfo> searchResults  = new ArrayList<PoiSearchInfo>();
     User user;
     LatLng cameraLoc;
     Button profileButton;

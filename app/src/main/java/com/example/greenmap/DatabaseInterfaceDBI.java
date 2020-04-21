@@ -190,7 +190,12 @@ class DatabaseInterfaceDBI{
         if(httpClient.getResponseCode()==201 || httpClient.getResponseCode()==200)
         {
             InputStream response = httpClient.getInputStream();
-            jsonReply = convertStreamToString(response);
+            try{
+                jsonReply = convertStreamToString(response);
+            } catch (Exception ex) {
+                jsonReply = null;
+        }
+
             jsonReply = jsonReply.replaceAll("\r?\n", "");
 
             System.out.println("jsonReply= "+jsonReply);
@@ -235,9 +240,9 @@ class DatabaseInterfaceDBI{
     }
 
     public boolean insertFollow(int Followed_User_ID, int Follower_User_ID){
-        String urlParameters  = "&followed_user_ID="+Integer.toString(Followed_User_ID)+"&follower_user_id="+Integer.toString(Follower_User_ID);
+        String SQLQuery  = "INSERT INTO GreenMap.Follow (Followed_User_ID, Follower_User_ID) VALUE ("+Integer.toString(Followed_User_ID)+", "+ Integer.toString(Follower_User_ID)+")";
         try {
-            sendPost(urlParameters, "insertFollow.php");
+            sendPost(SQLQuery, "insert.php");
             return true;
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -331,6 +336,22 @@ class DatabaseInterfaceDBI{
 
     //userTable
 
+    public boolean selectUserbyUsername(String userName, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT User.Username, User.User_ID, User.Carbon_Saved_Points FROM GreenMap.User WHERE User.Username LIKE '%25"+userName+"%' LIMIT 0, 1000";
+
+        String[] params = {"query=" + SQLquery, "select.php"};
+        try {
+            runHTML(params, dbInteracter);
+            return true;
+        }catch (Exception ex){
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+
+
+
     public User[] selectUserbyID(int userID){
         /*String SQLquery  = "Select User From GreenMap.`User`";// WHERE User_ID = *" + Integer.toString(userID);
         try {
@@ -365,12 +386,6 @@ class DatabaseInterfaceDBI{
         return null;
     }
 
-    public User selectUserByUserName(String user, databaseInteracter dbInteracter) throws ExecutionException, InterruptedException {
-        String SQLquery  = "SELECT * " + "FROM GreenMap.User" + " WHERE (\""+ user + "\" = User.Username)";
-        String[] params = {"query="+SQLquery, "select.php"};
-        runHTML(params, dbInteracter);
-        return null;
-    }
 
     //following table
 
