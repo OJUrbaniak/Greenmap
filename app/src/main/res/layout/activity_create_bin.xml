@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="casual"
         android:text="Name:"
         android:textColor="#F4F4F4"
@@ -36,7 +36,7 @@
         android:id="@+id/descLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="40dp"
         android:fontFamily="casual"
         android:text="Description:"
         android:textColor="#F4F4F4"
@@ -44,13 +44,27 @@
         app:layout_constraintEnd_toStartOf="@+id/descBox"
         app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
+        app:layout_constraintTop_toBottomOf="@+id/nameView" />
+
+    <TextView
+        android:id="@+id/typeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="45dp"
+        android:fontFamily="casual"
+        android:text="Type:"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/descBox"
+        app:layout_constraintHorizontal_bias="0.562"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descLabel" />
 
     <EditText
         android:id="@+id/descBox"
         android:layout_width="243dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
         android:fontFamily="casual"
@@ -63,22 +77,23 @@
         android:id="@+id/nameBox"
         android:layout_width="243dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:ems="10"
         android:fontFamily="casual"
         android:inputType="textPersonName"
         android:textColor="#F4F4F4"
-        app:layout_constraintBaseline_toBaselineOf="@+id/nameView"
-        app:layout_constraintEnd_toEndOf="@+id/descBox" />
+        app:layout_constraintEnd_toEndOf="@+id/descBox"
+        app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <Button
         android:id="@+id/createButton"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="113dp"
+        android:layout_marginTop="70dp"
         android:layout_marginBottom="110dp"
         android:background="@drawable/button_rounded"
         android:fontFamily="sans-serif-light"
-        android:onClick="backToProfile"
+        android:onClick="createPOI"
         android:text="Create"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
@@ -86,15 +101,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/descBox"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/binTypeSpinner" />
 
     <Spinner
         android:id="@+id/binTypeSpinner"
         android:layout_width="243dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
+        android:backgroundTint="#F4F4F4"
+        android:foregroundTint="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descBox" />
 

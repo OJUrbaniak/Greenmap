@@ -43,13 +43,13 @@ public class ViewPOIActivity extends FragmentActivity implements OnMapReadyCallb
         //extrasLabel.setText(currentPOI.name);
         String typeString = "";
         switch (currentPOI.type) {
-            case 'w':
+            case "w":
                 typeString = "Water Fountain";
                 break;
-            case 'b':
+            case "b":
                 typeString = "Bike Rack";
                 break;
-            case 'r':
+            case "r":
                 typeString = "Recycling Bin";
                 break;
         }

@@ -7,7 +7,7 @@ public class WaterFountainPOI extends PointOfInterest {
     int carbonSaved = 10;
 
     //With reviewRating and distance - RETRIEVING FROM DB?
-    WaterFountainPOI(int id, String name, String desc, Double lat, Double lon, char type, int reviewRating, boolean safeToDrinkStraight, boolean bottleFilling, boolean filtered, double distance) {
+    WaterFountainPOI(int id, String name, String desc, Double lat, Double lon, String type, int reviewRating, boolean safeToDrinkStraight, boolean bottleFilling, boolean filtered, double distance) {
         super(id, name, desc, lat, lon, type, reviewRating, distance);
         this.safeToDrinkStraight = safeToDrinkStraight;
         this.bottleFilling = bottleFilling;
@@ -15,7 +15,7 @@ public class WaterFountainPOI extends PointOfInterest {
     }
 
     //Without reviewRating and distance - POI to get submitted
-    WaterFountainPOI(int id, String name, String desc, Double lat, Double lon, char type, boolean safeToDrinkStraight, boolean bottleFilling, boolean filtered) {
+    WaterFountainPOI(int id, String name, String desc, Double lat, Double lon, String type, boolean safeToDrinkStraight, boolean bottleFilling, boolean filtered) {
         super(id,  name, desc, lat, lon, type);
         this.safeToDrinkStraight = safeToDrinkStraight;
         this.bottleFilling = bottleFilling;

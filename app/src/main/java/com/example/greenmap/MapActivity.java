@@ -5,10 +5,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.location.Location;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.content.Intent;
 
@@ -31,12 +35,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback, databaseInteracter {
 
-    ArrayList<PoiSearchInfo> searchResults  = new ArrayList<PoiSearchInfo>();
     User user;
     LatLng cameraLoc;
     Button profileButton;
@@ -46,17 +50,20 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     boolean userMarkerPlaced = false;
     Marker userMarker;
 
+    Preferences userPref;
+    SharedPreferences pref = null;
+
     boolean searchResultsRetrieved = false;
 
     SupportMapFragment mapFragment;
-    PointOfInterest[] data = new PointOfInterest[] {
-            new WaterFountainPOI(0,"Switzerland","mountains", 46.818188,8.227512,'w',5,true,true,true,200),
-            new BikeRackPOI(1,"Ireland","trouble",53.41291,-8.24389,'b',3,50),
-            new RecyclingBinPOI(2,"United Kingdom","boris",55.378051,-3.435973,'b',2,"ok",100)
+    ArrayList<PointOfInterest> data = new ArrayList<PointOfInterest> ();
+//            new WaterFountainPOI(0,"Switzerland","mountains", 46.818188,8.227512,'w',5,true,true,true,200),
+//            new BikeRackPOI(1,"Ireland","trouble",53.41291,-8.24389,'b',3,50),
+//            new RecyclingBinPOI(2,"United Kingdom","boris",55.378051,-3.435973,'b',2,"ok",100)
 //            new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
 //            new PointOfInterest("Ireland", 'w',53.41291,-8.24389	),
 //            new PointOfInterest("United Kingdom", 'b',55.378051,-3.435973)
-    };
+    //);
 
     //For user location
     Location currentLocation;
@@ -70,12 +77,10 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     protected void onCreate(Bundle savedInstanceState) {
 
         searchResultsRetrieved = false;
-
+        loadPreferences();
         //TESTING
         DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
-        //dbi.insertWaterFountain(53.4061f ,-2.9643f, "JoeLatLonTest2", 20, "joetest", 5, true, true, true);
         dbi.selectWaterPOIs(53.4053f, -2.9660f, 1000, true, true, true, this);
-        //TESTING
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
@@ -123,7 +128,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                             //Initialise the latitude and longitude
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                             //Create a marker
-                            MarkerOptions options = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)).title("Current location");
+                            MarkerOptions options = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("Current location");
                             //Zoom in on the map
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                             //Add marker on map
@@ -189,13 +194,13 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void onMapReady(GoogleMap googleMap) {
         mapAPI = googleMap;
         mapAPI.setOnCameraMoveListener(this);
-        for(PoiSearchInfo currentI : searchResults) {
+        for(PointOfInterest currentI : data) {
             //Initialise the latitude and longitude
-            LatLng latLng = new LatLng(currentI.Lat, currentI.Lng);
+            LatLng latLng = new LatLng(currentI.coords.latitude, currentI.coords.longitude);
             //Create a marker
-            if(currentI.Type.equals("w")){
-                Log.i("Adding marker", currentI.Name);
-                MarkerOptions waterMarker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(currentI.Name);
+            if(currentI.type.equals("w")){
+                Log.i("Adding marker", currentI.name);
+                MarkerOptions waterMarker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(currentI.name);
                 mapAPI.addMarker(waterMarker); //Add marker on map
                 Log.i("MAP MARKER ADDED", "added");
             }
@@ -236,16 +241,54 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 JsonObject jObj = jArray.get(n).getAsJsonObject(); //Get the POI object
                 //Define attributes for passing user information around front end
                 rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
-                searchResults.add(new PoiSearchInfo(jObj.get("Name").toString(), jObj.get("Description").toString(), jObj.get("Type").getAsString(), rating, jObj.get("Latitude").getAsFloat(), jObj.get("Longitude").getAsFloat(), jObj.get("POI_ID").getAsInt()));
+                //searchResults.add(new PoiSearchInfo(jObj.get("Name").toString(), jObj.get("Description").toString(), jObj.get("Type").getAsString(), rating, jObj.get("Latitude").getAsFloat(), jObj.get("Longitude").getAsFloat(), jObj.get("POI_ID").getAsInt()));
+
+                data.add(new PointOfInterest(
+                        jObj.get("POI_ID").getAsInt(),
+                        jObj.get("Name").toString(),
+                        jObj.get("Description").toString(),
+                        (double) jObj.get("Latitude").getAsFloat(),
+                        (double) jObj.get("Longitude").getAsFloat(),
+                        jObj.get("Type").getAsString()
+                ));
+
+                //Currently doesn't look like we're getting attributes of each POI type so this is unnecessary
+//                switch (jObj.get("Type").getAsString()) {
+//                    case "w":
+//                        data.add(new PointOfInterest(
+//                                jObj.get("POI_ID").getAsInt(),
+//                                jObj.get("Name").toString(),
+//                                jObj.get("Description").toString(),
+//                                (double) jObj.get("Latitude").getAsFloat(),
+//                                (double) jObj.get("Longitude").getAsFloat(),
+//                                jObj.get("Type").getAsString()
+//                        ));
+//                }
+
                 Log.i("dbiMap", "added POI name= "+ jObj.get("Name").toString());
-                Log.i("POI search info class check", searchResults.get(n).Name);
+                Log.i("POI search info class check", data.get(n).name);
             }
-            Log.i("SEARCH RESULTS SIZE TWO DING", String.valueOf(searchResults.size()));
+            Log.i("SEARCH RESULTS SIZE TWO DING", String.valueOf(data.size()));
             searchResultsRetrieved = true;
             //Loop round search results and display on map
 
         } else {
             //no POIs found
+        }
+    }
+
+    private void loadPreferences() {
+        pref = getSharedPreferences("com.example.greenmap", 0);
+        if (pref.contains("userPref")) {
+            Log.d("PREF-LOAD","Preferences detected");
+            Gson gson = new Gson();
+            String json = pref.getString("userPref","");
+            Preferences deviceUserPref = gson.fromJson(json, Preferences.class);
+            userPref = deviceUserPref;
+        }
+        else {
+            Log.d("PREF-LOAD","No preferences detected");
+            userPref = new Preferences();
         }
     }
 }

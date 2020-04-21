@@ -23,7 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class CreateWaterActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    int carbon_points_saved = 15;
+    int carbon_points_saved = 10;
 
     DatabaseInterfaceDBI DBI = new DatabaseInterfaceDBI();
 
@@ -89,31 +89,22 @@ public class CreateWaterActivity extends FragmentActivity implements OnMapReadyC
     }
 
     public void createPOI(View view) {
-        try {
-            Log.i("Water fountain activity", "Try Started");
-//            WaterFountainPOI userPOI = new WaterFountainPOI(
-//                    1,
-//                    nameBox.getText().toString(),
-//                    descBox.getText().toString(),
-//                    location.latitude,
-//                    location.longitude,
-//                    'w',
-//                    safeToDrinkStraight.isChecked(),
-//                    bottleFilling.isChecked(),
-//                    false
-//            );
-            // SEND TO DB
-            Log.i("Water fountain activity", "Trying to insert into DB");
-            DBI.insertWaterFountain((float)location.latitude, (float)location.longitude, nameBox.getText().toString(), carbon_points_saved,descBox.getText().toString(),
-                    user.userID, safeToDrinkStraight.isChecked(), bottleFilling.isChecked(), filtered.isChecked());
+        if(nameBox.getText().length() > 0 && descBox.getText().length() > 0){
+            try {
+                Log.i("Water fountain activity", "Try Started");
+                // SEND TO DB
+                Log.i("Water fountain activity", "Trying to insert into DB");
+                DBI.insertWaterFountain((float)location.latitude, (float)location.longitude, nameBox.getText().toString(), carbon_points_saved,descBox.getText().toString(),
+                        user.userID, safeToDrinkStraight.isChecked(), bottleFilling.isChecked(), filtered.isChecked());
+            }
+            catch (Exception e) {
+                Log.i("Water fountain activity", "DB insert failed"+e);
+                // POI couldn't be made
+                Toast.makeText(getApplicationContext(), "Couldn't create POI", Toast.LENGTH_SHORT );
+            }
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putExtra("User", (Parcelable) user);
+            startActivity(intent);
         }
-        catch (Exception e) {
-            Log.i("Water fountain activity", "DB insert failed"+e);
-            // POI couldn't be made
-            Toast.makeText(getApplicationContext(), "Couldn't create POI", Toast.LENGTH_SHORT );
-        }
-        Intent intent = new Intent(this, MapActivity.class);
-        intent.putExtra("User", (Parcelable) user);
-        startActivity(intent);
     }
 }

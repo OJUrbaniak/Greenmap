@@ -91,9 +91,7 @@ public class FiltersActivity extends AppCompatActivity {
             String json = gson.toJson(userPref);
             prefsEdit.putString("userPref", json);
             prefsEdit.commit();
-            Intent intent = new Intent(this, MapActivity.class);
-            intent.putExtra("User", (Parcelable) user);
-            startActivity(intent);
+            finish();
         } else {
             Log.i("warning Label", "out of range");
             warningTextLabel.setText("Please enter a range between 1-500");
