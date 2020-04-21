@@ -49,7 +49,7 @@
         android:id="@+id/button7"
         android:layout_width="246dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint=" #777777"
         android:fontFamily="sans-serif-light"
         android:onClick="goToCreated"
