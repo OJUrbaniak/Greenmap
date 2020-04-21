@@ -91,7 +91,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:layout_marginBottom="110dp"
-        android:background="@drawable/button_rounded"
+        android:backgroundTint=" #777777"
         android:fontFamily="sans-serif-light"
         android:onClick="createPOI"
         android:text="Create"

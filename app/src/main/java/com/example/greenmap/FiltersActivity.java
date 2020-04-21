@@ -21,6 +21,7 @@ public class FiltersActivity extends AppCompatActivity {
     CheckBox rackCovered;
 
     TextView warningTextLabel;
+    TextView savedLabel;
 
     CheckBox showTaps;
     CheckBox drinkingTap;
@@ -47,6 +48,8 @@ public class FiltersActivity extends AppCompatActivity {
         showBins = findViewById(R.id.showBins);
 
         warningTextLabel = findViewById(R.id.warningTextLabel);
+        savedLabel = findViewById(R.id.savedTextLabel);
+        savedLabel.setVisibility(View.INVISIBLE);
 
         rackCovered = findViewById(R.id.checkBox);
         drinkingTap = findViewById(R.id.checkBox2);
@@ -91,6 +94,7 @@ public class FiltersActivity extends AppCompatActivity {
             String json = gson.toJson(userPref);
             prefsEdit.putString("userPref", json);
             prefsEdit.commit();
+            savedLabel.setVisibility(View.VISIBLE);
             finish();
         } else {
             Log.i("warning Label", "out of range");

@@ -10,8 +10,8 @@
     <fragment
         android:id="@+id/mapAPI"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="400dp"
-        android:layout_height="297dp"
+        android:layout_width="416dp"
+        android:layout_height="292dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -108,13 +108,15 @@
 
     <Button
         android:id="@+id/createButton"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_width="105dp"
+        android:layout_height="51dp"
         android:layout_marginTop="28dp"
         android:background="@drawable/button_rounded"
+        android:fontFamily="sans-serif-condensed-light"
         android:onClick="backToView"
         android:text="Confirm"
         android:textColor="#F4F4F4"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
