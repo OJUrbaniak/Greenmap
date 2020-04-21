@@ -110,7 +110,7 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
                     descBox.getText().toString(),
                     location.latitude,
                     location.longitude,
-                    'w',
+                    "w",
                     coveredCheckBox.isChecked()
             );
             // SEND TO DB

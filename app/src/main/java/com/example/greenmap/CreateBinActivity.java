@@ -99,7 +99,7 @@ public class CreateBinActivity extends FragmentActivity implements OnMapReadyCal
                     descBox.getText().toString(),
                     location.latitude,
                     location.longitude,
-                    'w',
+                    "w",
                     binType.getSelectedItem().toString()
             );
             // SEND TO DB
