@@ -1,13 +1,11 @@
 
 package com.example.greenmap;
-import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.SecureRandom;
@@ -15,13 +13,8 @@ import java.security.cert.X509Certificate;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.*;
-
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.util.JsonReader;
 import android.util.Log;
-
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -30,15 +23,12 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import com.google.gson.*;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 
 class DatabaseInterfaceDBI{
 
-    User returnedUser;
 
     private static final String domain = "https://student.csc.liv.ac.uk/~sgmfreem/greenmap/"; //fuck off Domain
-    //private static final String domain = "http://greenmap.epizy.com/"; //PHP server - doesnt work yet (for some reason?)
 
     public void databaseInterface(){
     }
@@ -252,16 +242,6 @@ class DatabaseInterfaceDBI{
         }
     }
 
-	/*public boolean insertPOI(char Type, float lat, float lng, int User_ID){
-		String urlParameters  = "type="+Type+"lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&userid="+Integer.toString(User_ID);
-		try {
-			sendPost(urlParameters, "insertPOI.php");
-			return true;
-		} catch (Exception ex) {
-			Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
-			return false;
-		}
-	}*/
 
     public boolean insertWaterFountain(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, boolean Drink_Straight_Tap, boolean Bottle_Filling_Tap, boolean Filtered){
         String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&drink_straight_tap="+Boolean.toString(Drink_Straight_Tap)+"&bottle_filling_tap="+Boolean.toString(Bottle_Filling_Tap)+"&filtered="+Boolean.toString(Filtered)+"&no_reviews=";
@@ -324,38 +304,29 @@ class DatabaseInterfaceDBI{
 
 
 
-    public User[] selectUserbyID(int userID){
-        /*String SQLquery  = "Select User From GreenMap.`User`";// WHERE User_ID = *" + Integer.toString(userID);
+    public boolean selectUserbyID(int userID, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT * " + "FROM GreenMap.User" + " WHERE ("+ userID + " = User.User_ID)";
+        String[] params = {"query=" + SQLquery, "select.php"};
         try {
-            JsonArray jArray = sendPost("query="+SQLquery, "select.php");
-            JsonObject obj;
-            JsonElement ele;
-            User[] userArray = new User[jArray.size()];
-            for(int n = 0; n < jArray.size(); n++)
-            {
-                ele = jArray.get(n);
-                obj = ele.getAsJsonObject();
-                userArray[n] = new User(Integer.parseInt(obj.getAsString("User_ID").replaceAll("[\\D]", "")), obj.getString("Username"), obj.getString("Password"), Integer.parseInt(obj.getString("Carbon_Saved_Points").replaceAll("[\\D]", "")), obj.getString("Email"));
-            }
-            return userArray;
+            runHTML(params, dbInteracter);
+            return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);*/
-            return null;
-        //}
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
-//    String urlParameters  = "email= "+Email+"&username="+Username+"&password="+Password+"&carbon_points_saved="+Float.toString(Carbon_Saved_Points)+"f";;
-//    String[] params = {urlParameters, "insertUser.php"};
-//        try {
-//        SendPostTask insertUser = new SendPostTask();
-//        insertUser.execute(params);
-//        return true;
 
-    public User selectUserByLogin(String user, String pass, databaseInteracter dbInteracter) throws ExecutionException, InterruptedException {
+    public boolean selectUserByLogin(String user, String pass, databaseInteracter dbInteracter) throws ExecutionException, InterruptedException {
         String SQLquery  = "SELECT * " + "FROM GreenMap.User" + " WHERE (\""+ user + "\" = User.Username) AND (\""+ pass + "\" = User.Password)";
         String[] params = {"query=" + SQLquery, "select.php"};
-        runHTML(params, dbInteracter);
-        return null;
+        try {
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
 
@@ -523,18 +494,7 @@ class DatabaseInterfaceDBI{
     //--------delete statements------
 
     public boolean deleteUser(int User_ID){
-        String SQLquery  = "DELETE FROM GreenMap.`User` WHERE User_ID =  " + Integer.toString(User_ID);
-        try {
-            sendPost("query="+SQLquery, "delete.php");
-            return true;
-        } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
-
-    public boolean deleteFollow(int Followed_User_ID, int Follower_User_ID){
-        String SQLQuery  = "DELETE FROM GreenMap.`Follow` WHERE (Followed_User_ID = "+Integer.toString(Followed_User_ID)+") AND (Follower_User_ID = "+Integer.toString(Follower_User_ID)+")";
+        String SQLQuery  = "DELETE FROM GreenMap.`User` WHERE User_ID =  " + Integer.toString(User_ID);
         String[] params = {"query=" +SQLQuery, "insert.php"};
         try {
             SendPostTask insertFollow = new SendPostTask();
@@ -546,10 +506,38 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean deleteAdmin(int User_ID){
-        String SQLquery  = "DELETE FROM GreenMap.`Admin` WHERE User_ID =  " + Integer.toString(User_ID);
+    public boolean deleteFollow(int Followed_User_ID, int Follower_User_ID){
+        String SQLQuery  = "DELETE FROM GreenMap.`Follow` WHERE (Followed_User_ID = "+Integer.toString(Followed_User_ID)+") AND (Follower_User_ID = "+Integer.toString(Follower_User_ID)+")";
+        String[] params = {"query=" +SQLQuery, "insert.php"};
         try {
-            sendPost("query="+SQLquery, "delete.php");
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean deleteFollow(int User_ID){
+        String SQLQuery  = "DELETE FROM GreenMap.`Follow` WHERE (Followed_User_ID = "+Integer.toString(User_ID)+") OR (Follower_User_ID = "+Integer.toString(User_ID)+")";
+        String[] params = {"query=" +SQLQuery, "insert.php"};
+        try {
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean deleteAdmin(int User_ID){
+        String SQLQuery  = "DELETE FROM GreenMap.`Admin` WHERE User_ID =  " + Integer.toString(User_ID);
+        String[] params = {"query=" +SQLQuery, "insert.php"};
+        try {
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -568,10 +556,49 @@ class DatabaseInterfaceDBI{
         }
     }
 
+    public boolean deletePOIUser_ID(int User_ID){
+        String SQLQuery = "DELETE FROM GreenMap.`POI` WHERE POI_ID =  " + Integer.toString(User_ID);
+        String[] params = {"query=" +SQLQuery, "insert.php"};
+        try {
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
     public boolean deleteWaterFountainPOI(int POI_ID){
         String SQLquery = "DELETE FROM GreenMap.`WaterFountainPOI` WHERE POI_ID =  " + Integer.toString(POI_ID);
         try {
             sendPost("query="+SQLquery, "delete.php");
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean deleteWaterFountainPOIUser_ID(int User_ID){
+        String SQLQuery = "DELETE FROM GreenMap.`WaterFountainPOI` WHERE POI_ID =  " + Integer.toString(User_ID);
+        String[] params = {"query=" +SQLQuery, "insert.php"};
+        try {
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean deleteRecyclingBinPOIUser_ID(int User_ID){
+        String SQLQuery = "DELETE FROM GreenMap.`RecyclingBinPOI` WHERE POI_ID =  " + Integer.toString(User_ID);
+        String[] params = {"query=" +SQLQuery, "insert.php"};
+        try {
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -590,10 +617,26 @@ class DatabaseInterfaceDBI{
         }
     }
 
+
     public boolean deleteBikeRackPOI(int POI_ID){
-        String SQLquery = "DELETE FROM GreenMap.`BikeRackPOI` WHERE POI_ID =  " + Integer.toString(POI_ID);
+        String SQLQuery = "DELETE FROM GreenMap.`BikeRackPOI` WHERE POI_ID =  " + Integer.toString(POI_ID);
+        String[] params = {"query=" +SQLQuery, "insert.php"};
         try {
-            sendPost("query="+SQLquery, "delete.php");
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean deleteBikeRackPOIUser_ID(int User_ID){
+        String SQLQuery = "DELETE FROM GreenMap.`BikeRackPOI` WHERE POI_ID =  " + Integer.toString(User_ID);
+        String[] params = {"query=" +SQLQuery, "insert.php"};
+        try {
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -615,38 +658,17 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    //Laurence asked for these in SQL so they're here in Java too.
-    //Not entirely sure if these'll work the same way they do in mySQL.
-    public boolean deletePOIoffLastIncrem(){
-        String SQLquery = "DELETE FROM GreenMap.`POI` WHERE POI_ID = last_insert_id()";
-        try {
-            sendPost("query="+SQLquery, "delete.php");
-            return true;
-        } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+
+    //admin stuff
+
+    public boolean banUser(int User_ID){
+        deleteUser(User_ID);
+        deleteFollow(User_ID);
+        deleteWaterFountainPOIUser_ID(User_ID);
+        deleteRecyclingBinPOIUser_ID(User_ID);
+        deleteRecyclingBinPOIUser_ID(User_ID);
+        deletePOIUser_ID(User_ID);
+        return true;
     }
 
-    public boolean deleteUseroffLastIncrem(){
-        String SQLquery = "DELETE FROM GreenMap.`User` WHERE User_ID = last_insert_id()";
-        try {
-            sendPost("query="+SQLquery, "delete.php");
-            return true;
-        } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
-
-    public boolean deleteFollowoffLastIncrem(){
-        String SQLquery = "DELETE FROM GreenMap.`Follow` WHERE Follow_ID = last_insert_id()";
-        try {
-            sendPost("query="+SQLquery, "delete.php");
-            return true;
-        } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
-    }
 }

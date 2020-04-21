@@ -63,7 +63,7 @@ public class AccountSearchActivity extends AppCompatActivity implements database
 
             Button add = new Button(this);
             add.setText("Follow"); add.setBackground(getDrawable(R.drawable.button_rounded));
-            add.setTextColor(Color.parseColor("#F4F4F4")); add.setWidth(500);
+            add.setTextColor(Color.parseColor("#922a31")); add.setWidth(500);
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -71,6 +71,18 @@ public class AccountSearchActivity extends AppCompatActivity implements database
                 }
             });
 
+            //if admin add ban button
+            /*
+            Button ban = new Button(this);
+            ban.setText("Ban"); ban.setBackground(getDrawable(R.drawable.button_rounded));
+            ban.setTextColor(Color.parseColor("#F4F4F4")); ban.setWidth(500);
+            ban.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ban(result);
+                }
+            });
+             */
             tr.addView(name);
             tr.addView(add);
             nameTable.addView(tr);
@@ -82,6 +94,12 @@ public class AccountSearchActivity extends AppCompatActivity implements database
         //add to followers
         Log.i("AccSearch", "followed user "+ user.username);
         dbi.insertFollow(user.userID, currentUser.userID);
+    }
+
+    public void ban(User user){
+        //add to followers
+        Log.i("AccSearch", "banned user "+ user.username);
+        dbi.banUser(user.userID);
     }
 
     @Override
