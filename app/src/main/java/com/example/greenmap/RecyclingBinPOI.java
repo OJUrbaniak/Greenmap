@@ -6,13 +6,13 @@ public class RecyclingBinPOI extends PointOfInterest {
 
 
     //With reviewRating and distance
-    RecyclingBinPOI(int id, String name, String desc, Double lat, Double lon, char type, int reviewRating, String binType, double distance) {
+    RecyclingBinPOI(int id, String name, String desc, Double lat, Double lon, String type, int reviewRating, String binType, double distance) {
         super(id, name, desc, lat, lon, type, reviewRating, distance);
         this.binType = binType;
     }
 
     //Without reviewRating and distance
-    public RecyclingBinPOI(int id, String name, String desc, Double lat, Double lon, char type, String binType) {
+    public RecyclingBinPOI(int id, String name, String desc, Double lat, Double lon, String type, String binType) {
         super(id, name, desc, lat, lon, type);
         this.binType = binType;
     }
