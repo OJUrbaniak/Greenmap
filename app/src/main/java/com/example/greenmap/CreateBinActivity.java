@@ -93,27 +93,20 @@ public class CreateBinActivity extends FragmentActivity implements OnMapReadyCal
     }
 
     public void createPOI(View view) {
-        try {
-            Log.i("Recycling Bin activity", "Try to insert into DB started");
-//            RecyclingBinPOI userPOI = new RecyclingBinPOI(
-//                    1,
-//                    nameBox.getText().toString(),
-//                    descBox.getText().toString(),
-//                    location.latitude,
-//                    location.longitude,
-//                    'b',
-//                    binType.getSelectedItem().toString()
-//            );
-            // SEND TO DB
-            //CHANGE HARD CODED CARBON SAVED VALUE ASAP
-            DBI.insertRecyclingBin((float) location.latitude, (float) location.longitude, nameBox.getText().toString(), 5, descBox.getText().toString(), user.userID, binType.getSelectedItem().toString());
+        if(nameBox.getText().length() > 0 && descBox.getText().length() > 0){
+            try {
+                Log.i("Recycling Bin Activity", "Trying to insert into DB started");
+                // SEND TO DB
+                //CHANGE HARD CODED CARBON SAVED VALUE ASAP
+                DBI.insertRecyclingBin((float) location.latitude, (float) location.longitude, nameBox.getText().toString(), 5, descBox.getText().toString(), user.userID, binType.getSelectedItem().toString());
+            }
+            catch (Exception e) {
+                // POI couldn't be made
+                Toast.makeText(getApplicationContext(), "Couldn't create POI", Toast.LENGTH_SHORT );
+            }
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putExtra("User", (Parcelable) user);
+            startActivity(intent);
         }
-        catch (Exception e) {
-            // POI couldn't be made
-            Toast.makeText(getApplicationContext(), "Couldn't create POI", Toast.LENGTH_SHORT );
-        }
-        Intent intent = new Intent(this, MapActivity.class);
-        intent.putExtra("User", (Parcelable) user);
-        startActivity(intent);
     }
 }

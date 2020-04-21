@@ -121,7 +121,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                             //Initialise the latitude and longitude
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                             //Create a marker
-                            MarkerOptions options = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE)).title("Current location");
+                            MarkerOptions options = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("Current location");
                             //Zoom in on the map
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                             //Add marker on map

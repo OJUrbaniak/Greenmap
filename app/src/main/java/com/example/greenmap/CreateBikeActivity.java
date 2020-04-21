@@ -3,6 +3,9 @@ package com.example.greenmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
+
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.content.Intent;
 import android.widget.Button;
@@ -15,14 +18,15 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    int carbon_points_saved = 25;
+    int carbon_points_saved = 15;
 
-    databaseInterface DBI = new databaseInterface();
+    DatabaseInterfaceDBI DBI = new DatabaseInterfaceDBI();
 
     SupportMapFragment mapFragment;
 
@@ -73,7 +77,7 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
                     //Initialise the latitude and longitude
                     LatLng latLng = new LatLng(location.latitude, location.longitude);
                     //Create a marker
-                    MarkerOptions options = new MarkerOptions().position(latLng).title("New Bike Rack");
+                    MarkerOptions options = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title("New Bike Rack");
                     //Zoom in on the map
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                     //Add marker on map
@@ -83,43 +87,20 @@ public class CreateBikeActivity extends FragmentActivity implements OnMapReadyCa
         }
     }
 
-    /*
-    public void createPressed(View view){
-        //Check the information boxes have been filled
-        if(nameBox.getText().length() > 0 && descBox.getText().length() > 0) {
-            //If so then insert into the database
-            //DBI.insertUser("HADOOB", "SHRONGONE", "PASSMYASS", 25);
-            //DBI.insertAdmin(5, 2);
-            //DBI.insertBikeRack((float) location.latitude, (float) location.longitude, user.userID, nameBox.getText().toString(), carbon_points_saved, descBox.getText().toString(), coveredCheckBox.isChecked());
-            //DBI.insertRecyclingBin(50.30f, 70.30f, user.userID, nameBox.getText().toString(), carbon_points_saved, descBox.getText().toString(), "hobobin");
-            Bundle bundle = new Bundle();
-            Intent intent = new Intent(this, MapActivity.class);
-            bundle.putParcelable("Location", location);
-            bundle.putParcelable("User", user);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }
-    }
-    */
-
     public void createPOI(View view) {
-        try {
-            BikeRackPOI userPOI = new BikeRackPOI(
-                    1,
-                    nameBox.getText().toString(),
-                    descBox.getText().toString(),
-                    location.latitude,
-                    location.longitude,
-                    'w',
-                    coveredCheckBox.isChecked()
-            );
-            // SEND TO DB
-            DatabaseInterfaceDBI db = new DatabaseInterfaceDBI();
-            //db.insertBikeRack((float) userPOI.coords.latitude, (float) userPOI.coords.longitude, nameBox.getText().toString(), userPOI.carbonSaved, descBox.getText().toString(), 21, coveredCheckBox.isChecked());
-        }
-        catch (Exception e) {
-            // POI couldn't be made
-            Toast.makeText(getApplicationContext(), "Couldn't create POI", Toast.LENGTH_SHORT );
+        if(nameBox.getText().length() > 0 && descBox.getText().length() > 0){
+            try {
+                Log.i("Bike Rack Insert Activity", "Trying to insert into DB started");
+                // SEND TO DB
+                DBI.insertBikeRack((float) location.latitude, (float) location.longitude, nameBox.getText().toString(), carbon_points_saved, descBox.getText().toString(), user.userID, coveredCheckBox.isChecked());
+            }
+            catch (Exception e) {
+                // POI couldn't be made
+                Toast.makeText(getApplicationContext(), "Couldn't create POI", Toast.LENGTH_SHORT );
+            }
+            Intent intent = new Intent(this, MapActivity.class);
+            intent.putExtra("User", (Parcelable) user);
+            startActivity(intent);
         }
     }
 }

@@ -93,7 +93,7 @@
         android:layout_marginBottom="110dp"
         android:background="@drawable/button_rounded"
         android:fontFamily="sans-serif-light"
-        android:onClick="backToProfile"
+        android:onClick="createPOI"
         android:text="Create"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
