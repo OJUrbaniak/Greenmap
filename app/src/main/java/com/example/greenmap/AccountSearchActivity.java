@@ -80,8 +80,8 @@ public class AccountSearchActivity extends AppCompatActivity implements database
 
     public void follow(User user){
         //add to followers
-        Log.i("AccSearch", "follow user "+ user.username);
-        dbi.insertFollow(currentUser.userID, user.userID);
+        Log.i("AccSearch", "followed user "+ user.username);
+        dbi.insertFollow(user.userID, currentUser.userID);
     }
 
     @Override

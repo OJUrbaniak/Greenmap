@@ -37,7 +37,7 @@ class DatabaseInterfaceDBI{
 
     User returnedUser;
 
-    private static final String domain = "http://192.168.1.177/"; //Joes Domain
+    private static final String domain = "http://192.168.0.27/"; //Joes Domain
     //private static final String domain = "http://greenmap.epizy.com/"; //PHP server - doesnt work yet (for some reason?)
 
     public void databaseInterface(){
@@ -155,7 +155,7 @@ class DatabaseInterfaceDBI{
             Log.i("jsonfromstring jsonarray", String.valueOf(jsonArray));
             return jsonArray;
         } catch (Exception ex){
-            Log.i("WADHOLHEK", "MY ASS HAS NEVER FELT CRUNCHIER");
+            Log.i("JsonArray", "error when parsing string");
             return null;
         }
     }
@@ -241,8 +241,10 @@ class DatabaseInterfaceDBI{
 
     public boolean insertFollow(int Followed_User_ID, int Follower_User_ID){
         String SQLQuery  = "INSERT INTO GreenMap.Follow (Followed_User_ID, Follower_User_ID) VALUE ("+Integer.toString(Followed_User_ID)+", "+ Integer.toString(Follower_User_ID)+")";
+        String[] params = {"query=" +SQLQuery, "insert.php"};
         try {
-            sendPost(SQLQuery, "insert.php");
+            SendPostTask insertFollow = new SendPostTask();
+            insertFollow.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -359,10 +361,16 @@ class DatabaseInterfaceDBI{
 
     //following table
 
-    public boolean selectFollowers(int userID){
-        String SQLquery  = "SELECT User.User_ID, Follow.Followed_User_ID, Follow.Follower_User_ID, User.Carbon_Saved_Points " +
-                "FROM GreenMap.Follow " + "INNER JOIN GreenMap.User" +  "WHERE Followed_User_ID = \" + Integer.toString(userID)";
-        return false;
+    public boolean selectFollowing(int userID, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT User.Username, User.User_ID, User.Carbon_Saved_Points FROM GreenMap.User INNER JOIN GreenMap.Follow ON Follow.Followed_User_ID=User.User_ID WHERE (Follower_User_ID = "+userID+")";
+        String[] params = {"query=" + SQLquery, "select.php"};
+        try {
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public boolean searchFollowers(String userName){
