@@ -5,20 +5,30 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TableLayout;
+
+import java.util.ArrayList;
 import java.util.List;
 import android.widget.Button;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class FollowersActivity extends AppCompatActivity implements databaseInteracter {
 
     TableLayout table;
     TextView followingCount;
     TextView followerCount;
+    ArrayList<User> searchResults  = new ArrayList<User>();
+    DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
+    User currentUser;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,24 +37,34 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
         table = findViewById(R.id.FollowingTable);
         followerCount = findViewById(R.id.followerCount);
         followingCount = findViewById(R.id.followingCount);
+        Intent i = getIntent();
+        currentUser = (User)i.getSerializableExtra("User");
+        dbi.selectFollowing(currentUser.userID, this);
 
-        //needs to draw following from db
-        User[] searchresults = {
-                new User(1, "cockman", "ilovepeepee", 74, "cock@cock.com"),
-                new User(2, "hoboson", "manlovestrash", 91, "cock@cock.com"),
-                new User(3, "wadeeb", "showbob", 2, "cock@cock.com"),
-                new User(4,"test","", 99, "cock@cock.com") };
-
-        String l = Integer.toString(searchresults.length);
-        followingCount.setText(l);
-        followerCount.setText("0"); //-------------------- needs implementing with db
+    }
 
 
-        for (User currUser: searchresults){
-            String p = Integer.toString(currUser.carbon_saved_value);
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        dbi.selectFollowing(currentUser.userID, this);
+    }
+
+
+
+    private void showResults(){
+        int count = table.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = table.getChildAt(i);
+            if (child instanceof TableRow) ((ViewGroup) child).removeAllViews();
+        }
+        for (final User result: searchResults){
+
+            String p = Integer.toString(result.carbon_saved_value);
             TableRow tr = new TableRow(this);
 
-            TextView name = new TextView(this); name.setText(currUser.username);
+            TextView name = new TextView(this); name.setText(result.username);
             name.setTextColor(Color.parseColor("#F4F4F4"));
             name.setWidth(205); name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
@@ -52,20 +72,53 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
             points.setTextColor(Color.parseColor("#F4F4F4"));
             points.setWidth(205); points.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
+            Button remove = new Button(this);
+            remove.setText("unfollow"); remove.setBackground(getDrawable(R.drawable.button_rounded));
+            remove.setTextColor(Color.parseColor("#F4F4F4")); remove.setWidth(500);
+            remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    unfollow(result);
+                }
+            });
+
             tr.addView(name);
             tr.addView(points);
+            tr.addView(remove);
             table.addView(tr);
-        }
 
+        }
     }
 
     public void goToSearch(View view){
         Intent intent = new Intent(this, AccountSearchActivity.class);
+        intent.putExtra("User", (Parcelable) currentUser);
         startActivity(intent);
+    }
+
+    public void unfollow(User user){
+        //add to followers
+        Log.i("AccSearch", "unfollowed user "+ user.username);
+        dbi.deleteFollow(user.userID, currentUser.userID);
     }
 
     @Override
     public void resultsReturned(JsonArray jArray) {
+        searchResults.clear();
+        if(jArray.size() > 0) {
+            for(int n = 0; n < jArray.size(); n++) {
+                Log.i("AccSearch", "results returned= " + String.valueOf(jArray.size()));
+                Log.i("AccSearch", "user found");
+                JsonObject jObj = jArray.get(n).getAsJsonObject(); //Get the POI object
+                //Define attributes for passing user information around front end
+                searchResults.add(new User(jObj.get("User_ID").getAsInt(), jObj.get("Username").toString(), jObj.get("Carbon_Saved_Points").getAsInt()));
+            }
+            Log.i("AccSearch", String.valueOf(searchResults.size()));
 
+        } else {
+            //no users found
+            Log.i("AccSearch", "no users found");
+        }
+        showResults();
     }
 }

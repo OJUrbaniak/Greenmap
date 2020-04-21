@@ -20,6 +20,12 @@ public class User implements Serializable, Parcelable {
         this.email = email;
     }
 
+    public User(int userID, String username, int carbon_saved_value) {
+        this.userID = userID;
+        this.username = username;
+        this.carbon_saved_value = carbon_saved_value;
+    }
+
     protected User(Parcel in) {
         userID = in.readInt();
         username = in.readString();
