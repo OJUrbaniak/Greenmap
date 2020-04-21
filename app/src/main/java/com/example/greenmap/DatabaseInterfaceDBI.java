@@ -37,8 +37,7 @@ class DatabaseInterfaceDBI{
 
     User returnedUser;
 
-    private static final String domain = "http://192.168.0.27/"; //Joes Domain
-    //private static final String domain = "http://greenmap.epizy.com/"; //PHP server - doesnt work yet (for some reason?)
+    private static final String domain = "https://student.csc.liv.ac.uk/~sgmfreem/greenmap/";
 
     public void databaseInterface(){
     }
@@ -415,11 +414,12 @@ class DatabaseInterfaceDBI{
         if (covered){
             SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                     " FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI " +
-                    "WHERE (Type = 'b') AND (Covered = 1) (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                    "WHERE (Type = 'b') AND (Covered = 1)  AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         }
 
         try {
             String[] params = {"query="+SQLquery, "select.php"};
+            Log.i("dbi", SQLquery);
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
@@ -533,16 +533,19 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean deleteFollow(int Follow_ID){
-        String SQLquery  = "DELETE FROM GreenMap.`Follow` WHERE Follow_ID =  " + Integer.toString(Follow_ID);
+    public boolean deleteFollow(int Followed_User_ID, int Follower_User_ID){
+        String SQLQuery  = "DELETE FROM GreenMap.`Follow` WHERE (Followed_User_ID = "+Integer.toString(Followed_User_ID)+") AND (Follower_User_ID = "+Integer.toString(Follower_User_ID)+")";
+        String[] params = {"query=" +SQLQuery, "insert.php"};
         try {
-            sendPost("query="+SQLquery, "delete.php");
+            SendPostTask insertFollow = new SendPostTask();
+            insertFollow.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
+
 
     public boolean deleteAdmin(int User_ID){
         String SQLquery  = "DELETE FROM GreenMap.`Admin` WHERE User_ID =  " + Integer.toString(User_ID);

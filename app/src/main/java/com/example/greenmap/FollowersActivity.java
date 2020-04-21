@@ -72,8 +72,19 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
             points.setTextColor(Color.parseColor("#F4F4F4"));
             points.setWidth(205); points.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
+            Button remove = new Button(this);
+            remove.setText("unfollow"); remove.setBackground(getDrawable(R.drawable.button_rounded));
+            remove.setTextColor(Color.parseColor("#F4F4F4")); remove.setWidth(500);
+            remove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    unfollow(result);
+                }
+            });
+
             tr.addView(name);
             tr.addView(points);
+            tr.addView(remove);
             table.addView(tr);
 
         }
@@ -83,6 +94,12 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
         Intent intent = new Intent(this, AccountSearchActivity.class);
         intent.putExtra("User", (Parcelable) currentUser);
         startActivity(intent);
+    }
+
+    public void unfollow(User user){
+        //add to followers
+        Log.i("AccSearch", "unfollowed user "+ user.username);
+        dbi.deleteFollow(user.userID, currentUser.userID);
     }
 
     @Override

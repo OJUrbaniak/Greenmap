@@ -80,7 +80,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         loadPreferences();
         //TESTING
         DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
-        dbi.selectWaterPOIs(53.4053f, -2.9660f, 1000, true, true, true, this);
+        dbi.selectRecyclingPOIs(53.4053f, -2.9660f, 1000, this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
