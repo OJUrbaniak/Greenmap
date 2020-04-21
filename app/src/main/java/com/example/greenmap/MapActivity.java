@@ -72,8 +72,17 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         loadPreferences();
         Log.i("UserPref values", String.valueOf(userPref.drinkingTap)+String.valueOf(userPref.range)+String.valueOf(userPref.minRating));
         DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
-        //Inital load of markers based on users saved preferences
-        dbi.selectWaterPOIs(53.4053f, -2.9660f, userPref.range, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, this);
+        //Load markers based on users saved preferences
+        if(userPref.showTaps){
+            dbi.selectWaterPOIs(53.4053f, -2.9660f, userPref.range, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, this);
+        }
+        if(userPref.showBins){
+            dbi.selectRecyclingPOIs(53.4053f, -2.9660f, userPref.range, this);
+        }
+        if(userPref.showRacks){
+            dbi.selectBikePOIs(53.4053f, -2.9660f, userPref.range, userPref.rackCovered, this);
+        }
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);

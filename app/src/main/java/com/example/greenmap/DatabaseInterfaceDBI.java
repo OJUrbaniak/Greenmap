@@ -392,7 +392,7 @@ class DatabaseInterfaceDBI{
         if (covered){
             SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                     " FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI " +
-                    "WHERE (Type = 'b') AND (Covered = 1) (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                    "WHERE (Type = 'b') AND (Covered = 1)  AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         }
 
         try {
