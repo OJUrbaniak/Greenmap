@@ -47,12 +47,7 @@ class DatabaseInterfaceDBI{
          class SendPostWithReturnTask extends AsyncTask<Void, Void, String> {
 
             DatabaseInterfaceDBI DBI = new DatabaseInterfaceDBI();
-
-            //PrintListener listener;
-
-            //SendPostWithReturnTask(PrintListener mPrintListener) {
-                //this.listener = mPrintListener;
-            //}
+            
 
             @Override
             protected String doInBackground(Void... voids)  {
