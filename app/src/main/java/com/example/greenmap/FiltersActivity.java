@@ -26,6 +26,7 @@ public class FiltersActivity extends AppCompatActivity {
     CheckBox showTaps;
     CheckBox drinkingTap;
     CheckBox tapBottleRefill;
+    CheckBox tapBottleFiltered;
 
     CheckBox showBins;
 
@@ -53,7 +54,8 @@ public class FiltersActivity extends AppCompatActivity {
 
         rackCovered = findViewById(R.id.checkBox);
         drinkingTap = findViewById(R.id.checkBox2);
-        tapBottleRefill = findViewById(R.id.checkBox3);
+        tapBottleRefill = findViewById(R.id.checkBox14);
+        tapBottleFiltered = findViewById(R.id.checkBox3);
 
         range = findViewById(R.id.rangeText);
         minRating = findViewById(R.id.ratingNumber);
@@ -70,7 +72,7 @@ public class FiltersActivity extends AppCompatActivity {
     public void savePreferences(View view) {    //CALLED BY SAVE FILTERS BUTTON
         String rangeText = range.getText().toString();
         int rangeValue = Integer.parseInt(rangeText);
-        if(rangeValue <= 500 || rangeValue >= 1){
+        if(rangeValue <= 500 && rangeValue >= 1){
             warningTextLabel.setText("");
             Log.d("PREF-LOAD","Save button hit trying to save prefs");
             pref = getSharedPreferences("com.example.greenmap", 0);
@@ -82,6 +84,7 @@ public class FiltersActivity extends AppCompatActivity {
                         rackCovered.isChecked(),
                         drinkingTap.isChecked(),
                         tapBottleRefill.isChecked(),
+                        tapBottleFiltered.isChecked(),
                         Integer.parseInt(range.getText().toString()),
                         Integer.parseInt(minRating.getText().toString())
                 );
@@ -95,7 +98,13 @@ public class FiltersActivity extends AppCompatActivity {
             prefsEdit.putString("userPref", json);
             prefsEdit.commit();
             savedLabel.setVisibility(View.VISIBLE);
+
+            //Go back to map
+            setResult(RESULT_OK, null);
             finish();
+//            Intent intent = new Intent(FiltersActivity.this, MapActivity.class);
+//            intent.putExtra("User", (Parcelable) user);
+//            startActivity(intent);
         } else {
             Log.i("warning Label", "out of range");
             warningTextLabel.setText("Please enter a range between 1-500");
@@ -137,6 +146,9 @@ public class FiltersActivity extends AppCompatActivity {
         }
         if ((tapBottleRefill.isChecked() == true && p.tapBottleRefill == false) || (tapBottleRefill.isChecked() == false && p.tapBottleRefill == true)) {
             tapBottleRefill.toggle();
+        }
+        if((tapBottleFiltered.isChecked() == true && p.tapFiltered == false) || (tapBottleFiltered.isChecked() == false && p.tapFiltered == true)){
+            tapBottleFiltered.toggle();
         }
         range.setText(Integer.toString(p.range));
         minRating.setText(Integer.toString(p.minRating));

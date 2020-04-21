@@ -53,17 +53,8 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     Preferences userPref;
     SharedPreferences pref = null;
 
-    boolean searchResultsRetrieved = false;
-
     SupportMapFragment mapFragment;
     ArrayList<PointOfInterest> data = new ArrayList<PointOfInterest> ();
-//            new WaterFountainPOI(0,"Switzerland","mountains", 46.818188,8.227512,'w',5,true,true,true,200),
-//            new BikeRackPOI(1,"Ireland","trouble",53.41291,-8.24389,'b',3,50),
-//            new RecyclingBinPOI(2,"United Kingdom","boris",55.378051,-3.435973,'b',2,"ok",100)
-//            new PointOfInterest("Switzerland",'r',	46.818188,8.227512),
-//            new PointOfInterest("Ireland", 'w',53.41291,-8.24389	),
-//            new PointOfInterest("United Kingdom", 'b',55.378051,-3.435973)
-    //);
 
     //For user location
     Location currentLocation;
@@ -75,12 +66,14 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("MAP ACTIVITY CREATED", "IM CREATED YALL");
 
-        searchResultsRetrieved = false;
+        //Load in the users preferences (or the default ones) and pull the necessary points from the DB to show on map
         loadPreferences();
-        //TESTING
+        Log.i("UserPref values", String.valueOf(userPref.drinkingTap)+String.valueOf(userPref.range)+String.valueOf(userPref.minRating));
         DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
-        dbi.selectWaterPOIs(53.4053f, -2.9660f, 1000, true, true, true, this);
+        //Inital load of markers based on users saved preferences
+        dbi.selectWaterPOIs(53.4053f, -2.9660f, userPref.range, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
@@ -171,7 +164,19 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     public void goToFilters(View view){
         Intent intent = new Intent(this, FiltersActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            Log.i("onActivityResult", "RESULT OK");
+            Intent refresh = new Intent(this, MapActivity.class);
+            refresh.putExtra("User", (Parcelable) user);
+            startActivity(refresh);
+            this.finish();
+        }
     }
 
     public void goToCreatePOI(View view){
@@ -192,18 +197,24 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.i("MAP READY", "IM READY YALL");
         mapAPI = googleMap;
         mapAPI.setOnCameraMoveListener(this);
         for(PointOfInterest currentI : data) {
+            MarkerOptions marker;
             //Initialise the latitude and longitude
             LatLng latLng = new LatLng(currentI.coords.latitude, currentI.coords.longitude);
             //Create a marker
             if(currentI.type.equals("w")){
-                Log.i("Adding marker", currentI.name);
-                MarkerOptions waterMarker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(currentI.name);
-                mapAPI.addMarker(waterMarker); //Add marker on map
-                Log.i("MAP MARKER ADDED", "added");
+                marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(currentI.name);
+            } else if(currentI.type.equals("b")){
+                marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title(currentI.name);
+            } else{
+                marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title(currentI.name);
             }
+            Log.i("Adding marker", currentI.name);
+            mapAPI.addMarker(marker); //Add marker on map
+            Log.i("MAP MARKER ADDED", "added");
         }
     }
 
@@ -251,25 +262,10 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                         (double) jObj.get("Longitude").getAsFloat(),
                         jObj.get("Type").getAsString()
                 ));
-
-                //Currently doesn't look like we're getting attributes of each POI type so this is unnecessary
-//                switch (jObj.get("Type").getAsString()) {
-//                    case "w":
-//                        data.add(new PointOfInterest(
-//                                jObj.get("POI_ID").getAsInt(),
-//                                jObj.get("Name").toString(),
-//                                jObj.get("Description").toString(),
-//                                (double) jObj.get("Latitude").getAsFloat(),
-//                                (double) jObj.get("Longitude").getAsFloat(),
-//                                jObj.get("Type").getAsString()
-//                        ));
-//                }
-
                 Log.i("dbiMap", "added POI name= "+ jObj.get("Name").toString());
                 Log.i("POI search info class check", data.get(n).name);
             }
             Log.i("SEARCH RESULTS SIZE TWO DING", String.valueOf(data.size()));
-            searchResultsRetrieved = true;
             //Loop round search results and display on map
 
         } else {
