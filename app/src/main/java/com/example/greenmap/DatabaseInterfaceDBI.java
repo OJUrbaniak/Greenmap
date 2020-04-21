@@ -271,8 +271,10 @@ class DatabaseInterfaceDBI{
 
     public boolean insertBikeRack(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID,  boolean Covered){
         String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&covered="+Boolean.toString(Covered);
+        String[] params = {urlParameters, "insertBikeRack.php"};
         try {
-            sendPost(urlParameters, "insertBikeRack.php");
+            SendPostTask insertBikeRack = new SendPostTask();
+            insertBikeRack.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -282,8 +284,10 @@ class DatabaseInterfaceDBI{
 
     public boolean insertRecyclingBin(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, String Recycling_Bin_Type){
         String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&recycling_bin_type="+Recycling_Bin_Type;
+        String[] params = {urlParameters, "insertRecyclingBin.php"};
         try {
-            sendPost(urlParameters, "insertRecyclingBin.php");
+            SendPostTask insertRecyclingBin = new SendPostTask();
+            insertRecyclingBin.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);

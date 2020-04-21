@@ -5,7 +5,10 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
 import android.content.Intent;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -16,12 +19,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class CreateBinActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    int carbon_points_saved = 10;
+    DatabaseInterfaceDBI DBI = new DatabaseInterfaceDBI();
 
     SupportMapFragment mapFragment;
 
@@ -42,13 +46,12 @@ public class CreateBinActivity extends FragmentActivity implements OnMapReadyCal
 
         //Finding components
         nameView = findViewById(R.id.nameView);
-
         nameBox = findViewById(R.id.nameBox);
         descBox = findViewById(R.id.descBox);
         binType = findViewById(R.id.binTypeSpinner);
 
         //Setting up binType spinner
-        String[] binTypes = new String[]{"Recycling, Other"};
+        String[] binTypes = new String[]{"Paper", "Glass", "All"};
         ArrayAdapter<String> typesOfBin = new ArrayAdapter<String> (getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, binTypes);
         binType.setAdapter(typesOfBin);
 
@@ -56,8 +59,6 @@ public class CreateBinActivity extends FragmentActivity implements OnMapReadyCal
             user = getIntent().getExtras().getParcelable("User");
             location = getIntent().getExtras().getParcelable("Location");
         }
-
-        nameView.setText(user.username);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
@@ -81,7 +82,7 @@ public class CreateBinActivity extends FragmentActivity implements OnMapReadyCal
                     //Initialise the latitude and longitude
                     LatLng latLng = new LatLng(location.latitude, location.longitude);
                     //Create a marker
-                    MarkerOptions options = new MarkerOptions().position(latLng).title("New Recycling Bin");
+                    MarkerOptions options = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title("New Recyclying Bin");
                     //Zoom in on the map
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                     //Add marker on map
@@ -93,22 +94,26 @@ public class CreateBinActivity extends FragmentActivity implements OnMapReadyCal
 
     public void createPOI(View view) {
         try {
-            RecyclingBinPOI userPOI = new RecyclingBinPOI(
-                    1,
-                    nameBox.getText().toString(),
-                    descBox.getText().toString(),
-                    location.latitude,
-                    location.longitude,
-                    'w',
-                    binType.getSelectedItem().toString()
-            );
+            Log.i("Recycling Bin activity", "Try to insert into DB started");
+//            RecyclingBinPOI userPOI = new RecyclingBinPOI(
+//                    1,
+//                    nameBox.getText().toString(),
+//                    descBox.getText().toString(),
+//                    location.latitude,
+//                    location.longitude,
+//                    'b',
+//                    binType.getSelectedItem().toString()
+//            );
             // SEND TO DB
-            DatabaseInterfaceDBI db = new DatabaseInterfaceDBI();
-            //db.insertRecyclingBin((float) userPOI.coords.latitude, (float) userPOI.coords.longitude, nameBox.getText().toString(), userPOI.carbonSaved, descBox.getText().toString(), 20, binType.getSelectedItem().toString());
+            //CHANGE HARD CODED CARBON SAVED VALUE ASAP
+            DBI.insertRecyclingBin((float) location.latitude, (float) location.longitude, nameBox.getText().toString(), 5, descBox.getText().toString(), user.userID, binType.getSelectedItem().toString());
         }
         catch (Exception e) {
             // POI couldn't be made
             Toast.makeText(getApplicationContext(), "Couldn't create POI", Toast.LENGTH_SHORT );
         }
+        Intent intent = new Intent(this, MapActivity.class);
+        intent.putExtra("User", (Parcelable) user);
+        startActivity(intent);
     }
 }
