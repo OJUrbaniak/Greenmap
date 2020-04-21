@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#353535"
-    tools:context=".ViewPOIActivity">
+    tools:context=".ViewNearbyPOIActivity">
 
     <fragment
         android:id="@+id/mapAPI"
@@ -83,26 +83,14 @@
         android:id="@+id/button17"
         android:layout_width="162dp"
         android:layout_height="50dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/button_rounded"
-        android:onClick="goToEdit"
-        android:text="Edit POI"
+        android:onClick="goToRate"
+        android:text="Rate POI"
         android:textColor="#F4F4F4"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/extrasLabel" />
-
-    <Button
-        android:id="@+id/button18"
-        android:layout_width="162dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/button_rounded"
-        android:onClick="goToDelete"
-        android:text="Delete POI"
-        android:textColor="#F4F4F4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button17" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

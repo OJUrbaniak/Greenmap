@@ -53,7 +53,7 @@ public class NearbyListActivity extends AppCompatActivity {
     }
 
     public void goToViewPOI(PointOfInterest currentPOI){
-        Intent intent = new Intent(this,ViewPOIActivity.class);
+        Intent intent = new Intent(this,ViewNearbyPOIActivity.class);
         intent.putExtra("currentPOI", currentPOI);
         startActivity(intent);
     }
