@@ -66,12 +66,14 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                         (double) jObj.get("Longitude").getAsFloat(),
                         jObj.get("Type").getAsString()
                 ));
+
                 Log.i("CreatedList", "added POI name= "+ jObj.get("Name").toString());
                 //add the POIs to the table
                 TableRow tr = new TableRow(this);
-                TextView name = new TextView(this); name.setText(jObj.get("Name").toString()); name.setTextColor(Color.parseColor("#F4F4F4"));
-                TextView desc = new TextView(this); desc.setText(jObj.get("Description").toString()); desc.setTextColor(Color.parseColor("#F4F4F4"));
+                TextView name = new TextView(this); name.setText(jObj.get("Name").toString()); name.setTextColor(Color.parseColor("#F4F4F4")); name.setWidth(150);
+                TextView desc = new TextView(this); desc.setText(jObj.get("Description").toString()); desc.setTextColor(Color.parseColor("#F4F4F4")); desc.setWidth(150);
                 Button viewButton = new Button(this);
+                Button delete = new Button(this);
 
                 viewButton.setText("Edit POI"); viewButton.setBackgroundColor(Color.parseColor("#777777"));
                 viewButton.setTextColor(Color.parseColor("#F4F4F4")); viewButton.setBackground(getDrawable(R.drawable.button_rounded));
@@ -81,17 +83,17 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                         goToViewPOI(data);
                     }
                 });
-                viewButton.setWidth(200);
+                viewButton.setWidth(50);
 
-                Button delete = new Button(this);
+                final int user_id= data.id;
                 delete.setText("Delete"); delete.setBackgroundColor(Color.parseColor("#777777"));
                 delete.setTextColor(Color.parseColor("#922a31")); delete.setBackground(getDrawable(R.drawable.button_rounded));
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        deletePOI(data.id);
+                        deletePOI(user_id);
                     }
-                }); delete.setWidth(200);
+                }); delete.setWidth(50);
 
 
                 tr.addView(name);
