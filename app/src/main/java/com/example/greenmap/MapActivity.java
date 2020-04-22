@@ -45,6 +45,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     LatLng cameraLoc;
     Button profileButton;
     Button confirmButton;
+    Button moreInfoButton;
     GoogleMap mapAPI;
     FloatingActionButton plotButton;
     boolean userMarkerPlaced = false;
@@ -55,6 +56,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     SupportMapFragment mapFragment;
     ArrayList<PointOfInterest> data = new ArrayList<PointOfInterest> ();
+    ArrayList<PointOfInterest> userCreatedPOIs = new ArrayList<PointOfInterest> (); //WAITING FOR LAURENCE QUERY
 
     //For user location
     Location currentLocation;
@@ -64,13 +66,18 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
 
+    PointOfInterest markerSelected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("MAP ACTIVITY CREATED", "IM CREATED YALL");
 
+        try {
+            Log.i("Tag", "Using Map Version: " + getPackageManager().getPackageInfo("com.google.android.gms",0).versionName);
+        } catch (Exception e) {}
+
         //Load in the users preferences (or the default ones) and pull the necessary points from the DB to show on map
         loadPreferences();
-        Log.i("UserPref values", String.valueOf(userPref.drinkingTap)+String.valueOf(userPref.range)+String.valueOf(userPref.minRating));
         DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
         //Load markers based on users saved preferences
         if(userPref.showTaps){
@@ -83,15 +90,16 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             dbi.selectBikePOIs(53.4053f, -2.9660f, userPref.range, userPref.rackCovered, this);
         }
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
         profileButton = findViewById(R.id.button27);
         plotButton = findViewById(R.id.floatingAddButton);
         confirmButton = findViewById(R.id.button3);
+        moreInfoButton = findViewById(R.id.moreInfoButton);
 
         confirmButton.setVisibility(View.GONE);
+        moreInfoButton.setVisibility(View.GONE);
 
         //Get user from the previous page
         Intent i = getIntent();
@@ -130,7 +138,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                             //Initialise the latitude and longitude
                             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                             //Create a marker
-                            MarkerOptions options = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("Current location");
+                            MarkerOptions options = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("Current Location");
                             //Zoom in on the map
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
                             //Add marker on map
@@ -167,7 +175,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void goToProfile(View view){
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("User", (Parcelable) user);
-        intent.putExtra("dataArray", data); //This then goes to CreatedListActivity, dataArray will need to be changed to an array of the USER CREATED POIs
+        intent.putExtra("userCreatedPOIArray", userCreatedPOIs); //This then goes to CreatedListActivity, dataArray will need to be changed to an array of the USER CREATED POIs
         startActivity(intent);
     }
 
@@ -225,6 +233,42 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             mapAPI.addMarker(marker); //Add marker on map
             Log.i("MAP MARKER ADDED", "added");
         }
+        mapAPI.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                Log.i("Google Map", "Clicked");
+                markerSelected = null;
+                moreInfoButton.setVisibility(View.GONE);
+            }
+        });
+
+        mapAPI.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Log.i("Google Map Marker", "Clicked");
+                if(marker.getTitle().equals("New POI Location")|| marker.getTitle().equals("Current Location")){
+                    moreInfoButton.setVisibility(View.GONE);
+                    markerSelected = null;
+                } else {
+                    LatLng pos = marker.getPosition();
+                    markerSelected = returnPointOfInterest(pos);
+                    Log.i("Marker selecteds name is", markerSelected.name);
+                    moreInfoButton.setVisibility(View.VISIBLE);
+                }
+                return false;
+            }
+        });
+    }
+
+    public PointOfInterest returnPointOfInterest(LatLng position){
+        PointOfInterest retVal = null;
+        for(PointOfInterest d : data){
+            if(d.coords.latitude == position.latitude && d.coords.longitude == position.longitude) {
+                retVal = d;
+                break;
+            }
+        }
+        return retVal;
     }
 
     public void placeMarker(View view) {
@@ -269,7 +313,8 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                         jObj.get("Description").toString(),
                         (double) jObj.get("Latitude").getAsFloat(),
                         (double) jObj.get("Longitude").getAsFloat(),
-                        jObj.get("Type").getAsString()
+                        jObj.get("Type").getAsString(),
+                        (int) rating
                 ));
                 Log.i("dbiMap", "added POI name= "+ jObj.get("Name").toString());
                 Log.i("POI search info class check", data.get(n).name);
@@ -295,6 +340,12 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             Log.d("PREF-LOAD","No preferences detected");
             userPref = new Preferences();
         }
+    }
+
+    public void toMoreInfo(View view){
+        Intent intent = new Intent(this, ViewNearbyPOIActivity.class);
+        intent.putExtra("currentPOI", markerSelected);
+        startActivity(intent);
     }
 }
 

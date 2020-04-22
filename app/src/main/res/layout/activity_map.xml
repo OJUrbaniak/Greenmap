@@ -113,6 +113,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/moreInfoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:backgroundTint=" #777777"
+        android:fontFamily="sans-serif-light"
+        android:onClick="toMoreInfo"
+        android:text="More Info"
+        android:textColor="#F4F4F4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mapAPI" />
+
     <ImageView
         android:id="@+id/imageView9"
         android:layout_width="wrap_content"

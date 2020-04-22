@@ -12,6 +12,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 
 public class NearbyListActivity extends AppCompatActivity {
 
@@ -22,14 +24,14 @@ public class NearbyListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_list);
         table = findViewById(R.id.nearbyPOITable);
-        PointOfInterest[] data = new PointOfInterest[]{};
-        data = (PointOfInterest[]) getIntent().getSerializableExtra("dataArray");
-        for (int i = 0; i < data.length; i++) {
-            final PointOfInterest currItem = data[i];
+        ArrayList<PointOfInterest> data = new ArrayList<>();
+        data = (ArrayList<PointOfInterest>) getIntent().getSerializableExtra("dataArray");
+        for (final PointOfInterest currItem : data) {
+            //final PointOfInterest currItem = data[i];
             TableRow tr = new TableRow(this);
-            TextView name = new TextView(this); name.setText(data[i].name); name.setTextColor(Color.parseColor("#F4F4F4"));
+            TextView name = new TextView(this); name.setText(currItem.name); name.setTextColor(Color.parseColor("#F4F4F4"));
             name.setWidth(100);
-            TextView desc = new TextView(this); desc.setText(data[i].desc); name.setTextColor(Color.parseColor("#F4F4F4"));
+            TextView desc = new TextView(this); desc.setText(currItem.desc); name.setTextColor(Color.parseColor("#F4F4F4"));
             desc.setWidth(80);
             Button viewButton = new Button(this);
             viewButton.setText("View POI"); viewButton.setBackgroundColor(Color.parseColor("#777777"));

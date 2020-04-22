@@ -26,6 +26,16 @@ public class PointOfInterest implements Serializable {
         reviewRating = -1;
     }
 
+    //For sending off to the more info on markers
+    public PointOfInterest(int id, String name, String desc, Double lat, Double lon, String type, int reviewRating){
+        this.id = id;
+        this.name = name;
+        this.desc = desc;
+        this.type = type;
+        coords = new Coords(lat, lon);
+        this.reviewRating = reviewRating;
+    }
+
     //With reviewRating and distance -- when POIs are retrieved from DB?
     PointOfInterest(int id, String name, String desc, Double lat, Double lon, String type, int reviewRating, double distance) {
         this.id = id;

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 public class CreatedListActivity extends AppCompatActivity implements databaseInteracter {
 
     TableLayout table;
-    ArrayList<PointOfInterest> data = new ArrayList<PointOfInterest> ();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +30,10 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
         setContentView(R.layout.activity_created_list);
         table = findViewById(R.id.createdPOITable);
 
-        PointOfInterest[] data = new PointOfInterest[]{};
-        data = (PointOfInterest[]) getIntent().getSerializableExtra("dataArray");
+        ArrayList<PointOfInterest> data = new ArrayList<>();
+        data = (ArrayList<PointOfInterest>) getIntent().getSerializableExtra("userCreatedPOIArray");
 
-        for (int i = 0; i < data.length; i++) {
-            final PointOfInterest currItem = data[i];
+        for (final PointOfInterest currItem : data) {
             TableRow tr = new TableRow(this);
             TextView name = new TextView(this); name.setText(currItem.name); name.setTextColor(Color.parseColor("#F4F4F4"));
             TextView desc = new TextView(this); desc.setText(currItem.desc); desc.setTextColor(Color.parseColor("#F4F4F4"));
