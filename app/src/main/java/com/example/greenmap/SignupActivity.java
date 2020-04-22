@@ -18,8 +18,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.util.concurrent.ExecutionException;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.util.concurrent.ExecutionException;
+import java.security.MessageDigest;
 
 public class SignupActivity extends AppCompatActivity implements databaseInteracter{
 
@@ -28,16 +33,18 @@ public class SignupActivity extends AppCompatActivity implements databaseInterac
     EditText passwordField;
     EditText emailField;
     Button signUpButton;
-
+    String hashPass;
     DatabaseInterfaceDBI newDBI = new DatabaseInterfaceDBI();
 
     @Override
     public void resultsReturned(JsonArray jArray){ //Sign up functionality using communication with the DB
         if(jArray.size() == 0) {
             String username = userNameField.getText().toString();
-            String password = passwordField.getText().toString();
+            //String password = passwordField.getText().toString();
+
+
             String email = emailField.getText().toString();
-            newDBI.insertUser(email, username, password, 0);
+            newDBI.insertUser(email, username, hashPass, 0);
             mainHeader.setText("Account Created!");
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -62,7 +69,12 @@ public class SignupActivity extends AppCompatActivity implements databaseInterac
         //get values from inputs, validate and create account for database
         String username = userNameField.getText().toString();
         String password = passwordField.getText().toString();
+
+        hashPass = new String(Hex.encodeHex(DigestUtils.md5(password)));
+
+        Log.d("hashPass","hash for abcd is "+hashPass);
         String email = emailField.getText().toString();
+
         if(username.length() > 0 && password.length() > 0 && email.length() > 0) {
             newDBI.selectUserbyUsername(username, this);
 

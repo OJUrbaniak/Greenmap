@@ -37,4 +37,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation project(path: ':gson-2.3')
+    implementation project(path: ':commons-codec-1.14')
 }
