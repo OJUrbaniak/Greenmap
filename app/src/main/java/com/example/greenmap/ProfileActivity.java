@@ -43,7 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     public void goToCreated(View view){
         Intent intent = new Intent (this,CreatedListActivity.class);
-        intent.putExtras(getIntent().getExtras());
+        intent.putExtra("User", (Parcelable) user);
         startActivity(intent);
     }
 
