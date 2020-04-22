@@ -532,6 +532,14 @@ class DatabaseInterfaceDBI{
 
     //--------delete statements------
 
+    public boolean deletePOI(int POI_ID){
+        deleteWaterFountainPOI(POI_ID);
+        deleteRecyclingBinPOI(POI_ID);
+        deleteRecyclingBinPOI(POI_ID);
+        deletePOIFromPOITable(POI_ID);
+        return true;
+    }
+
     public boolean deleteUser(int User_ID){
         String SQLQuery  = "DELETE FROM GreenMap.`User` WHERE User_ID =  " + Integer.toString(User_ID);
         String[] params = {"query=" +SQLQuery, "insert.php"};
@@ -584,10 +592,12 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean deletePOI(int POI_ID){
-        String SQLquery = "DELETE FROM GreenMap.`POI` WHERE POI_ID =  " + Integer.toString(POI_ID);
+    public boolean deletePOIFromPOITable(int POI_ID){
+        String SQLQuery = "DELETE FROM GreenMap.`POI` WHERE POI_ID =  " + Integer.toString(POI_ID);
+        String[] params = {"query=" +SQLQuery, "insert.php"};
         try {
-            sendPost("query="+SQLquery, "delete.php");
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
@@ -609,9 +619,11 @@ class DatabaseInterfaceDBI{
     }
 
     public boolean deleteWaterFountainPOI(int POI_ID){
-        String SQLquery = "DELETE FROM GreenMap.`WaterFountainPOI` WHERE POI_ID =  " + Integer.toString(POI_ID);
+        String SQLQuery = "DELETE FROM GreenMap.`WaterFountainPOI` WHERE POI_ID =  " + Integer.toString(POI_ID);
+        String[] params = {"query=" +SQLQuery, "insert.php"};
         try {
-            sendPost("query="+SQLquery, "delete.php");
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
@@ -646,9 +658,11 @@ class DatabaseInterfaceDBI{
     }
 
     public boolean deleteRecyclingBinPOI(int POI_ID){
-        String SQLquery = "DELETE FROM GreenMap.`RecyclingBinPOI` WHERE POI_ID =  " + Integer.toString(POI_ID);
+        String SQLQuery = "DELETE FROM GreenMap.`RecyclingBinPOI` WHERE POI_ID =  " + Integer.toString(POI_ID);
+        String[] params = {"query=" +SQLQuery, "insert.php"};
         try {
-            sendPost("query="+SQLquery, "delete.php");
+            SendPostTask sendPostTask = new SendPostTask();
+            sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);

@@ -37,10 +37,14 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
         dbi.selectPOIbyUser_ID(currentUser.userID, this);
     }
 
-    public void goToViewPOI(PointOfInterest currentPOI){
+    private void goToViewPOI(PointOfInterest currentPOI){
         Intent intent = new Intent(this,ViewPOIActivity.class);
         intent.putExtra("currentPOI", currentPOI);
         startActivity(intent);
+    }
+
+    private void deletePOI(int POI_ID){
+        dbi.deletePOI(POI_ID);
     }
 
 
@@ -68,6 +72,7 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 TextView name = new TextView(this); name.setText(jObj.get("Name").toString()); name.setTextColor(Color.parseColor("#F4F4F4"));
                 TextView desc = new TextView(this); desc.setText(jObj.get("Description").toString()); desc.setTextColor(Color.parseColor("#F4F4F4"));
                 Button viewButton = new Button(this);
+
                 viewButton.setText("Edit POI"); viewButton.setBackgroundColor(Color.parseColor("#777777"));
                 viewButton.setTextColor(Color.parseColor("#F4F4F4")); viewButton.setBackground(getDrawable(R.drawable.button_rounded));
                 viewButton.setOnClickListener(new View.OnClickListener() {
@@ -76,9 +81,23 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                         goToViewPOI(data);
                     }
                 });
+                viewButton.setWidth(200);
+
+                Button delete = new Button(this);
+                delete.setText("Delete"); delete.setBackgroundColor(Color.parseColor("#777777"));
+                delete.setTextColor(Color.parseColor("#922a31")); delete.setBackground(getDrawable(R.drawable.button_rounded));
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deletePOI(data.id);
+                    }
+                }); delete.setWidth(200);
+
+
                 tr.addView(name);
                 tr.addView(desc);
                 tr.addView(viewButton);
+                tr.addView(delete);
                 table.addView(tr);
             }
 
