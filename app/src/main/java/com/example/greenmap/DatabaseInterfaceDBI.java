@@ -437,7 +437,7 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean selecRecyclingPOIbyPOI_ID(int POI_ID, databaseInteracter dbInteracter){
+    public boolean selectRecyclingPOIbyPOI_ID(int POI_ID, databaseInteracter dbInteracter){
         String SQLQuery  = "SELECT * " +
                 " FROM GreenMap.RecyclingBinPOI " +
                 "WHERE  (RecyclingBinPOI.POI_ID = "+POI_ID+")";
@@ -480,7 +480,7 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean selecWaterPOIbyPOI_ID(int POI_ID, databaseInteracter dbInteracter){
+    public boolean selectWaterPOIbyPOI_ID(int POI_ID, databaseInteracter dbInteracter){
         String SQLQuery  = "SELECT * " +
                 " FROM GreenMap.WaterFountainPOI " +
                 "WHERE  (WaterFountainPOI.POI_ID = "+POI_ID+")";
