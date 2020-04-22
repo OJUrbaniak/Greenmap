@@ -79,6 +79,7 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
 
     public void goToRate(View view){
         Intent intent = new Intent(this, RatePOIActivity.class);
+        intent.putExtra("currentPOI", currentPOI);
         startActivity(intent);
     }
 }
