@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 public class CreatedListActivity extends AppCompatActivity {
 
     TableLayout table;
@@ -26,11 +28,10 @@ public class CreatedListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_created_list);
         table = findViewById(R.id.createdPOITable);
 
-        PointOfInterest[] data = new PointOfInterest[]{};
-        data = (PointOfInterest[]) getIntent().getSerializableExtra("dataArray");
+        ArrayList<PointOfInterest> data = new ArrayList<>();
+        data = (ArrayList<PointOfInterest>) getIntent().getSerializableExtra("userCreatedPOIArray");
 
-        for (int i = 0; i < data.length; i++) {
-            final PointOfInterest currItem = data[i];
+        for (final PointOfInterest currItem : data) {
             TableRow tr = new TableRow(this);
             TextView name = new TextView(this); name.setText(currItem.name); name.setTextColor(Color.parseColor("#F4F4F4"));
             TextView desc = new TextView(this); desc.setText(currItem.desc); desc.setTextColor(Color.parseColor("#F4F4F4"));

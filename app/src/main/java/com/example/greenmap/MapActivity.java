@@ -56,6 +56,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     SupportMapFragment mapFragment;
     ArrayList<PointOfInterest> data = new ArrayList<PointOfInterest> ();
+    ArrayList<PointOfInterest> userCreatedPOIs = new ArrayList<PointOfInterest> (); //WAITING FOR LAURENCE QUERY
 
     //For user location
     Location currentLocation;
@@ -174,7 +175,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void goToProfile(View view){
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("User", (Parcelable) user);
-        intent.putExtra("dataArray", data); //This then goes to CreatedListActivity, dataArray will need to be changed to an array of the USER CREATED POIs
+        intent.putExtra("userCreatedPOIArray", userCreatedPOIs); //This then goes to CreatedListActivity, dataArray will need to be changed to an array of the USER CREATED POIs
         startActivity(intent);
     }
 
