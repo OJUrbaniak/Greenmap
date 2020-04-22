@@ -7,54 +7,65 @@
     android:background="#353535"
     tools:context=".CreatedListActivity">
 
-    <TableLayout
-        android:id="@+id/createdPOITable"
-        android:layout_width="406dp"
-        android:layout_height="623dp"
-        android:layout_marginTop="15dp"
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText14">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <TableLayout
+            android:id="@+id/createdPOITable"
+            android:layout_width="406dp"
+            android:layout_height="623dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText14">
 
-            <TextView
-                android:id="@+id/textView22"
-                android:layout_width="98dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="casual"
-                android:text="Name"
-                android:textColor="#F4F4F4" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView23"
-                android:layout_width="98dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="casual"
-                android:text="Description"
-                android:textColor="#F4F4F4" />
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="98dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="casual"
+                    android:text="Name"
+                    android:textColor="#F4F4F4" />
 
-            <TextView
-                android:id="@+id/textView90"
-                android:layout_width="98dp"
-                android:layout_height="match_parent"
-                android:fontFamily="casual"
-                android:text="View POI"
-                android:textColor="#F4F4F4" />
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="98dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="casual"
+                    android:text="Description"
+                    android:textColor="#F4F4F4" />
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="98dp"
-                android:layout_height="match_parent"
-                android:fontFamily="casual"
-                android:text="Delete"
-                android:textColor="#F4F4F4" />
+                <TextView
+                    android:id="@+id/textView90"
+                    android:layout_width="98dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="casual"
+                    android:text="View POI"
+                    android:textColor="#F4F4F4" />
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="98dp"
+                    android:layout_height="match_parent"
+                    android:fontFamily="casual"
+                    android:text="Delete"
+                    android:textColor="#F4F4F4" />
 
-    </TableLayout>
+            </TableRow>
+
+        </TableLayout>
+    </ScrollView>
 
     <EditText
         android:id="@+id/editText14"

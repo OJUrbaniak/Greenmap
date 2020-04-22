@@ -16,29 +16,35 @@
         android:onClick="backToMap"
         android:text="V"
         android:textColor="#F4F4F4"
-        app:layout_constraintBottom_toTopOf="@+id/nearbyPOITable"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TableLayout
-        android:id="@+id/nearbyPOITable"
+    <ScrollView
+        android:id="@+id/activity_scrollView1"
         android:layout_width="379dp"
         android:layout_height="634dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="52dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:scrollbarStyle="outsideInset"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button21">
 
-        <TableRow
+        <TableLayout
+            android:id="@+id/nearbyPOITable"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-    </TableLayout>
+        </TableLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,8 +8,11 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -47,17 +50,16 @@ public class NearbyListActivity extends AppCompatActivity {
 
         ArrayList<PointOfInterest> data = new ArrayList<>();
         data = (ArrayList<PointOfInterest>) getIntent().getSerializableExtra("dataArray");
+
         for (final PointOfInterest currItem : data) {
             //final PointOfInterest currItem = data[i];
             tr = new TableRow(this);
             name = new TextView(this); name.setText(currItem.name); name.setTextColor(Color.parseColor("#F4F4F4"));
-            name.setWidth(100);
             desc = new TextView(this); desc.setText(currItem.desc); name.setTextColor(Color.parseColor("#F4F4F4"));
-            desc.setWidth(80);
             Button viewButton = new Button(this);
             viewButton.setText("View POI"); viewButton.setBackgroundColor(Color.parseColor("#777777"));
             viewButton.setTextColor(Color.parseColor("#F4F4F4")); viewButton.setBackground(getDrawable(R.drawable.button_rounded));
-            viewButton.setWidth(80);
+            //viewButton.setWidth(0);
             viewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -74,7 +76,20 @@ public class NearbyListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     deletePOI(user_id);
                 }
-            }); delete.setWidth(50);
+            }); //delete.setWidth(0);
+
+
+            TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
+            name.setLayoutParams(itemLayout);
+            desc.setLayoutParams(itemLayout);
+            viewButton.setLayoutParams(itemLayout);
+
+            //17 = Gravity.CENTER
+            tr.setGravity(17);
+            name.setGravity(17);
+            desc.setGravity(17);
+            viewButton.setGravity(17);
+
             tr.addView(name);
             tr.addView(desc);
             tr.addView(viewButton);
