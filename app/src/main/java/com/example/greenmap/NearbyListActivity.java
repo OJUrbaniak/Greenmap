@@ -8,8 +8,11 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -68,7 +71,7 @@ public class NearbyListActivity extends AppCompatActivity {
             Button viewButton = new Button(this);
             viewButton.setText("View POI"); viewButton.setBackgroundColor(Color.parseColor("#777777"));
             viewButton.setTextColor(Color.parseColor("#F4F4F4")); viewButton.setBackground(getDrawable(R.drawable.button_rounded));
-            viewButton.setWidth(80);
+            //viewButton.setWidth(0);
             viewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -99,6 +102,33 @@ public class NearbyListActivity extends AppCompatActivity {
                 tr.addView(viewButton);
             }
 
+            //if admin
+            Button delete = new Button(this);
+            final int user_id= currItem.id;
+            delete.setText("Delete"); delete.setBackgroundColor(Color.parseColor("#777777"));
+            delete.setTextColor(Color.parseColor("#922a31")); delete.setBackground(getDrawable(R.drawable.button_rounded));
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deletePOI(user_id);
+                }
+            }); //delete.setWidth(0);
+
+
+            TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
+            name.setLayoutParams(itemLayout);
+            desc.setLayoutParams(itemLayout);
+            viewButton.setLayoutParams(itemLayout);
+
+            //17 = Gravity.CENTER
+            tr.setGravity(17);
+            name.setGravity(17);
+            desc.setGravity(17);
+            viewButton.setGravity(17);
+
+            tr.addView(name);
+            tr.addView(desc);
+            tr.addView(viewButton);
             table.addView(tr);
         }
     }
