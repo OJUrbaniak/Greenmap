@@ -17,6 +17,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 
@@ -26,21 +29,23 @@ public class MainActivity extends AppCompatActivity implements databaseInteracte
     EditText userNameField;
     EditText passwordField;
     Button loginButton;
-
+    String hashPass;
     DatabaseInterfaceDBI newDBI = new DatabaseInterfaceDBI();
 
     @Override
     public void  resultsReturned(JsonArray jArray){ //Log In functionality using communication with the DB
         if(jArray.size() > 0) {
             JsonObject jObj = jArray.get(0).getAsJsonObject(); //Get the user object
+
             //Define attributes for passing user information around front end
             int userID = jObj.get("User_ID").getAsInt();
             String email = jObj.get("Email").getAsString();
             String username = jObj.get("Username").getAsString();
             String password = jObj.get("Password").getAsString();
+            Log.d("Encryption","DBPASS: "+password);
             int carbon_saved_points = jObj.get("Carbon_Saved_Points").getAsInt();
             Log.i("dbi", "Trying to log in");
-            if(userNameField.getText().toString().equals(username) && passwordField.getText().toString().equals(password)){
+            if(userNameField.getText().toString().equals(username) && hashPass.equals(password)){
                 mainHeader.setText("Welcome back " + username + "!");
                 //Create user object and send to map
                 User userLogin = new User(userID, username, password, carbon_saved_points, email);
@@ -80,7 +85,9 @@ public class MainActivity extends AppCompatActivity implements databaseInteracte
     public void goToMap(View view) throws ExecutionException, InterruptedException { //Login button
         //Check if log in is actually filled in:
         if(userNameField.getText().length() > 0 && passwordField.getText().length() > 0) {
-            newDBI.selectUserByLogin(userNameField.getText().toString(), passwordField.getText().toString(), this);
+            hashPass = new String(Hex.encodeHex(DigestUtils.md5(passwordField.getText().toString())));
+            Log.d("Encryption","APPPASS: "+hashPass);
+            newDBI.selectUserByLogin(userNameField.getText().toString(), hashPass, this);
         }
     }
 

@@ -3,7 +3,6 @@ package com.example.greenmap;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
@@ -13,12 +12,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import java.util.ArrayList;
 
 public class CreatedListActivity extends AppCompatActivity implements databaseInteracter {
 
@@ -47,27 +42,27 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
         dbi.deletePOI(POI_ID);
     }
 
-    private void edit(PointOfInterest currentPOI){
-        Log.i("CreatedList", "type= "+currentPOI.type);
-        if(currentPOI.type == "w"){
-            Log.i("CreatedList", "type= "+currentPOI.type);
-            Intent intent = new Intent(this,EditWaterActivity.class);
-            intent.putExtra("currentPOI", currentPOI);
-            startActivity(intent);
-        }else if (currentPOI.type == "r"){
-            Intent intent = new Intent(this,EditBinActivity.class);
-            Log.i("CreatedList", "type= "+currentPOI.type);
-            intent.putExtra("currentPOI", currentPOI);
-            startActivity(intent);
-        } else if (currentPOI.type == "b"){
-            Log.i("CreatedList", "type= "+currentPOI.type);
-            Intent intent = new Intent(this,EditBikeActivity.class);
-            intent.putExtra("currentPOI", currentPOI);
-            startActivity(intent);
-        } else {
-            return;
-        }
-    }
+//    private void edit(PointOfInterest currentPOI){
+//        Log.i("CreatedList", "type= "+currentPOI.type);
+//        if(currentPOI.type == "w"){
+//            Log.i("CreatedList", "type= "+currentPOI.type);
+//            Intent intent = new Intent(CreatedListActivity.this,EditWaterActivity.class);
+//            intent.putExtra("currentPOI", currentPOI);
+//            startActivity(intent);
+//        }else if (currentPOI.type == "r"){
+//            Intent intent = new Intent(CreatedListActivity.this,EditBinActivity.class);
+//            Log.i("CreatedList", "type= "+currentPOI.type);
+//            intent.putExtra("currentPOI", currentPOI);
+//            startActivity(intent);
+//        } else if (currentPOI.type == "b"){
+//            Log.i("CreatedList", "type= "+currentPOI.type);
+//            Intent intent = new Intent(CreatedListActivity.this,EditBikeActivity.class);
+//            intent.putExtra("currentPOI", currentPOI);
+//            startActivity(intent);
+//        } else {
+//            return;
+//        }
+//    }
 
 
     public void resultsReturned(JsonArray jArray) { //Plot marker points after receiving them from the database
@@ -99,10 +94,30 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
 
                 viewButton.setText("Edit POI"); viewButton.setBackgroundColor(Color.parseColor("#777777"));
                 viewButton.setTextColor(Color.parseColor("#F4F4F4")); viewButton.setBackground(getDrawable(R.drawable.button_rounded));
+
                 viewButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        edit(data);
+                        //Log.i("CreatedList", "type= "+data.type);
+                        if(data.type.equals("w")){
+                            Log.i("CreatedList", "type= "+data.type);
+                            Intent intent = new Intent(v.getContext(),EditWaterActivity.class);
+                            intent.putExtra("currentPOI", data);
+                            startActivity(intent);
+                        }else if (data.type.equals("r")){
+                            Intent intent = new Intent(v.getContext(),EditBinActivity.class);
+                            Log.i("CreatedList", "type= "+data.type);
+                            intent.putExtra("currentPOI", data);
+                            startActivity(intent);
+                        } else if (data.type.equals("b")){
+                            Log.i("CreatedList", "type= "+data.type);
+                            Intent intent = new Intent(v.getContext(),EditBikeActivity.class);
+                            intent.putExtra("currentPOI", data);
+                            startActivity(intent);
+                        } else {
+                            return;
+                        }
+                        Log.i("VIEW", String.valueOf(v));
                     }
                 });
                 viewButton.setWidth(50);
