@@ -118,7 +118,7 @@ class databaseInterface{
             return true;
         } catch (Exception ex) {
             Log.i("INSERT USER EXCEPTION", "INSERTION ERROR");
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -131,7 +131,7 @@ class databaseInterface{
             insertAdmin.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -144,7 +144,7 @@ class databaseInterface{
             insertWaterFountain.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -157,7 +157,7 @@ class databaseInterface{
             insertBikeRack.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -170,7 +170,7 @@ class databaseInterface{
             insertRecyclingBin.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -183,7 +183,7 @@ class databaseInterface{
             sendPost("query="+SQLquery, "update.php");
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -211,7 +211,7 @@ class databaseInterface{
             sendPost("query="+SQLquery, "update.php");
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -222,7 +222,7 @@ class databaseInterface{
             sendPost("query="+SQLquery, "update.php");
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

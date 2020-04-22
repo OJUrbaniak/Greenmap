@@ -226,7 +226,7 @@ class DatabaseInterfaceDBI{
             insertFollow.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -239,7 +239,7 @@ class DatabaseInterfaceDBI{
             insertFollow.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -253,7 +253,7 @@ class DatabaseInterfaceDBI{
             insertWaterFountain.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -266,7 +266,7 @@ class DatabaseInterfaceDBI{
             insertBikeRack.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -279,7 +279,7 @@ class DatabaseInterfaceDBI{
             insertRecyclingBin.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -298,7 +298,7 @@ class DatabaseInterfaceDBI{
             runHTML(params, dbInteracter);
             return true;
         }catch (Exception ex){
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -313,7 +313,7 @@ class DatabaseInterfaceDBI{
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -326,7 +326,7 @@ class DatabaseInterfaceDBI{
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -341,22 +341,23 @@ class DatabaseInterfaceDBI{
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
 
 
-    public boolean selectBikePOIs(float lat, float lon, float distance, databaseInteracter dbInteracter){
+    public boolean selectBikePOIs(float lat, float lon, float distance, int  rating,  databaseInteracter dbInteracter){
         String SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                 " FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI ON POI.POI_ID = BikeRackPOI.POI_ID " +
-                "WHERE (Type = 'b') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                "WHERE (Type = 'b') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (BikeRackPOI.Review_Rating / BikeRackPOI.No_Reviews = "+rating+")"
+                +" ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         try {
             String[] params = {"query="+SQLquery, "select.php"};
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
 
@@ -370,10 +371,11 @@ class DatabaseInterfaceDBI{
         return true;
     }
 
-    public boolean selectBikePOIs(float lat, float lon, float distance, boolean covered, databaseInteracter dbInteracter){
+    public boolean selectBikePOIs(float lat, float lon, float distance, int  rating, boolean covered, databaseInteracter dbInteracter){
         String SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                 " FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI ON POI.POI_ID = BikeRackPOI.POI_ID " +
-                "WHERE (Type = 'b') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                "WHERE (Type = 'b') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (BikeRackPOI.Review_Rating / BikeRackPOI.No_Reviews >= "+rating+")" +
+                "ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
 
         if (covered){
             SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
@@ -386,7 +388,7 @@ class DatabaseInterfaceDBI{
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -400,22 +402,22 @@ class DatabaseInterfaceDBI{
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
 
     }
 
-    public boolean selectRecyclingPOIs(float lat, float lon, float distance, databaseInteracter dbInteracter){
+    public boolean selectRecyclingPOIs(float lat, float lon, float distance, int  rating, databaseInteracter dbInteracter){
         String SQLquery  = "SELECT RecyclingBinPOI.Name, RecyclingBinPOI.Description, POI.POI_ID, POI.Type, RecyclingBinPOI.Review_Rating, RecyclingBinPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                 " FROM GreenMap.RecyclingBinPOI INNER JOIN GreenMap.POI ON POI.POI_ID = RecyclingBinPOI.POI_ID " +
-                "WHERE (Type = 'r') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                "WHERE (Type = 'r') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (BikeRackPOI.Review_Rating / BikeRackPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         try {
             String[] params = {"query="+SQLquery, "select.php"};
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -429,21 +431,21 @@ class DatabaseInterfaceDBI{
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
 
-    public boolean selectWaterPOIs(float lat, float lon, float distance, databaseInteracter dbInteracter){
+    public boolean selectWaterPOIs(float lat, float lon, float distance, int  rating, databaseInteracter dbInteracter){
         String SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                 " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
-                "WHERE (Type = 'w') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                "WHERE (Type = 'w') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (WaterFountainPOI.Review_Rating / WaterFountainPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         try {
             String[] params = {"query="+SQLquery, "select.php"};
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -462,42 +464,42 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean selectWaterPOIs(float lat, float lon, float distance, boolean bottle, boolean drink, boolean filtered, databaseInteracter dbInteracter){
+    public boolean selectWaterPOIs(float lat, float lon, float distance, int  rating, boolean bottle, boolean drink, boolean filtered, databaseInteracter dbInteracter){
         String SQLquery = null;
         if (!bottle && !drink && !filtered){
             SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                     " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
-                    "WHERE (Type = 'w') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                    "WHERE (Type = 'w') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (WaterFountainPOI.Review_Rating / WaterFountainPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         } else if (bottle && drink && filtered) {
             SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                     " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
-                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (Drink_Straight_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (Drink_Straight_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (WaterFountainPOI.Review_Rating / WaterFountainPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         } else if (bottle && drink) {
             SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                     " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
-                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (Drink_Straight_Tap = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (Drink_Straight_Tap = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (BikeRackPOI.Review_Rating / BikeRackPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         }else if (drink && filtered) {
             SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                     " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
-                    "WHERE (Type = 'w') AND (Drink_Straight_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                    "WHERE (Type = 'w') AND (Drink_Straight_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (WaterFountainPOI.Review_Rating / WaterFountainPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         } else if (bottle && filtered) {
             SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                     " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
-                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (WaterFountainPOI.Review_Rating / WaterFountainPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         }else if (bottle) {
             SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                     " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
-                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                    "WHERE (Type = 'w') AND (Bottle_Filling_Tap = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (WaterFountainPOI.Review_Rating / WaterFountainPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
 
         }else if (drink) {
             SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                     " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
-                    "WHERE (Type = 'w') AND (Drink_Straight_Tap = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                    "WHERE (Type = 'w') AND (Drink_Straight_Tap = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (WaterFountainPOI.Review_Rating / WaterFountainPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
 
         }else if (filtered){
             SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                     " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
-                    "WHERE (Type = 'w') AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                    "WHERE (Type = 'w') AND (Filtered = 1) AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (WaterFountainPOI.Review_Rating / WaterFountainPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
 
         }
 
@@ -506,7 +508,7 @@ class DatabaseInterfaceDBI{
             runHTML(params, dbInteracter);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -522,7 +524,7 @@ class DatabaseInterfaceDBI{
             sendPost("query="+SQLquery, "update.php");
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -538,7 +540,7 @@ class DatabaseInterfaceDBI{
             insertFollow.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -551,7 +553,7 @@ class DatabaseInterfaceDBI{
             sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -564,7 +566,7 @@ class DatabaseInterfaceDBI{
             sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -577,7 +579,7 @@ class DatabaseInterfaceDBI{
             sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -588,7 +590,7 @@ class DatabaseInterfaceDBI{
             sendPost("query="+SQLquery, "delete.php");
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -601,7 +603,7 @@ class DatabaseInterfaceDBI{
             sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -612,7 +614,7 @@ class DatabaseInterfaceDBI{
             sendPost("query="+SQLquery, "delete.php");
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -625,7 +627,7 @@ class DatabaseInterfaceDBI{
             sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -638,7 +640,7 @@ class DatabaseInterfaceDBI{
             sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -649,7 +651,7 @@ class DatabaseInterfaceDBI{
             sendPost("query="+SQLquery, "delete.php");
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -663,7 +665,7 @@ class DatabaseInterfaceDBI{
             sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -676,7 +678,7 @@ class DatabaseInterfaceDBI{
             sendPostTask.execute(params);
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -690,7 +692,7 @@ class DatabaseInterfaceDBI{
             sendPost("query="+SQLquery, "delete.php");
             return true;
         } catch (Exception ex) {
-            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

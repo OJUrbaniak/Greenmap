@@ -87,7 +87,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             dbi.selectRecyclingPOIs(53.4053f, -2.9660f, userPref.range, this);
         }
         if(userPref.showRacks){
-            dbi.selectBikePOIs(53.4053f, -2.9660f, userPref.range, userPref.rackCovered, this);
+            dbi.selectBikePOIs(53.4053f, -2.9660f, userPref.range, 0, userPref.rackCovered, this);
         }
 
         super.onCreate(savedInstanceState);
