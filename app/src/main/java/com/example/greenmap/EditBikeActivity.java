@@ -12,6 +12,9 @@ public class EditBikeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_bike);
+
+        Intent i = getIntent();
+        PointOfInterest currentPOI = (PointOfInterest) i.getSerializableExtra("currentPOI");
     }
 
     public void backToView(View view){
