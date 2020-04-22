@@ -1,6 +1,7 @@
 package com.example.greenmap;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 
 import java.util.ArrayList;
@@ -20,27 +22,34 @@ import android.widget.TextView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.w3c.dom.Text;
+
 public class FollowersActivity extends AppCompatActivity implements databaseInteracter {
 
-    TableLayout table;
-    TextView followingCount;
-    TextView followerCount;
+    //TableLayout table;
     ArrayList<User> searchResults  = new ArrayList<User>();
     DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
     User currentUser;
+
+    Typeface tf; //casual
+    Typeface tf2; //sans serif
+
+    TableLayout tableInfo;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_followers);
-        table = findViewById(R.id.FollowingTable);
-        followerCount = findViewById(R.id.followerCount);
-        followingCount = findViewById(R.id.followingCount);
         Intent i = getIntent();
         currentUser = (User)i.getSerializableExtra("User");
         dbi.selectFollowing(currentUser.userID, this);
 
+        tableInfo = findViewById(R.id.infoTable);
+
+        //or to support all versions use
+        tf = Typeface.create("casual", Typeface.NORMAL);
+        tf2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
     }
 
 
@@ -54,39 +63,61 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
 
 
     private void showResults(){
-        int count = table.getChildCount();
+        int count = tableInfo.getChildCount();
         for (int i = 0; i < count; i++) {
-            View child = table.getChildAt(i);
+            View child = tableInfo.getChildAt(i);
             if (child instanceof TableRow) ((ViewGroup) child).removeAllViews();
         }
         for (final User result: searchResults){
 
             String p = Integer.toString(result.carbon_saved_value);
+
+            String username = result.username.toString().replaceAll("\"", "");
+
+            //Table row
             TableRow tr = new TableRow(this);
+            TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
 
-            TextView name = new TextView(this); name.setText(result.username);
+            //Name
+            TextView name = new TextView(this);
+            name.setText(username);
+            name.setTypeface(tf);
             name.setTextColor(Color.parseColor("#F4F4F4"));
-            name.setWidth(205); name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
-            TextView points = new TextView(this); points.setText(p);
-            points.setTextColor(Color.parseColor("#F4F4F4"));
-            points.setWidth(205); points.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            //Carbon Points
+            TextView cPoints = new TextView((this));
+            cPoints.setText(p);
+            cPoints.setTypeface(tf);
+            cPoints.setTextColor(Color.parseColor("#F4F4F4"));
 
-            Button remove = new Button(this);
-            remove.setText("unfollow"); remove.setBackground(getDrawable(R.drawable.button_rounded));
-            remove.setTextColor(Color.parseColor("#F4F4F4")); remove.setWidth(500);
-            remove.setOnClickListener(new View.OnClickListener() {
+            //Unfollow button
+            Button unfollowButton = new Button(this);
+            unfollowButton.setText("Unfollow");
+            unfollowButton.setTypeface(tf2);
+            unfollowButton.setBackgroundColor(Color.parseColor("#777777"));
+            unfollowButton.setTextColor(Color.parseColor("#F4F4F4"));
+            unfollowButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     unfollow(result);
                 }
             });
 
-            tr.addView(name);
-            tr.addView(points);
-            tr.addView(remove);
-            table.addView(tr);
+            //Set layout for content
+            name.setLayoutParams(itemLayout);
+            cPoints.setLayoutParams(itemLayout);
+            unfollowButton.setLayoutParams(itemLayout);
 
+            //17 = Gravity.CENTER
+            tr.setGravity(17);
+            name.setGravity(17);
+            cPoints.setGravity(17);
+            unfollowButton.setGravity(17);
+
+            tr.addView(name);
+            tr.addView(cPoints);
+            tr.addView(unfollowButton);
+            tableInfo.addView(tr);
         }
     }
 
