@@ -231,8 +231,22 @@ class DatabaseInterfaceDBI{
         }
     }
 
+
     public boolean insertFollow(int Followed_User_ID, int Follower_User_ID){
         String SQLQuery  = "INSERT INTO GreenMap.Follow (Followed_User_ID, Follower_User_ID) VALUE ("+Integer.toString(Followed_User_ID)+", "+ Integer.toString(Follower_User_ID)+")";
+        String[] params = {"query=" +SQLQuery, "insert.php"};
+        try {
+            SendPostTask insertFollow = new SendPostTask();
+            insertFollow.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean insertRating(int userID, int POI_ID, int Rating, databaseInteracter dbInteracter){
+        String SQLQuery  = "INSERT INTO GreenMap.Ratings VALUE ("+userID+", "+POI_ID+", "+Rating+")";
         String[] params = {"query=" +SQLQuery, "insert.php"};
         try {
             SendPostTask insertFollow = new SendPostTask();
@@ -331,6 +345,19 @@ class DatabaseInterfaceDBI{
         }
     }
 
+    public boolean selectUserandAdminByLogin(String user, String pass, databaseInteracter dbInteracter) throws ExecutionException, InterruptedException {
+        String SQLquery  = "SELECT GreenMap.User.*, GreenMap.Admin.Permission_Level FROM GreenMap.User " +
+                "LEFT JOIN GreenMap.Admin ON GreenMap.User.User_ID = GreenMap.Admin.User_ID" + " WHERE (\""+ user + "\" = User.Username) AND (\""+ pass + "\" = User.Password)";
+        String[] params = {"query=" + SQLquery, "select.php"};
+        try {
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
 
     //following table
 
@@ -345,7 +372,18 @@ class DatabaseInterfaceDBI{
             return false;
         }
     }
-
+    //SELECT * FROM GreenMap.Ratings WHERE (User_ID =1) AND (POI_ID=1)
+    public boolean selectRating(int userID, int POI_ID, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT * FROM GreenMap.Ratings WHERE (User_ID ="+userID+") AND (POI_ID="+POI_ID+")";
+        String[] params = {"query=" + SQLquery, "select.php"};
+        try {
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 
     public boolean selectBikePOIs(float lat, float lon, float distance, int  rating,  databaseInteracter dbInteracter){
         String SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
@@ -567,6 +605,45 @@ class DatabaseInterfaceDBI{
                 "\" WHERE POI_ID = " + Integer.toString(POI_ID);
         try {
             sendPost("query="+SQLquery, "update.php");
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateWaterFountain(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, boolean Drink_Straight_Tap, boolean Bottle_Filling_Tap, boolean Filtered){
+        String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&drink_straight_tap="+Boolean.toString(Drink_Straight_Tap)+"&bottle_filling_tap="+Boolean.toString(Bottle_Filling_Tap)+"&filtered="+Boolean.toString(Filtered)+"&no_reviews=";
+        String[] params = {urlParameters, "insertWaterFountain.php"};
+        try {
+            SendPostTask insertWaterFountain = new SendPostTask();
+            insertWaterFountain.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateBikeRack(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID,  boolean Covered){
+        String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&covered="+Boolean.toString(Covered);
+        String[] params = {urlParameters, "insertBikeRack.php"};
+        try {
+            SendPostTask insertBikeRack = new SendPostTask();
+            insertBikeRack.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateRecyclingBin(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, String Recycling_Bin_Type){
+        String urlParameters  = "UPDATE ";
+        String[] params = {urlParameters, "insertRecyclingBin.php"};
+        try {
+            SendPostTask insertRecyclingBin = new SendPostTask();
+            insertRecyclingBin.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);

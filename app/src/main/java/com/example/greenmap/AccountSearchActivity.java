@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +38,27 @@ public class AccountSearchActivity extends AppCompatActivity implements database
         searchButton = findViewById(R.id.searchButton);
         Intent i = getIntent();
         currentUser = (User)i.getSerializableExtra("User");
+
+        Typeface tf = Typeface.create("casual", Typeface.NORMAL);
+        TableRow tr = new TableRow(this);
+        TextView name = new TextView(this); name.setText("Name"); name.setTextColor(Color.parseColor("#F4F4F4")); name.setWidth(400); name.setTypeface(tf);
+        TextView add = new TextView(this); add.setText("Follow"); add.setTextColor(Color.parseColor("#F4F4F4")); add.setWidth(400); add.setTypeface(tf);
+        Log.i("nearbyList", "currentuser permissionlevel  is "+ currentUser.permissionLevel);
+        if (currentUser.permissionLevel > 0){
+            Log.i("nearbyList", "user is admin");
+            TextView ban = new TextView(this); ban.setText("Ban User"); ban.setTextColor(Color.parseColor("#F4F4F4")); ban.setWidth(400); ban.setTypeface(tf);
+            TextView admin = new TextView(this); admin.setText("Make Admin"); admin.setTextColor(Color.parseColor("#F4F4F4")); admin.setWidth(400); admin.setTypeface(tf);
+            add.setWidth(400);
+            name.setWidth(400);
+            tr.addView(name);
+            tr.addView(add);
+            tr.addView(ban);
+            tr.addView(admin);
+        } else{
+            tr.addView(name);
+            tr.addView(add);
+        }
+        nameTable.addView(tr);
     }
 
     public void search(View view){
@@ -48,22 +70,26 @@ public class AccountSearchActivity extends AppCompatActivity implements database
 
     private void showResults(){
         int count = nameTable.getChildCount();
-        for (int i = 0; i < count; i++) {
+        for (int i = 1; i < count; i++) {
             View child = nameTable.getChildAt(i);
             if (child instanceof TableRow) ((ViewGroup) child).removeAllViews();
         }
-        for (final User result: searchResults){
+        for (final User result: searchResults) {
 
             final String userN = result.username;
             TableRow tr = new TableRow(this);
 
-            TextView name = new TextView(this); name.setText(userN);
+            TextView name = new TextView(this);
+            name.setText(userN);
             name.setTextColor(Color.parseColor("#F4F4F4"));
-            name.setWidth(500); name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            name.setWidth(500);
+            name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             Button add = new Button(this);
-            add.setText("Follow"); add.setBackground(getDrawable(R.drawable.button_rounded));
-            add.setTextColor(Color.parseColor("#F4F4F4")); add.setWidth(300);
+            add.setText("Follow");
+            add.setBackground(getDrawable(R.drawable.button_rounded));
+            add.setTextColor(Color.parseColor("#F4F4F4"));
+            add.setWidth(300);
             add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -71,10 +97,12 @@ public class AccountSearchActivity extends AppCompatActivity implements database
                 }
             });
 
-
+            if (currentUser.permissionLevel > 0) {
             Button admin = new Button(this);
-            admin.setText("admin"); admin.setBackground(getDrawable(R.drawable.button_rounded));
-            admin.setTextColor(Color.parseColor("#F4F4F4")); admin.setWidth(300);
+            admin.setText("admin");
+            admin.setBackground(getDrawable(R.drawable.button_rounded));
+            admin.setTextColor(Color.parseColor("#F4F4F4"));
+            admin.setWidth(300);
             admin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -82,11 +110,12 @@ public class AccountSearchActivity extends AppCompatActivity implements database
                 }
             });
 
-            //if admin add ban button
 
             Button ban = new Button(this);
-            ban.setText("Ban"); ban.setBackground(getDrawable(R.drawable.button_rounded));
-            ban.setTextColor(Color.parseColor("#922a31")); ban.setWidth(300);
+            ban.setText("Ban");
+            ban.setBackground(getDrawable(R.drawable.button_rounded));
+            ban.setTextColor(Color.parseColor("#922a31"));
+            ban.setWidth(300);
             ban.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,6 +127,10 @@ public class AccountSearchActivity extends AppCompatActivity implements database
             tr.addView(add);
             tr.addView(ban);
             tr.addView(admin);
+            } else {
+                tr.addView(name);
+                tr.addView(add);
+            }
             nameTable.addView(tr);
 
         }
