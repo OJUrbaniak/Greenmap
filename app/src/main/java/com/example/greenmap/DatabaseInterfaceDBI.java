@@ -408,10 +408,10 @@ class DatabaseInterfaceDBI{
 
     }
 
-    public boolean selectRecyclingPOIs(float lat, float lon, float distance, int  rating, databaseInteracter dbInteracter){
-        String SQLquery  = "SELECT RecyclingBinPOI.Name, RecyclingBinPOI.Description, POI.POI_ID, POI.Type, RecyclingBinPOI.Review_Rating, RecyclingBinPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
-                " FROM GreenMap.RecyclingBinPOI INNER JOIN GreenMap.POI ON POI.POI_ID = RecyclingBinPOI.POI_ID " +
-                "WHERE (Type = 'r') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (RecyclingBinPOI.Review_Rating / RecyclingBinPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+    public boolean selectBikePOIbyPOI_ID(int POI_ID, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT * " +
+                " FROM GreenMap.BikeRackPOI " +
+                "WHERE  (BikeRackPOI.POI_ID = "+POI_ID+")";
         try {
             String[] params = {"query="+SQLquery, "select.php"};
             runHTML(params, dbInteracter);
@@ -420,6 +420,36 @@ class DatabaseInterfaceDBI{
             Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+
+    }
+
+    public boolean selectRecyclingPOIs(float lat, float lon, float distance, int  rating, databaseInteracter dbInteracter){
+        String SQLQuery  = "SELECT RecyclingBinPOI.Name, RecyclingBinPOI.Description, POI.POI_ID, POI.Type, RecyclingBinPOI.Review_Rating, RecyclingBinPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                " FROM GreenMap.RecyclingBinPOI INNER JOIN GreenMap.POI ON POI.POI_ID = RecyclingBinPOI.POI_ID " +
+                "WHERE (Type = 'r') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (RecyclingBinPOI.Review_Rating / RecyclingBinPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+        try {
+            String[] params = {"query="+SQLQuery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean selectRecyclingPOIbyPOI_ID(int POI_ID, databaseInteracter dbInteracter){
+        String SQLQuery  = "SELECT * " +
+                " FROM GreenMap.RecyclingBinPOI " +
+                "WHERE  (RecyclingBinPOI.POI_ID = "+POI_ID+")";
+        try {
+            String[] params = {"query="+SQLQuery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
     }
 
     public boolean selectRecyclingPOIsbyUser_ID(int User_ID, databaseInteracter dbInteracter){
@@ -448,6 +478,21 @@ class DatabaseInterfaceDBI{
             Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
+
+    public boolean selectWaterPOIbyPOI_ID(int POI_ID, databaseInteracter dbInteracter){
+        String SQLQuery  = "SELECT * " +
+                " FROM GreenMap.WaterFountainPOI " +
+                "WHERE  (WaterFountainPOI.POI_ID = "+POI_ID+")";
+        try {
+            String[] params = {"query="+SQLQuery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
     }
 
     public boolean selectWaterPOIsbyUser_ID(int User_ID, databaseInteracter dbInteracter){
