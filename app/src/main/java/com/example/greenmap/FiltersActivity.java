@@ -72,7 +72,7 @@ public class FiltersActivity extends AppCompatActivity {
     public void savePreferences(View view) {    //CALLED BY SAVE FILTERS BUTTON
         String rangeText = range.getText().toString();
         int rangeValue = Integer.parseInt(rangeText);
-        if((rangeValue <= 500 && rangeValue >= 1) && Integer.parseInt(minRating.getText().toString()) <= 5){
+        if((rangeValue <= 500 && rangeValue >= 1) && (Integer.parseInt(minRating.getText().toString()) <= 5 && Integer.parseInt(minRating.getText().toString()) > 0)){
             warningTextLabel.setText("");
             Log.d("PREF-LOAD","Save button hit trying to save prefs");
             pref = getSharedPreferences("com.example.greenmap", 0);
