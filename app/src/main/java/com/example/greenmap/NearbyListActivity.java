@@ -1,5 +1,6 @@
 package com.example.greenmap;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -32,9 +33,9 @@ public class NearbyListActivity extends AppCompatActivity {
         //or to support all versions use
         Typeface tf = Typeface.create("casual", Typeface.NORMAL);
         TableRow tr = new TableRow(this);
-        TextView name = new TextView(this); name.setText("Name"); name.setTextColor(Color.parseColor("#F4F4F4")); name.setWidth(130); name.setTypeface(tf);
-        TextView desc = new TextView(this); desc.setText("Description"); desc.setTextColor(Color.parseColor("#F4F4F4")); desc.setWidth(130); desc.setTypeface(tf);
-        TextView viewPOI = new TextView(this); viewPOI.setText("View POI"); viewPOI.setTextColor(Color.parseColor("#F4F4F4")); viewPOI.setWidth(130); viewPOI.setTypeface(tf);
+//        TextView name = new TextView(this); name.setText("Name"); name.setTextColor(Color.parseColor("#F4F4F4")); name.setWidth(130); name.setTypeface(tf);
+//        TextView desc = new TextView(this); desc.setText("Description"); desc.setTextColor(Color.parseColor("#F4F4F4")); desc.setWidth(130); desc.setTypeface(tf);
+//        TextView viewPOI = new TextView(this); viewPOI.setText("View POI"); viewPOI.setTextColor(Color.parseColor("#F4F4F4")); viewPOI.setWidth(130); viewPOI.setTypeface(tf);
         //if admin
         /*
         TextView delete = new TextView(this); delete.setText("View POI"); delete.setTextColor(Color.parseColor("#F4F4F4")); delete.setWidth(130); delete.setTypeface(tf);
@@ -43,23 +44,26 @@ public class NearbyListActivity extends AppCompatActivity {
         name.setWidth(98);
         tr.addView(delete);
          */
-        tr.addView(name);
-        tr.addView(desc);
-        tr.addView(viewPOI);
-        table.addView(tr);
+//        tr.addView(name);
+//        tr.addView(desc);
+//        tr.addView(viewPOI);
+//        table.addView(tr);
 
         ArrayList<PointOfInterest> data = new ArrayList<>();
         data = (ArrayList<PointOfInterest>) getIntent().getSerializableExtra("dataArray");
 
         for (final PointOfInterest currItem : data) {
-            //final PointOfInterest currItem = data[i];
             tr = new TableRow(this);
-            name = new TextView(this); name.setText(currItem.name); name.setTextColor(Color.parseColor("#F4F4F4"));
-            desc = new TextView(this); desc.setText(currItem.desc); name.setTextColor(Color.parseColor("#F4F4F4"));
+
+            TextView name = new TextView(this);
+            TextView desc = new TextView(this);
             Button viewButton = new Button(this);
+
+            name.setText(currItem.name.replace("\"",""));
+            desc.setText(currItem.desc.replace("\"",""));
+
             viewButton.setText("View POI"); viewButton.setBackgroundColor(Color.parseColor("#777777"));
             viewButton.setTextColor(Color.parseColor("#F4F4F4")); viewButton.setBackground(getDrawable(R.drawable.button_rounded));
-            //viewButton.setWidth(0);
             viewButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -76,13 +80,19 @@ public class NearbyListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     deletePOI(user_id);
                 }
-            }); //delete.setWidth(0);
+            });
 
+            TableRow.LayoutParams buttonLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.2f);
+            TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.4f);
 
-            TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
             name.setLayoutParams(itemLayout);
             desc.setLayoutParams(itemLayout);
-            viewButton.setLayoutParams(itemLayout);
+
+            buttonLayout.setMargins(0,0,0,10);
+            viewButton.setLayoutParams(buttonLayout);
+
+            name.setTextColor(Color.parseColor("#FFFFFF"));
+            desc.setTextColor(Color.parseColor("#FFFFFF"));
 
             //17 = Gravity.CENTER
             tr.setGravity(17);
