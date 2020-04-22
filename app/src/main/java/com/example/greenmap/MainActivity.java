@@ -44,11 +44,21 @@ public class MainActivity extends AppCompatActivity implements databaseInteracte
             String password = jObj.get("Password").getAsString();
             Log.d("Encryption","DBPASS: "+password);
             int carbon_saved_points = jObj.get("Carbon_Saved_Points").getAsInt();
+            int permission_Level = 0;
+            try {
+                permission_Level = jObj.get("Permission_Level").getAsInt();
+                Log.i("login","User is admin PL= " + permission_Level);
+            } catch (Exception ex){
+                //isnt admin
+                Log.i("login","User is not an admin");
+            }
+
             Log.i("dbi", "Trying to log in");
             if(userNameField.getText().toString().equals(username) && hashPass.equals(password)){
                 mainHeader.setText("Welcome back " + username + "!");
                 //Create user object and send to map
-                User userLogin = new User(userID, username, password, carbon_saved_points, email);
+                User userLogin = new User(userID, username, password, carbon_saved_points, email, permission_Level);
+                Log.i("login","Permission Level = " + userLogin.permissionLevel);
                 Intent intent = new Intent(this, MapActivity.class);
                 intent.putExtra("User", (Parcelable) userLogin);
                 startActivity(intent);
@@ -82,12 +92,12 @@ public class MainActivity extends AppCompatActivity implements databaseInteracte
 //        });
     }
 
-    public void goToMap(View view) throws ExecutionException, InterruptedException { //Login button
+    public void login(View view) throws ExecutionException, InterruptedException { //Login button
         //Check if log in is actually filled in:
         if(userNameField.getText().length() > 0 && passwordField.getText().length() > 0) {
             hashPass = new String(Hex.encodeHex(DigestUtils.md5(passwordField.getText().toString())));
             Log.d("Encryption","APPPASS: "+hashPass);
-            newDBI.selectUserByLogin(userNameField.getText().toString(), hashPass, this);
+            newDBI.selectUserandAdminByLogin(userNameField.getText().toString(), hashPass, this);
         }
     }
 

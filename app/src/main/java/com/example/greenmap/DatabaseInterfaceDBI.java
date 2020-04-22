@@ -331,6 +331,19 @@ class DatabaseInterfaceDBI{
         }
     }
 
+    public boolean selectUserandAdminByLogin(String user, String pass, databaseInteracter dbInteracter) throws ExecutionException, InterruptedException {
+        String SQLquery  = "SELECT GreenMap.User.*, GreenMap.Admin.Permission_Level FROM GreenMap.User " +
+                "LEFT JOIN GreenMap.Admin ON GreenMap.User.User_ID = GreenMap.Admin.User_ID" + " WHERE (\""+ user + "\" = User.Username) AND (\""+ pass + "\" = User.Password)";
+        String[] params = {"query=" + SQLquery, "select.php"};
+        try {
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
 
     //following table
 

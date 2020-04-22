@@ -11,6 +11,7 @@ public class User implements Serializable, Parcelable {
     public String password;
     public int carbon_saved_value;
     public String email;
+    public int permissionLevel;
 
     public User(int userID, String username, String password, int carbon_saved_value, String email) {
         this.userID = userID;
@@ -18,6 +19,16 @@ public class User implements Serializable, Parcelable {
         this.password = password;
         this.carbon_saved_value = carbon_saved_value;
         this.email = email;
+        this.permissionLevel = 0;
+    }
+
+    public User(int userID, String username, String password, int carbon_saved_value, String email, int permissionLevel) {
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.carbon_saved_value = carbon_saved_value;
+        this.email = email;
+        this.permissionLevel = permissionLevel;
     }
 
     public User(int userID, String username, int carbon_saved_value) {
@@ -32,6 +43,7 @@ public class User implements Serializable, Parcelable {
         password = in.readString();
         carbon_saved_value = in.readInt();
         email = in.readString();
+        permissionLevel = in.readInt();
     }
 
     @Override
@@ -46,6 +58,7 @@ public class User implements Serializable, Parcelable {
         dest.writeString(password);
         dest.writeInt(carbon_saved_value);
         dest.writeString(email);
+        dest.writeInt(permissionLevel);
     }
 
     @SuppressWarnings("unused")
