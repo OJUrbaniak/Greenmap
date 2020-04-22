@@ -47,6 +47,28 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
         dbi.deletePOI(POI_ID);
     }
 
+    private void edit(PointOfInterest currentPOI){
+        Log.i("CreatedList", "type= "+currentPOI.type);
+        if(currentPOI.type == "w"){
+            Log.i("CreatedList", "type= "+currentPOI.type);
+            Intent intent = new Intent(this,EditWaterActivity.class);
+            intent.putExtra("currentPOI", currentPOI);
+            startActivity(intent);
+        }else if (currentPOI.type == "r"){
+            Intent intent = new Intent(this,EditBinActivity.class);
+            Log.i("CreatedList", "type= "+currentPOI.type);
+            intent.putExtra("currentPOI", currentPOI);
+            startActivity(intent);
+        } else if (currentPOI.type == "b"){
+            Log.i("CreatedList", "type= "+currentPOI.type);
+            Intent intent = new Intent(this,EditBikeActivity.class);
+            intent.putExtra("currentPOI", currentPOI);
+            startActivity(intent);
+        } else {
+            return;
+        }
+    }
+
 
     public void resultsReturned(JsonArray jArray) { //Plot marker points after receiving them from the database
         if(jArray.size() > 0) {
@@ -80,7 +102,7 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 viewButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        goToViewPOI(data);
+                        edit(data);
                     }
                 });
                 viewButton.setWidth(50);
