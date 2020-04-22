@@ -613,7 +613,7 @@ class DatabaseInterfaceDBI{
     }
 
     public boolean updateWaterFountain(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, boolean Drink_Straight_Tap, boolean Bottle_Filling_Tap, boolean Filtered){
-        String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&drink_straight_tap="+Boolean.toString(Drink_Straight_Tap)+"&bottle_filling_tap="+Boolean.toString(Bottle_Filling_Tap)+"&filtered="+Boolean.toString(Filtered)+"&no_reviews=";
+        String urlParameters  = "UPDATE";
         String[] params = {urlParameters, "insertWaterFountain.php"};
         try {
             SendPostTask insertWaterFountain = new SendPostTask();
@@ -626,7 +626,7 @@ class DatabaseInterfaceDBI{
     }
 
     public boolean updateBikeRack(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID,  boolean Covered){
-        String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&covered="+Boolean.toString(Covered);
+        String urlParameters  = "UPDATE";
         String[] params = {urlParameters, "insertBikeRack.php"};
         try {
             SendPostTask insertBikeRack = new SendPostTask();
@@ -641,6 +641,48 @@ class DatabaseInterfaceDBI{
     public boolean updateRecyclingBin(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, String Recycling_Bin_Type){
         String urlParameters  = "UPDATE ";
         String[] params = {urlParameters, "insertRecyclingBin.php"};
+        try {
+            SendPostTask insertRecyclingBin = new SendPostTask();
+            insertRecyclingBin.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateRecyclingBinRating(int newRating, int oldRating, int POI_ID){
+        int change = newRating - oldRating;
+        String SQLQuery  = "UPDATE GreenMap.RecyclingBinPOI SET Review_Rating = (Review_Rating + "+change+") WHERE (POI_ID = "+POI_ID+")";
+        String[] params = {SQLQuery, "insertRecyclingBin.php"};
+        try {
+            SendPostTask insertRecyclingBin = new SendPostTask();
+            insertRecyclingBin.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateBikeRackRating(int newRating, int oldRating, int POI_ID){
+        int change = newRating - oldRating;
+        String SQLQuery  = "UPDATE GreenMap.BikeRackPOI SET Review_Rating = (Review_Rating + "+change+") WHERE (POI_ID = "+POI_ID+")";
+        String[] params = {SQLQuery, "insertRecyclingBin.php"};
+        try {
+            SendPostTask insertRecyclingBin = new SendPostTask();
+            insertRecyclingBin.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateWaterFountainRating(int newRating, int oldRating, int POI_ID){
+        int change = newRating - oldRating;
+        String SQLQuery  = "UPDATE GreenMap.WaterFountainPOI SET Review_Rating = (Review_Rating + "+change+") WHERE (POI_ID = "+POI_ID+")";
+        String[] params = {SQLQuery, "insertRecyclingBin.php"};
         try {
             SendPostTask insertRecyclingBin = new SendPostTask();
             insertRecyclingBin.execute(params);
