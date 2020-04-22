@@ -46,6 +46,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     Button profileButton;
     Button confirmButton;
     Button moreInfoButton;
+    FloatingActionButton refreshButton;
     GoogleMap mapAPI;
     FloatingActionButton plotButton;
     boolean userMarkerPlaced = false;
@@ -97,6 +98,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         plotButton = findViewById(R.id.floatingAddButton);
         confirmButton = findViewById(R.id.button3);
         moreInfoButton = findViewById(R.id.moreInfoButton);
+        refreshButton = findViewById(R.id.refreshButton);
 
         confirmButton.setVisibility(View.GONE);
         moreInfoButton.setVisibility(View.GONE);
@@ -346,6 +348,13 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         Intent intent = new Intent(this, ViewNearbyPOIActivity.class);
         intent.putExtra("currentPOI", markerSelected);
         startActivity(intent);
+    }
+
+    public void refreshMap(View view){
+        finish();
+        overridePendingTransition(0, 0);
+        startActivity(getIntent());
+        overridePendingTransition(0, 0);
     }
 }
 
