@@ -99,6 +99,22 @@
         app:layout_constraintVertical_bias="0.0"
         app:rippleColor="#FFFFFF" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#777777"
+        android:clickable="true"
+        android:onClick="refreshMap"
+        android:src="@android:drawable/ic_popup_sync"
+        android:tint="#F4F4F4"
+        app:backgroundTint="#00FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/mapAPI"
+        app:rippleColor="#FFFFFF" />
+
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"
@@ -117,7 +133,7 @@
         android:id="@+id/moreInfoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="25dp"
         android:backgroundTint=" #777777"
         android:fontFamily="sans-serif-light"
         android:onClick="toMoreInfo"
