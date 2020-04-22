@@ -21,34 +21,24 @@
 
     <TextView
         android:id="@+id/nameLabel"
-        android:layout_width="360dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:fontFamily="casual"
         android:text="Name:"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
 
     <TextView
-        android:id="@+id/extrasLabel"
-        android:layout_width="360dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="10dp"
-        android:text="Extras:"
-        android:textColor="#F4F4F4"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/typeLabel" />
-
-    <TextView
         android:id="@+id/typeLabel"
-        android:layout_width="175dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="casual"
         android:text="Type:"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
@@ -56,26 +46,87 @@
         app:layout_constraintTop_toBottomOf="@+id/descLabel" />
 
     <TextView
-        android:id="@+id/ratingLabel"
-        android:layout_width="175dp"
+        android:id="@+id/nameInfoLabel"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:text="Rating"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="casual"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/mapAPI" />
+
+    <TextView
+        android:id="@+id/descInfoLabel"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="casual"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/nameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/nameInfoLabel" />
+
+    <TextView
+        android:id="@+id/typeInfoLabel"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="casual"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/nameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/descInfoLabel" />
+
+    <TextView
+        android:id="@+id/ratingInfoLabel"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:fontFamily="casual"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/nameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/typeInfoLabel" />
+
+    <TextView
+        android:id="@+id/ratingLabel"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="casual"
+        android:text="Rating:"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/descLabel"
-        app:layout_constraintTop_toTopOf="@+id/typeLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/typeLabel" />
 
     <TextView
         android:id="@+id/descLabel"
-        android:layout_width="360dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
+        android:fontFamily="casual"
         android:text="Description:"
         android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameLabel" />
 
@@ -83,14 +134,16 @@
         android:id="@+id/button17"
         android:layout_width="162dp"
         android:layout_height="50dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/button_rounded"
+        android:fontFamily="sans-serif-light"
         android:onClick="goToRate"
         android:text="Rate POI"
         android:textColor="#F4F4F4"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/extrasLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/ratingLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

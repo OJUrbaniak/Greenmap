@@ -12,6 +12,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -28,11 +29,10 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_nearby_p_o_i);
 
-        TextView nameLabel = findViewById(R.id.nameLabel);
-        TextView extrasLabel = findViewById(R.id.extrasLabel);
-        TextView typeLabel = findViewById(R.id.typeLabel);
-        TextView ratingLabel = findViewById(R.id.ratingLabel);
-        TextView descLabel = findViewById(R.id.descLabel);
+        TextView nameLabel = findViewById(R.id.nameInfoLabel);
+        TextView typeLabel = findViewById(R.id.typeInfoLabel);
+        TextView ratingLabel = findViewById(R.id.ratingInfoLabel);
+        TextView descLabel = findViewById(R.id.descInfoLabel);
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
@@ -63,7 +63,14 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
         googleMap.getUiSettings().setAllGesturesEnabled(false);
         LatLng currLatLng = new LatLng(currentPOI.coords.latitude, currentPOI.coords.longitude);
         //Create a marker
-        MarkerOptions marker = new MarkerOptions().position(currLatLng).title(currentPOI.name);
+        MarkerOptions marker;
+        if(currentPOI.type.equals("w")){
+            marker = new MarkerOptions().position(currLatLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(currentPOI.name);
+        } else if(currentPOI.type.equals("b")){
+            marker = new MarkerOptions().position(currLatLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title(currentPOI.name);
+        } else{
+            marker = new MarkerOptions().position(currLatLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title(currentPOI.name);
+        }
         googleMap.addMarker(marker);
         //Zoom in on the map
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currLatLng, 17));
