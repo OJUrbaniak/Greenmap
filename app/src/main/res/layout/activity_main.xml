@@ -88,7 +88,7 @@
         android:background="@drawable/button_rounded"
         android:backgroundTint="#777777"
         android:fontFamily="sans-serif-light"
-        android:onClick="goToMap"
+        android:onClick="login"
         android:text="@string/login_button"
         android:textColor="#CFCFCF"
         android:textSize="18sp"

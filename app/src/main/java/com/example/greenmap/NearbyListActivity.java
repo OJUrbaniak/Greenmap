@@ -20,33 +20,44 @@ import java.util.ArrayList;
 public class NearbyListActivity extends AppCompatActivity {
 
     TableLayout table;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby_list);
+        Intent i = getIntent();
+        currentUser = (User)i.getSerializableExtra("User");
+        Log.i("nearbyList", "currentuser name is "+ currentUser.username);
+
         table = findViewById(R.id.nearbyPOITable);
         //or to support all versions use
         Typeface tf = Typeface.create("casual", Typeface.NORMAL);
         TableRow tr = new TableRow(this);
-        TextView name = new TextView(this); name.setText("Name"); name.setTextColor(Color.parseColor("#F4F4F4")); name.setWidth(130); name.setTypeface(tf);
-        TextView desc = new TextView(this); desc.setText("Description"); desc.setTextColor(Color.parseColor("#F4F4F4")); desc.setWidth(130); desc.setTypeface(tf);
-        TextView viewPOI = new TextView(this); viewPOI.setText("View POI"); viewPOI.setTextColor(Color.parseColor("#F4F4F4")); viewPOI.setWidth(130); viewPOI.setTypeface(tf);
-        //if admin
-        /*
-        TextView delete = new TextView(this); delete.setText("View POI"); delete.setTextColor(Color.parseColor("#F4F4F4")); delete.setWidth(130); delete.setTypeface(tf);
-        viewPOI.setWidth(98);
-        desc.setWidth(98);
-        name.setWidth(98);
-        tr.addView(delete);
-         */
-        tr.addView(name);
-        tr.addView(desc);
-        tr.addView(viewPOI);
+        TextView name = new TextView(this); name.setText("Name"); name.setTextColor(Color.parseColor("#F4F4F4")); name.setWidth(400); name.setTypeface(tf);
+        TextView desc = new TextView(this); desc.setText("Description"); desc.setTextColor(Color.parseColor("#F4F4F4")); desc.setWidth(400); desc.setTypeface(tf);
+        TextView viewPOI = new TextView(this); viewPOI.setText("View POI"); viewPOI.setTextColor(Color.parseColor("#F4F4F4")); viewPOI.setWidth(400); viewPOI.setTypeface(tf);
+        Log.i("nearbyList", "currentuser permissionlevel  is "+ currentUser.permissionLevel);
+        if (currentUser.permissionLevel > 0){
+            Log.i("nearbyList", "user is admin");
+            TextView delete = new TextView(this); delete.setText("Delete POI"); delete.setTextColor(Color.parseColor("#F4F4F4")); delete.setWidth(400); delete.setTypeface(tf);
+            viewPOI.setWidth(400);
+            desc.setWidth(400);
+            name.setWidth(400);
+            tr.addView(name);
+            tr.addView(desc);
+            tr.addView(viewPOI);
+            tr.addView(delete);
+        } else{
+            tr.addView(name);
+            tr.addView(desc);
+            tr.addView(viewPOI);
+        }
+
         table.addView(tr);
 
         ArrayList<PointOfInterest> data = new ArrayList<>();
-        data = (ArrayList<PointOfInterest>) getIntent().getSerializableExtra("dataArray");
+        data = (ArrayList<PointOfInterest>) i.getSerializableExtra("dataArray");
         for (final PointOfInterest currItem : data) {
             //final PointOfInterest currItem = data[i];
             tr = new TableRow(this);
@@ -64,20 +75,30 @@ public class NearbyListActivity extends AppCompatActivity {
                     goToViewPOI(currItem);
                 }
             });
-            //if admin
-            Button delete = new Button(this);
-            final int user_id= currItem.id;
-            delete.setText("Delete"); delete.setBackgroundColor(Color.parseColor("#777777"));
-            delete.setTextColor(Color.parseColor("#922a31")); delete.setBackground(getDrawable(R.drawable.button_rounded));
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    deletePOI(user_id);
-                }
-            }); delete.setWidth(50);
-            tr.addView(name);
-            tr.addView(desc);
-            tr.addView(viewButton);
+            if (currentUser.permissionLevel > 0) {
+                Button delete = new Button(this);
+                final int user_id = currItem.id;
+                delete.setText("Delete");
+                delete.setBackgroundColor(Color.parseColor("#777777"));
+                delete.setTextColor(Color.parseColor("#922a31"));
+                delete.setBackground(getDrawable(R.drawable.button_rounded));
+                delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deletePOI(user_id);
+                    }
+                });
+                delete.setWidth(50);
+                tr.addView(name);
+                tr.addView(desc);
+                tr.addView(viewButton);
+                tr.addView(delete);
+            } else {
+                tr.addView(name);
+                tr.addView(desc);
+                tr.addView(viewButton);
+            }
+
             table.addView(tr);
         }
     }
