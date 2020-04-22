@@ -136,7 +136,6 @@ public class NearbyListActivity extends AppCompatActivity {
             TableRow.LayoutParams buttonLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.2f);
             TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.4f);
 
-            TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
             name.setLayoutParams(itemLayout);
             desc.setLayoutParams(itemLayout);
 
