@@ -81,10 +81,10 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
         //Load markers based on users saved preferences
         if(userPref.showTaps){
-            dbi.selectWaterPOIs(53.4053f, -2.9660f, userPref.range, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, this);
+            dbi.selectWaterPOIs(53.4053f, -2.9660f, userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered,this);
         }
         if(userPref.showBins){
-            dbi.selectRecyclingPOIs(53.4053f, -2.9660f, userPref.range, this);
+            dbi.selectRecyclingPOIs(53.4053f, -2.9660f, userPref.range, userPref.minRating, this);
         }
         if(userPref.showRacks){
             dbi.selectBikePOIs(53.4053f, -2.9660f, userPref.range, 0, userPref.rackCovered, this);

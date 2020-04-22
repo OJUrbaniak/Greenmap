@@ -108,7 +108,7 @@ public class FiltersActivity extends AppCompatActivity {
         } else {
             Log.i("warning Label", "out of range");
             warningTextLabel.setText("Please enter a range between 1-500 and a minimum rating between 0-5");
-            range.setText("");
+            range.setText("1");
         }
     }
 
