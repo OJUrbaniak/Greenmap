@@ -411,7 +411,7 @@ class DatabaseInterfaceDBI{
     public boolean selectRecyclingPOIs(float lat, float lon, float distance, int  rating, databaseInteracter dbInteracter){
         String SQLquery  = "SELECT RecyclingBinPOI.Name, RecyclingBinPOI.Description, POI.POI_ID, POI.Type, RecyclingBinPOI.Review_Rating, RecyclingBinPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                 " FROM GreenMap.RecyclingBinPOI INNER JOIN GreenMap.POI ON POI.POI_ID = RecyclingBinPOI.POI_ID " +
-                "WHERE (Type = 'r') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (BikeRackPOI.Review_Rating / BikeRackPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+                "WHERE (Type = 'r') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") AND (RecyclingBinPOI.Review_Rating / RecyclingBinPOI.No_Reviews >= "+rating+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
         try {
             String[] params = {"query="+SQLquery, "select.php"};
             runHTML(params, dbInteracter);
