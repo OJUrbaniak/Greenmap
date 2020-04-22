@@ -362,6 +362,14 @@ class DatabaseInterfaceDBI{
 
     }
 
+
+    public boolean selectPOIbyUser_ID(int User_ID, databaseInteracter dbInteracter){
+        selectWaterPOIsbyUser_ID(User_ID, dbInteracter);
+        selectBikePOIsbyUser_ID(User_ID, dbInteracter);
+        selectRecyclingPOIsbyUser_ID(User_ID, dbInteracter);
+        return true;
+    }
+
     public boolean selectBikePOIs(float lat, float lon, float distance, boolean covered, databaseInteracter dbInteracter){
         String SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                 " FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI ON POI.POI_ID = BikeRackPOI.POI_ID " +
@@ -383,6 +391,21 @@ class DatabaseInterfaceDBI{
         }
     }
 
+    public boolean selectBikePOIsbyUser_ID(int User_ID, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT BikeRackPOI.Name, BikeRackPOI.Description, POI.POI_ID, POI.Type, BikeRackPOI.Review_Rating, BikeRackPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                " FROM GreenMap.BikeRackPOI INNER JOIN GreenMap.POI ON POI.POI_ID = BikeRackPOI.POI_ID " +
+                "WHERE (Type = 'b') AND (POI.User_ID = "+User_ID+")";
+        try {
+            String[] params = {"query="+SQLquery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+    }
+
     public boolean selectRecyclingPOIs(float lat, float lon, float distance, databaseInteracter dbInteracter){
         String SQLquery  = "SELECT RecyclingBinPOI.Name, RecyclingBinPOI.Description, POI.POI_ID, POI.Type, RecyclingBinPOI.Review_Rating, RecyclingBinPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                 " FROM GreenMap.RecyclingBinPOI INNER JOIN GreenMap.POI ON POI.POI_ID = RecyclingBinPOI.POI_ID " +
@@ -397,10 +420,38 @@ class DatabaseInterfaceDBI{
         }
     }
 
+    public boolean selectRecyclingPOIsbyUser_ID(int User_ID, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT RecyclingBinPOI.Name, RecyclingBinPOI.Description, POI.POI_ID, POI.Type, RecyclingBinPOI.Review_Rating, RecyclingBinPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                " FROM GreenMap.RecyclingBinPOI INNER JOIN GreenMap.POI ON POI.POI_ID = RecyclingBinPOI.POI_ID " +
+                "WHERE (Type = 'r') AND (POI.User_ID = "+User_ID+")";
+        try {
+            String[] params = {"query="+SQLquery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
     public boolean selectWaterPOIs(float lat, float lon, float distance, databaseInteracter dbInteracter){
         String SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
                 " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
                 "WHERE (Type = 'w') AND (ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location)<="+Float.toString(distance)+") ORDER BY ST_Distance(POINT(" + Float.toString(lat) +"," + Float.toString(lon)+ "), POI.Location) limit 50";
+        try {
+            String[] params = {"query="+SQLquery, "select.php"};
+            runHTML(params, dbInteracter);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(databaseInterface.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean selectWaterPOIsbyUser_ID(int User_ID, databaseInteracter dbInteracter){
+        String SQLquery  = "SELECT WaterFountainPOI.Name, WaterFountainPOI.Description, POI.POI_ID, POI.Type, WaterFountainPOI.Review_Rating, WaterFountainPOI.No_Reviews, ST_X(POI.Location) AS Latitude, ST_Y(POI.Location) AS Longitude " +
+                " FROM GreenMap.WaterFountainPOI INNER JOIN GreenMap.POI ON POI.POI_ID = WaterFountainPOI.POI_ID " +
+                "WHERE (Type = 'w') AND (POI.User_ID = "+User_ID+")";
         try {
             String[] params = {"query="+SQLquery, "select.php"};
             runHTML(params, dbInteracter);

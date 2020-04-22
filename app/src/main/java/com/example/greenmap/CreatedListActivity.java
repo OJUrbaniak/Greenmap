@@ -15,10 +15,15 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
-public class CreatedListActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class CreatedListActivity extends AppCompatActivity implements databaseInteracter {
 
     TableLayout table;
+    ArrayList<PointOfInterest> data = new ArrayList<PointOfInterest> ();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,5 +59,34 @@ public class CreatedListActivity extends AppCompatActivity {
         Intent intent = new Intent(this,ViewPOIActivity.class);
         intent.putExtra("currentPOI", currentPOI);
         startActivity(intent);
+    }
+
+    public void resultsReturned(JsonArray jArray) { //Plot marker points after receiving them from the database
+        if(jArray.size() > 0) {
+            float rating;
+            for(int n = 0; n < jArray.size(); n++) {
+                Log.i("JARRAYS FAT ASS SIZE IS", String.valueOf(jArray.size()));
+                Log.i("dbiMap", "POI found");
+                JsonObject jObj = jArray.get(n).getAsJsonObject(); //Get the POI object
+                //Define attributes for passing user information around front end
+                rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
+                //searchResults.add(new PoiSearchInfo(jObj.get("Name").toString(), jObj.get("Description").toString(), jObj.get("Type").getAsString(), rating, jObj.get("Latitude").getAsFloat(), jObj.get("Longitude").getAsFloat(), jObj.get("POI_ID").getAsInt()));
+
+                data.add(new PointOfInterest(
+                        jObj.get("POI_ID").getAsInt(),
+                        jObj.get("Name").toString(),
+                        jObj.get("Description").toString(),
+                        (double) jObj.get("Latitude").getAsFloat(),
+                        (double) jObj.get("Longitude").getAsFloat(),
+                        jObj.get("Type").getAsString()
+                ));
+                Log.i("dbiMap", "added POI name= "+ jObj.get("Name").toString());
+            }
+            Log.i("SEARCH RESULTS SIZE TWO DING", String.valueOf(data.size()));
+            //Loop round search results and display on map
+
+        } else {
+            //no POIs found
+        }
     }
 }
