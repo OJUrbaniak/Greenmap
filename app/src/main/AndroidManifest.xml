@@ -37,7 +37,8 @@
         <activity android:name=".DeletePOIActivity" />
         <activity android:name=".EditBikeActivity" />
         <activity android:name=".ViewPOIActivity" />
-        <activity android:name=".CreatedListActivity" />
+        <activity android:name=".CreatedListActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".CreateWaterActivity" />
         <activity android:name=".CreateBikeActivity" />
         <activity android:name=".CreatePOIActivity" />

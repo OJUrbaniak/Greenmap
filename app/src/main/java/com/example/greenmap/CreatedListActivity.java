@@ -3,6 +3,7 @@ package com.example.greenmap;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
@@ -87,8 +88,15 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 Log.i("CreatedList", "added POI name= "+ jObj.get("Name").toString());
                 //add the POIs to the table
                 TableRow tr = new TableRow(this);
-                TextView name = new TextView(this); name.setText(jObj.get("Name").toString()); name.setTextColor(Color.parseColor("#F4F4F4")); name.setWidth(150);
-                TextView desc = new TextView(this); desc.setText(jObj.get("Description").toString()); desc.setTextColor(Color.parseColor("#F4F4F4")); desc.setWidth(150);
+                TextView name = new TextView(this);
+                TextView desc = new TextView(this);
+
+                name.setText(jObj.get("Name").toString().replace("\"",""));
+                desc.setText(jObj.get("Description").toString().replace("\"",""));
+
+                name.setTextColor(Color.parseColor("#F4F4F4"));
+                desc.setTextColor(Color.parseColor("#F4F4F4"));
+
                 Button viewButton = new Button(this);
                 Button delete = new Button(this);
 
@@ -120,7 +128,6 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                         Log.i("VIEW", String.valueOf(v));
                     }
                 });
-                viewButton.setWidth(50);
 
                 final int user_id= data.id;
                 delete.setText("Delete"); delete.setBackgroundColor(Color.parseColor("#777777"));
@@ -130,8 +137,25 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                     public void onClick(View v) {
                         deletePOI(user_id);
                     }
-                }); delete.setWidth(50);
+                });
 
+                TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.30f);
+                TableRow.LayoutParams editButtonLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.20f);
+                TableRow.LayoutParams deleteButtonLayout = editButtonLayout;
+
+                editButtonLayout.setMargins(5,0,0,10);
+                deleteButtonLayout.setMargins(10,0,0,10);
+
+                name.setLayoutParams(itemLayout);
+                desc.setLayoutParams(itemLayout);
+                viewButton.setLayoutParams(editButtonLayout);
+                delete.setLayoutParams(deleteButtonLayout);
+
+                tr.setGravity(17);
+                name.setGravity(17);
+                desc.setGravity(17);
+                viewButton.setGravity(17);
+                delete.setGravity(17);
 
                 tr.addView(name);
                 tr.addView(desc);

@@ -7,87 +7,123 @@
     android:background="#353535"
     tools:context=".CreatedListActivity">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:scrollbars="none"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TableLayout
-            android:id="@+id/createdPOITable"
-            android:layout_width="406dp"
-            android:layout_height="623dp"
-            android:layout_marginTop="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText14">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:orientation="horizontal">
 
-            <TableRow
+            <EditText
+                android:id="@+id/editText14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="0.85"
+                android:ems="10"
+                android:fontFamily="casual"
+                android:inputType="textPersonName"
+                android:text="Search"
+                android:textColor="#F4F4F4" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.15"
+                android:background="#353535"
+                app:srcCompat="@android:drawable/ic_menu_search" />
+
+        </LinearLayout>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.02">
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="Name"
+                android:textColor="#F4F4F4"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="Description"
+                android:textColor="#F4F4F4"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView90"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="View POI"
+                android:textColor="#F4F4F4"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.25"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:text="Delete"
+                android:textColor="#F4F4F4"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <ScrollView
+            android:id="@+id/activity_scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_weight="0.58"
+            android:fillViewport="true"
+            android:scrollbarStyle="outsideInset"
+            android:scrollbars="vertical">
+
+            <TableLayout
+                android:id="@+id/createdPOITable"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText14" />
+        </ScrollView>
 
-                <TextView
-                    android:id="@+id/textView22"
-                    android:layout_width="98dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="casual"
-                    android:text="Name"
-                    android:textColor="#F4F4F4" />
+    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView23"
-                    android:layout_width="98dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="casual"
-                    android:text="Description"
-                    android:textColor="#F4F4F4" />
-
-                <TextView
-                    android:id="@+id/textView90"
-                    android:layout_width="98dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="casual"
-                    android:text="View POI"
-                    android:textColor="#F4F4F4" />
-
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="98dp"
-                    android:layout_height="match_parent"
-                    android:fontFamily="casual"
-                    android:text="Delete"
-                    android:textColor="#F4F4F4" />
-
-            </TableRow>
-
-        </TableLayout>
-    </ScrollView>
-
-    <EditText
-        android:id="@+id/editText14"
-        android:layout_width="143dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:fontFamily="casual"
-        android:inputType="textPersonName"
-        android:text="Search"
-        android:textColor="#F4F4F4"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="51dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="16dp"
-        android:background="#353535"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_search" />
 </androidx.constraintlayout.widget.ConstraintLayout>
