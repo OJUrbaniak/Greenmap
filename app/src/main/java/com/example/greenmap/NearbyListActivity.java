@@ -151,9 +151,9 @@ public class NearbyListActivity extends AppCompatActivity {
             desc.setGravity(17);
             viewButton.setGravity(17);
 
-            tr.addView(name);
-            tr.addView(desc);
-            tr.addView(viewButton);
+//            tr.addView(name);
+//            tr.addView(desc);
+//            tr.addView(viewButton);
             table.addView(tr);
         }
     }
