@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:background="#777777"
             android:fontFamily="casual"
-            android:text="View POI"
+            android:text="Edit POI"
             android:textAlignment="center"
             android:textColor="#F4F4F4"
             android:visibility="visible" />

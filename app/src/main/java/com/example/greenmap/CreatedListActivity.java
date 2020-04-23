@@ -123,7 +123,7 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
 
                 //ViewPOI button
                 final Button viewButton = new Button(this);
-                viewButton.setText("View POI");
+                viewButton.setText("Edit POI");
                 viewButton.setTypeface(tf2);
                 viewButton.setBackgroundColor(Color.parseColor("#777777"));
                 viewButton.setTextColor(Color.parseColor("#F4F4F4"));
