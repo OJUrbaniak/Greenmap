@@ -425,6 +425,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             locationMarker = mapAPI.addMarker(options);
             //Need to send cameraLoc to db to get POIS
             DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
+            mapAPI.clear();
             data.clear();
             //Load markers based on users saved preferences
             if (userPref.showTaps) {
