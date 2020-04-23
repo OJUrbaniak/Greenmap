@@ -3,6 +3,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.content.Intent;
@@ -23,11 +24,14 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
     PointOfInterest currentPOI;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_nearby_p_o_i);
+        Intent i = getIntent();
+        currentUser = (User)i.getSerializableExtra("User");
 
         TextView nameLabel = findViewById(R.id.nameInfoLabel);
         TextView typeLabel = findViewById(R.id.typeInfoLabel);
@@ -37,7 +41,7 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
         mapFragment.getMapAsync(this);
 
-        currentPOI = (PointOfInterest) getIntent().getSerializableExtra("currentPOI");
+        currentPOI = (PointOfInterest) i.getSerializableExtra("currentPOI");
         nameLabel.setText(nameLabel.getText()+" "+currentPOI.name);
         //extrasLabel.setText(currentPOI.name);
         String typeString = "";
@@ -80,6 +84,7 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
     public void goToRate(View view){
         Intent intent = new Intent(this, RatePOIActivity.class);
         intent.putExtra("currentPOI", currentPOI);
+        intent.putExtra("User", (Parcelable) currentUser);
         startActivity(intent);
     }
 }

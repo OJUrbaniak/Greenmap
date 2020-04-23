@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.SecureRandom;
@@ -22,6 +23,7 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import com.google.gson.*;
+import java.net.URLEncoder;
 
 
 
@@ -245,7 +247,7 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean insertRating(int userID, int POI_ID, int Rating, databaseInteracter dbInteracter){
+    public boolean insertRating(int userID, int POI_ID, int Rating){
         String SQLQuery  = "INSERT INTO GreenMap.Ratings VALUE ("+userID+", "+POI_ID+", "+Rating+")";
         String[] params = {"query=" +SQLQuery, "insert.php"};
         try {
@@ -613,11 +615,11 @@ class DatabaseInterfaceDBI{
     }
 
     public boolean updateWaterFountain(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, boolean Drink_Straight_Tap, boolean Bottle_Filling_Tap, boolean Filtered){
-        String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&drink_straight_tap="+Boolean.toString(Drink_Straight_Tap)+"&bottle_filling_tap="+Boolean.toString(Bottle_Filling_Tap)+"&filtered="+Boolean.toString(Filtered)+"&no_reviews=";
-        String[] params = {urlParameters, "insertWaterFountain.php"};
+        String urlParameters  = "UPDATE";
+        String[] params = {urlParameters, "update.php"};
         try {
-            SendPostTask insertWaterFountain = new SendPostTask();
-            insertWaterFountain.execute(params);
+            SendPostTask update = new SendPostTask();
+            update.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
@@ -626,11 +628,11 @@ class DatabaseInterfaceDBI{
     }
 
     public boolean updateBikeRack(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID,  boolean Covered){
-        String urlParameters  = "lat="+Float.toString(lat)+"&long="+Float.toString(lng)+"&user_ID="+Integer.toString(userID)+"&name="+Name+"&carbon_saved_value="+Integer.toString(Carbon_Saved_Value)+"&description="+Description+"&covered="+Boolean.toString(Covered);
-        String[] params = {urlParameters, "insertBikeRack.php"};
+        String urlParameters  = "UPDATE";
+        String[] params = {urlParameters, "update.php"};
         try {
-            SendPostTask insertBikeRack = new SendPostTask();
-            insertBikeRack.execute(params);
+            SendPostTask update = new SendPostTask();
+            update.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
@@ -640,10 +642,81 @@ class DatabaseInterfaceDBI{
 
     public boolean updateRecyclingBin(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, String Recycling_Bin_Type){
         String urlParameters  = "UPDATE ";
-        String[] params = {urlParameters, "insertRecyclingBin.php"};
+        String[] params = {"query="+urlParameters, "update.php"};
         try {
-            SendPostTask insertRecyclingBin = new SendPostTask();
-            insertRecyclingBin.execute(params);
+            SendPostTask update = new SendPostTask();
+            update.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateRecyclingBinRating(int newRating, int oldRating, int POI_ID){
+        int change = newRating - oldRating;
+        String SQLQuery = "";
+        try {
+            SQLQuery = URLEncoder.encode("UPDATE GreenMap.RecyclingBinPOI SET Review_Rating = Review_Rating + "+change+" WHERE (POI_ID = "+POI_ID+")", "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String[] params = {"query="+SQLQuery, "update.php"};
+        try {
+            SendPostTask update = new SendPostTask();
+            update.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateBikeRackRating(int newRating, int oldRating, int POI_ID){
+        int change = newRating - oldRating;
+        String SQLQuery = "";
+        try {
+            SQLQuery = URLEncoder.encode("UPDATE GreenMap.BikeRackPOI SET Review_Rating = Review_Rating + "+change+" WHERE (POI_ID = "+POI_ID+")", "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String[] params = {"query="+SQLQuery, "update.php"};
+        try {
+            SendPostTask update = new SendPostTask();
+            update.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateWaterFountainRating(int newRating, int oldRating, int POI_ID){
+        int change = newRating - oldRating;
+        String SQLQuery = "";
+        try {
+            SQLQuery = URLEncoder.encode("UPDATE GreenMap.WaterFountainPOI SET Review_Rating = Review_Rating + "+change+" WHERE (POI_ID = "+POI_ID+")", "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        String[] params = {"query="+SQLQuery, "update.php"};
+        try {
+            SendPostTask update = new SendPostTask();
+            update.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean updateRating(int newRating, int POI_ID, int User_ID){
+        String SQLQuery  = "UPDATE GreenMap.Ratings SET Rating = "+newRating+" WHERE (POI_ID = "+POI_ID+") AND (User_ID = "+User_ID+")";
+        String[] params = {"query="+SQLQuery, "update.php"};
+        try {
+            SendPostTask update = new SendPostTask();
+            update.execute(params);
             return true;
         } catch (Exception ex) {
             Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);

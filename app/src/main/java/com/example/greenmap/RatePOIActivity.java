@@ -19,23 +19,29 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.JsonArray;
 
 import org.w3c.dom.Text;
 
-public class RatePOIActivity  extends FragmentActivity implements OnMapReadyCallback{
+public class RatePOIActivity  extends FragmentActivity implements OnMapReadyCallback, databaseInteracter{
 
     int rateValue;
     boolean valueChecked;
     Button rateButton;
+    int newRating;
+    User currentUser;
 
     SupportMapFragment mapFragment;
     PointOfInterest currentPOI;
+    DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_p_o_i);
+        Intent i = getIntent();
+        currentUser = (User)i.getSerializableExtra("User");
 
         TextView nameLabel = findViewById(R.id.nameInfoLabel);
         TextView descLabel = findViewById(R.id.descInfoLabel);
@@ -164,6 +170,8 @@ public class RatePOIActivity  extends FragmentActivity implements OnMapReadyCall
         if(valueChecked == true){
             //then update the POI in database and go back to the map
             Log.i("rateValue", String.valueOf(rateValue));
+            newRating = rateValue;
+            dbi.selectRating(currentUser.userID, currentPOI.id, this);
             infoPopUp.setText("Rating saved! Thanks for your feedback!");
         } else{
             //display an error message asking to check a box
@@ -174,5 +182,28 @@ public class RatePOIActivity  extends FragmentActivity implements OnMapReadyCall
     public void returnToMap(View view){
         finish();
     }
+
+    @Override
+    public void resultsReturned(JsonArray jArray) {
+        int oldRating;
+        oldRating = 0;
+        if(jArray.size() > 0){
+            oldRating = jArray.get(0).getAsJsonObject().get("Rating").getAsInt();
+            dbi.updateRating(newRating, currentPOI.id, currentUser.userID);
+        } else{
+            dbi.insertRating(currentUser.userID, currentPOI.id, newRating);
+        }
+        Log.i("Rate", "type = "+currentPOI.type+ " new rating = "+ newRating);
+        if(currentPOI.type.equals("w")){
+            dbi.updateWaterFountainRating(newRating, oldRating, currentPOI.id);
+        }else if (currentPOI.type.equals("b")){
+            dbi.updateBikeRackRating(newRating, oldRating, currentPOI.id);
+        }else if (currentPOI.type.equals("r")){
+            dbi.updateRecyclingBinRating(newRating, oldRating, currentPOI.id);
+        } else {
+            Log.i("Rate", "wtf");
+        }
+    }
+
 
 }
