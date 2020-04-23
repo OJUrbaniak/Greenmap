@@ -7,112 +7,117 @@
     android:background="#353535"
     tools:context=".CreatedListActivity">
 
-    <ScrollView
-        android:id="@+id/scrollView3"
-        android:layout_width="409dp"
-        android:layout_height="550dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tblHeaders">
-
-        <TableLayout
-            android:id="@+id/createdPOITable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="*" />
-    </ScrollView>
-
     <LinearLayout
-        android:id="@+id/tblHeaders"
-        android:layout_width="409dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-        <TextView
-            android:id="@+id/nameLabel"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#777777"
-            android:fontFamily="casual"
-            android:text="Name"
-            android:textAlignment="center"
-            android:textColor="#F4F4F4" />
-
-        <TextView
-            android:id="@+id/descLabel"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#777777"
-            android:fontFamily="casual"
-            android:singleLine="true"
-            android:text="Description"
-            android:textAlignment="center"
-            android:textColor="#F4F4F4" />
-
-        <TextView
-            android:id="@+id/actionLabel"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#777777"
-            android:fontFamily="casual"
-            android:text="Edit POI"
-            android:textAlignment="center"
-            android:textColor="#F4F4F4"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/deletePOILabel"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#777777"
-            android:fontFamily="casual"
-            android:text="Delete POI"
-            android:textAlignment="center"
-            android:textColor="#F4F4F4"
-            android:visibility="visible" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.05"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/editText14"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="0dp"
-            android:layout_weight="0.85"
-            android:ems="10"
-            android:fontFamily="casual"
-            android:hint="@android:string/search_go"
-            android:inputType="textPersonName"
-            android:textColor="#F4F4F4" />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="7"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            <EditText
+                android:id="@+id/editText14"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_weight="0.85"
+                android:ems="10"
+                android:fontFamily="casual"
+                android:hint="@android:string/search_go"
+                android:inputType="textPersonName"
+                android:textColor="#F4F4F4" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.15"
+                android:background="#353535"
+                android:tint="#FFFFFF"
+                app:srcCompat="@android:drawable/ic_menu_search" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tblHeaders"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginTop="10dp"
-            android:layout_weight="0.15"
-            android:background="#353535"
-            android:tint="#FFFFFF"
-            app:srcCompat="@android:drawable/ic_menu_search" />
+            android:layout_marginBottom="5dp"
+            android:layout_weight="2.5">
 
+            <TextView
+                android:id="@+id/nameLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#777777"
+                android:fontFamily="casual"
+                android:text="Name"
+                android:textAlignment="center"
+                android:textColor="#F4F4F4" />
+
+            <TextView
+                android:id="@+id/descLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#777777"
+                android:fontFamily="casual"
+                android:singleLine="true"
+                android:text="Description"
+                android:textAlignment="center"
+                android:textColor="#F4F4F4" />
+
+            <TextView
+                android:id="@+id/actionLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#777777"
+                android:fontFamily="casual"
+                android:text="Edit POI"
+                android:textAlignment="center"
+                android:textColor="#F4F4F4"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/deletePOILabel"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#777777"
+                android:fontFamily="casual"
+                android:text="Delete POI"
+                android:textAlignment="center"
+                android:textColor="#F4F4F4"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scrollView3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="81.5">
+
+            <TableLayout
+                android:id="@+id/createdPOITable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*" />
+        </ScrollView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
