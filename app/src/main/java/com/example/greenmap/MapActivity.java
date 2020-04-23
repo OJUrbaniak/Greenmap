@@ -48,6 +48,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     FloatingActionButton plotButton;
     boolean userMarkerPlaced = false;
     Marker userMarker;
+    final databaseInteracter dbInt = this;
 
     Preferences userPref;
     SharedPreferences pref = null;
@@ -62,11 +63,15 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
+    DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
 
     PointOfInterest markerSelected;
 
+    boolean called;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        called = false;
         Log.i("MAP ACTIVITY CREATED", "IM CREATED YALL");
 
         try {
@@ -75,17 +80,8 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
         //Load in the users preferences (or the default ones) and pull the necessary points from the DB to show on map
         loadPreferences();
-        DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
+
         //Load markers based on users saved preferences
-        if(userPref.showTaps){
-            dbi.selectWaterPOIs(53.4053f, -2.9660f, userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered,this);
-        }
-        if(userPref.showBins){
-            dbi.selectRecyclingPOIs(53.4053f, -2.9660f, userPref.range, userPref.minRating, this);
-        }
-        if(userPref.showRacks){
-            dbi.selectBikePOIs(53.4053f, -2.9660f, userPref.range, 0, userPref.rackCovered, this);
-        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
@@ -121,6 +117,12 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         }
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        called = false;
+    }
+
     private void getCurrentLocation() {
         //Initialize task location
         Task<Location> task = client.getLastLocation();
@@ -144,6 +146,19 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                             googleMap.addMarker(options);
                         }
                     });
+                    Log.i("map", "calling for POI with user Location");
+                    if (called == false) {
+                        if (userPref.showTaps) {
+                            dbi.selectWaterPOIs((float) location.getLatitude(), (float) location.getLongitude(), userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, dbInt);
+                        }
+                        if (userPref.showBins) {
+                            dbi.selectRecyclingPOIs((float) location.getLatitude(), (float) location.getLongitude(), userPref.range, userPref.minRating, dbInt);
+                        }
+                        if (userPref.showRacks) {
+                            dbi.selectBikePOIs((float) location.getLatitude(), (float) location.getLongitude(), userPref.range, userPref.minRating, userPref.rackCovered, dbInt);
+                        }
+                        called = true;
+                    }
                 }
             }
         });
@@ -216,22 +231,6 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         Log.i("MAP READY", "IM READY YALL");
         mapAPI = googleMap;
         mapAPI.setOnCameraMoveListener(this);
-        for(PointOfInterest currentI : data) {
-            MarkerOptions marker;
-            //Initialise the latitude and longitude
-            LatLng latLng = new LatLng(currentI.coords.latitude, currentI.coords.longitude);
-            //Create a marker
-            if(currentI.type.equals("w")){
-                marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(currentI.name);
-            } else if(currentI.type.equals("b")){
-                marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title(currentI.name);
-            } else{
-                marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title(currentI.name);
-            }
-            Log.i("Adding marker", currentI.name);
-            mapAPI.addMarker(marker); //Add marker on map
-            Log.i("MAP MARKER ADDED", "added");
-        }
         mapAPI.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -294,30 +293,63 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         }
     }
 
+
+
+
     @Override
     public void resultsReturned(JsonArray jArray) { //Plot marker points after receiving them from the database
         if(jArray.size() > 0) {
             float rating;
+            float[] results = new float[1];
+            float lng = 0f;
+            float lat =0f;
+
             for(int n = 0; n < jArray.size(); n++) {
                 Log.i("JARRAYS FAT ASS SIZE IS", String.valueOf(jArray.size()));
                 Log.i("dbiMap", "POI found");
                 JsonObject jObj = jArray.get(n).getAsJsonObject(); //Get the POI object
                 //Define attributes for passing user information around front end
                 rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
-                //searchResults.add(new PoiSearchInfo(jObj.get("Name").toString(), jObj.get("Description").toString(), jObj.get("Type").getAsString(), rating, jObj.get("Latitude").getAsFloat(), jObj.get("Longitude").getAsFloat(), jObj.get("POI_ID").getAsInt()));
+                lng = (float) jObj.get("Latitude").getAsFloat();
+                lat = (float) jObj.get("Longitude").getAsFloat();
+                float currentLat = (float) currentLocation.getLatitude();
+                float currentLng = (float) currentLocation.getLongitude();
+                Log.i("distance", "current location lat = " +currentLat + " long = "+currentLng );
+                float[] distance = new float[1];
+                Location.distanceBetween(currentLat, currentLng, lat, lng, distance);
+                Log.i("distance", "POI name = " +jObj.get("Name").toString() + " distance = "+distance[0] );
+                //if (distance[0]<= userPref.range) {
+                    PointOfInterest newPOI = new PointOfInterest(
+                            jObj.get("POI_ID").getAsInt(),
+                            jObj.get("Name").toString(),
+                            jObj.get("Description").toString(),
+                            (double) lng,
+                            (double) lat,
+                            jObj.get("Type").getAsString(),
+                            (float) rating
+                    );
+                    data.add(newPOI);
+                    Log.i("dbiMap", "added POI name= " + jObj.get("Name").toString());
+                    Log.i("POI search info class check", data.get(n).name);
 
-                data.add(new PointOfInterest(
-                        jObj.get("POI_ID").getAsInt(),
-                        jObj.get("Name").toString(),
-                        jObj.get("Description").toString(),
-                        (double) jObj.get("Latitude").getAsFloat(),
-                        (double) jObj.get("Longitude").getAsFloat(),
-                        jObj.get("Type").getAsString(),
-                        (float) rating
-                ));
-                Log.i("dbiMap", "added POI name= "+ jObj.get("Name").toString());
-                Log.i("POI search info class check", data.get(n).name);
+                    MarkerOptions marker;
+                    //Initialise the latitude and longitude
+                    LatLng latLng = new LatLng(newPOI.coords.latitude, newPOI.coords.longitude);
+                    //Create a marker
+                    if (newPOI.type.equals("w")) {
+                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(newPOI.name);
+                    } else if (newPOI.type.equals("b")) {
+                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title(newPOI.name);
+                    } else {
+                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title(newPOI.name);
+                    }
+                    Log.i("Adding marker", newPOI.name);
+                    mapAPI.addMarker(marker); //Add marker on map
+                    Log.i("MAP MARKER ADDED", "added");
+                //}
+
             }
+
             Log.i("SEARCH RESULTS SIZE TWO DING", String.valueOf(data.size()));
             //Loop round search results and display on map
 

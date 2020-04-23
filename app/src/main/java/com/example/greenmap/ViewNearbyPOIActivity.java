@@ -147,7 +147,6 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
             mapFragment.getMapAsync(this);
 
 
-            //extrasLabel.setText(currentPOI.name);
             String typeString = "";
             switch (currentPOI.type) {
                 case "w":
