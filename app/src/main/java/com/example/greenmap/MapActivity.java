@@ -263,12 +263,14 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 Log.i("Google Map Marker", "Clicked");
                 if(marker.getTitle().equals("New POI Location")|| marker.getTitle().equals("Current Location")|| marker.getTitle().equals("Around here")){
                     moreInfoButton.setVisibility(View.GONE);
+                    plotButton.setVisibility(View.GONE);
                     markerSelected = null;
                 } else {
                     LatLng pos = marker.getPosition();
                     markerSelected = returnPointOfInterest(pos);
                     Log.i("Marker selecteds name is", markerSelected.name);
                     moreInfoButton.setVisibility(View.VISIBLE);
+                    plotButton.setVisibility(View.GONE);
                 }
                 return false;
             }
@@ -470,6 +472,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void onCameraMoveStarted(int reason) {
         if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
             personButton.setVisibility(View.VISIBLE);
+            plotButton.setVisibility(View.VISIBLE);
         } else if (reason == GoogleMap.OnCameraMoveStartedListener
                 .REASON_API_ANIMATION) {
         } else if (reason == GoogleMap.OnCameraMoveStartedListener

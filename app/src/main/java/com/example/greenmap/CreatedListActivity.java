@@ -84,7 +84,6 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
 //        }
 //    }
 
-
     public void resultsReturned(JsonArray jArray) { //Plot marker points after receiving them from the database
         if(jArray.size() > 0) {
             float rating;
