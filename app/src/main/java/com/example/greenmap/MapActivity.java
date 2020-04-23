@@ -8,6 +8,7 @@ import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.CancellationSignal;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
@@ -37,7 +38,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback, databaseInteracter {
+public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback, GoogleMap.CancelableCallback, databaseInteracter {
 
     User user;
     LatLng cameraLoc;
@@ -233,7 +234,10 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void onCameraMove() {
         cameraLoc = mapAPI.getCameraPosition().target;
         //Log.d("CMOVE","Camera moved, lat "+cameraLoc.latitude + " lon "+cameraLoc.longitude);
-
+        cameraAnimation++;
+        if (cameraAnimation > 20) {
+            personButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -302,9 +306,6 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             Log.i("CAMERA LOC", "IS NULL");
         }
     }
-
-
-
 
     @Override
     public void resultsReturned(JsonArray jArray) { //Plot marker points after receiving them from the database
@@ -427,6 +428,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             locationMarker = mapAPI.addMarker(options);
             //Need to send cameraLoc to db to get POIS
             DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
+            mapAPI.clear();
             data.clear();
             //Load markers based on users saved preferences
             if (userPref.showTaps) {
@@ -454,6 +456,16 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
         mapAPI.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
         personButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onFinish() {
+        //
+    }
+
+    @Override
+    public void onCancel() {
+
     }
 }
 
