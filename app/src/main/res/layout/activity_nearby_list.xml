@@ -7,107 +7,93 @@
     android:background="#353535"
     tools:context=".NearbyListActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="409dp"
+        android:layout_height="550dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tblHeaders">
 
-        <Space
+        <TableLayout
+            android:id="@+id/POITable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.01" />
+            android:stretchColumns="*" />
+    </ScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.075">
+    <LinearLayout
+        android:id="@+id/tblHeaders"
+        android:layout_width="409dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button21">
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2" />
+        <TextView
+            android:id="@+id/nameLabel"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#777777"
+            android:fontFamily="casual"
+            android:text="Name"
+            android:textAlignment="center"
+            android:textColor="#F4F4F4" />
 
-            <ImageButton
-                android:id="@+id/button21"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.6"
-                android:backgroundTint="#777777"
-                android:onClick="backToMap"
-                android:tint="#F4F4F4"
-                app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
+        <TextView
+            android:id="@+id/descLabel"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#777777"
+            android:fontFamily="casual"
+            android:singleLine="true"
+            android:text="Description"
+            android:textAlignment="center"
+            android:textColor="#F4F4F4" />
 
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2" />
+        <TextView
+            android:id="@+id/actionLabel"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#777777"
+            android:fontFamily="casual"
+            android:text="View POI"
+            android:textAlignment="center"
+            android:textColor="#F4F4F4"
+            android:visibility="visible" />
 
-        </LinearLayout>
-
-        <TableRow
-            android:id="@+id/HeaderTableRow"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.03">
-
-            <TextView
-                android:id="@+id/nameView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:fontFamily="casual"
-                android:gravity="center"
-                android:text="Name"
-                android:textColor="#F4F4F4"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/descView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.4"
-                android:fontFamily="casual"
-                android:gravity="center"
-                android:text="Description"
-                android:textColor="#F4F4F4"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2" />
-        </TableRow>
-
-        <ScrollView
-            android:id="@+id/activity_scrollView1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="0dp"
-            android:layout_weight="0.875"
-            android:fillViewport="true"
-            android:scrollbarStyle="outsideInset"
-            android:scrollbars="vertical">
-
-            <TableLayout
-                android:id="@+id/nearbyPOITable"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="32dp"
-                android:scrollbars="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-        </ScrollView>
+        <TextView
+            android:id="@+id/deletePOILabel"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#777777"
+            android:fontFamily="casual"
+            android:text="Delete POI"
+            android:textAlignment="center"
+            android:textColor="#F4F4F4"
+            android:visibility="visible" />
 
     </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/button21"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_weight="1"
+        android:backgroundTint="#777777"
+        android:onClick="backToMap"
+        android:tint="#F4F4F4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

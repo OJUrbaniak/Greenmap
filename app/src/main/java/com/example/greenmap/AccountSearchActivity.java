@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Button;
@@ -40,13 +38,13 @@ public class AccountSearchActivity extends AppCompatActivity implements database
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_search);
-        nameTable = findViewById(R.id.accountTable);
+        nameTable = findViewById(R.id.POITable);
         nameSearch = findViewById(R.id.nameSearch);
         searchButton = findViewById(R.id.searchButton);
         Intent i = getIntent();
         currentUser = (User)i.getSerializableExtra("User");
 
-        banLabel = findViewById(R.id.banUserLabel);
+        banLabel = findViewById(R.id.actionLabel);
         makeAdminLabel = findViewById(R.id.makeAdminLabel);
 
         tf = Typeface.create("casual", Typeface.NORMAL);
@@ -150,7 +148,6 @@ public class AccountSearchActivity extends AppCompatActivity implements database
                         ban(result);
                         banButton.setTextColor(Color.parseColor("#910000"));
                         banButton.setText("User Banned");
-                        nameTable.removeView(view.getParent());
                     }
                 });
 

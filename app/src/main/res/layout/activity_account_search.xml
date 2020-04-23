@@ -17,7 +17,7 @@
         app:layout_constraintTop_toBottomOf="@+id/nameSearch">
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/nameLabel"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -28,7 +28,7 @@
             android:textColor="#F4F4F4" />
 
         <TextView
-            android:id="@+id/textView9"
+            android:id="@+id/descLabel"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -40,7 +40,7 @@
             android:textColor="#F4F4F4" />
 
         <TextView
-            android:id="@+id/banUserLabel"
+            android:id="@+id/actionLabel"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -110,7 +110,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tblHeaders">
 
         <TableLayout
-            android:id="@+id/accountTable"
+            android:id="@+id/POITable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="*" />
