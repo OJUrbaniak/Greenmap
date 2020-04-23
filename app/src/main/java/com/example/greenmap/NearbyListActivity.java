@@ -90,18 +90,14 @@ public class NearbyListActivity extends AppCompatActivity {
         data = (ArrayList<PointOfInterest>) getIntent().getSerializableExtra("dataArray");
 
         for (final PointOfInterest currItem : data) {
+            Log.i("FORCURR","Item "+currItem.name);
             String poiName = currItem.name.toString().replaceAll("\"", "");
             String poiDesc = currItem.desc.toString().replaceAll("\"", "");
 
             //Table row
             TableRow tr = new TableRow(this);
-            TableRow.LayoutParams itemLayout;
-            if(currentUser.permissionLevel > 0){
-                itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
-            } else{
-                itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
-            }
 
+            TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);    //3 items name, desc, viewpoi
 
             int leftMargin=10;
             int topMargin=4;
@@ -122,8 +118,19 @@ public class NearbyListActivity extends AppCompatActivity {
             desc.setTypeface(tf);
             desc.setTextColor(Color.parseColor("#F4F4F4"));
 
-            //ViewPOI button
-            final Button viewButton = new Button(this);
+            //Set layout
+            name.setLayoutParams(itemLayout);
+            desc.setLayoutParams(itemLayout);
+
+            //17 = Gravity.CENTER
+            tr.setGravity(17);
+            name.setGravity(17);
+
+            tr.addView(name);
+            tr.addView(desc);
+
+            //SETTING UP VIEWBUTTON
+            Button viewButton = new Button(this);
             viewButton.setText("View POI");
             viewButton.setTypeface(tf2);
             viewButton.setBackgroundColor(Color.parseColor("#777777"));
@@ -134,10 +141,16 @@ public class NearbyListActivity extends AppCompatActivity {
                     goToViewPOI(currItem);
                 }
             });
+            viewButton.setLayoutParams(itemLayout);
+            viewButton.setGravity(17);
+            tr.addView(viewButton);
+            ///////////////////////////////
 
-            //Admin buttons
-            final Button deleteButton = new Button(this);
+            //Checking user permissionLevel and setting up DeletePOI button
             if(currentUser.permissionLevel > 0){
+                //Set up delete button if permissionLevel is high enough
+                final Button deleteButton = new Button(this);
+                itemLayout.weight = 0.25f;  //4 items name, desc, viewpoi, deletepoi
                 deleteButton.setText("Delete POI");
                 deleteButton.setTypeface(tf2);
                 deleteButton.setBackgroundColor(Color.parseColor("#777777"));
@@ -152,115 +165,11 @@ public class NearbyListActivity extends AppCompatActivity {
                         deleteButton.setText("Deleted");
                     }
                 });
-            }
-
-            //Set layout for content
-            tr.setLayoutParams(itemLayout);
-            name.setLayoutParams(itemLayout);
-            desc.setLayoutParams(itemLayout);
-            viewButton.setLayoutParams(itemLayout);
-
-            //17 = Gravity.CENTER
-            tr.setGravity(17);
-            name.setGravity(17);
-            viewButton.setGravity(17);
-
-
-            tr.addView(name);
-            tr.addView(desc);
-            tr.addView(viewButton);
-            if(currentUser.permissionLevel > 0){
                 tr.addView(deleteButton);
             }
-            table.addView(tr);
+            //////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-            //final PointOfInterest currItem = data[i];
-//            tr = new TableRow(this);
-//
-//            name = new TextView(this);
-//            desc = new TextView(this);
-//            Button viewButton = new Button(this);
-//
-//            name.setText(currItem.name.replace("\"",""));
-//            desc.setText(currItem.desc.replace("\"",""));
-//
-//            viewButton.setText("View POI"); viewButton.setBackgroundColor(Color.parseColor("#777777"));
-//            viewButton.setTextColor(Color.parseColor("#F4F4F4")); viewButton.setBackground(getDrawable(R.drawable.button_rounded));
-//            //viewButton.setWidth(0);
-//            viewButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    goToViewPOI(currItem);
-//                }
-//            });
-//            if (currentUser.permissionLevel > 0) {
-//                Button delete = new Button(this);
-//                final int user_id = currItem.id;
-//                delete.setText("Delete");
-//                delete.setBackgroundColor(Color.parseColor("#777777"));
-//                delete.setTextColor(Color.parseColor("#F4F4F4"));
-//                delete.setBackground(getDrawable(R.drawable.button_rounded));
-//                delete.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        deletePOI(user_id);
-//                    }
-//                });
-//                delete.setWidth(50);
-//                tr.addView(name);
-//                tr.addView(desc);
-//                tr.addView(viewButton);
-//                tr.addView(delete);
-//            } else {
-//                tr.addView(name);
-//                tr.addView(desc);
-//                tr.addView(viewButton);
-//            }
-//
-//            //if admin
-//            Button delete = new Button(this);
-//            final int user_id= currItem.id;
-//            delete.setText("Delete"); delete.setBackgroundColor(Color.parseColor("#777777"));
-//            delete.setTextColor(Color.parseColor("#922a31")); delete.setBackground(getDrawable(R.drawable.button_rounded));
-//            delete.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    deletePOI(user_id);
-//                }
-//            }); //delete.setWidth(0);
-//
-//            TableRow.LayoutParams buttonLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.2f);
-//            TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.4f);
-//
-//            name.setLayoutParams(itemLayout);
-//            desc.setLayoutParams(itemLayout);
-//
-//            buttonLayout.setMargins(0,0,0,10);
-//            viewButton.setLayoutParams(buttonLayout);
-//
-//            name.setTextColor(Color.parseColor("#FFFFFF"));
-//            desc.setTextColor(Color.parseColor("#FFFFFF"));
-//
-//            //17 = Gravity.CENTER
-//            tr.setGravity(17);
-//            name.setGravity(17);
-//            desc.setGravity(17);
-//            viewButton.setGravity(17);
-
-//            tr.addView(name);
-//            tr.addView(desc);
-//            tr.addView(viewButton);
+            table.addView(tr);  //Adding row to table
         }
     }
 
