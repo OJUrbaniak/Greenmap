@@ -346,6 +346,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void toMoreInfo(View view){
         Intent intent = new Intent(this, ViewNearbyPOIActivity.class);
         intent.putExtra("currentPOI", markerSelected);
+        intent.putExtra("User", (Parcelable) user);
         startActivity(intent);
     }
 
