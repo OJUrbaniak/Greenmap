@@ -1,9 +1,11 @@
 package com.example.greenmap;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.content.Intent;
 import android.widget.TextView;
@@ -23,6 +25,7 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
     PointOfInterest currentPOI;
     User currentUser;
     DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
+    Coords currentCoords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,11 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
         setContentView(R.layout.activity_view_nearby_p_o_i);
         Intent i = getIntent();
         currentUser = (User)i.getSerializableExtra("User");
+        currentCoords = (Coords)i.getSerializableExtra("Current Coords");
+
+        if (currentCoords != null){
+            Log.i("veiw POI", "location obtained");
+        }
 
         TextView nameLabel = findViewById(R.id.nameInfoLabel);
         TextView typeLabel = findViewById(R.id.typeInfoLabel);
@@ -86,8 +94,23 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
         startActivity(intent);
     }
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Intent i = getIntent();
+        currentCoords = (Coords)i.getSerializableExtra("Current Coords");
+    }
+
     public void usePOI(View view){
-        //if(distance to POI <= 200m)
-        dbi.updateCarbon_Saved_Points(10, currentUser.userID);
+        float[] results = new float[1];
+        Location.distanceBetween(currentCoords.latitude, currentCoords.longitude, currentPOI.coords.latitude, currentPOI.coords.longitude, results);
+        if(results[0] <= 200){
+            dbi.updateCarbon_Saved_Points(10, currentUser.userID);
+            //used
+            Log.i("used", "distance = "+results[0]+ " used");
+        } else {
+            Log.i("used", "distance = "+results[0]+ "  not used");
+        }
+
     }
 }

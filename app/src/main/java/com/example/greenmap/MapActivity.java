@@ -130,6 +130,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 //When successful
                 if (location != null){
                     //Sync the map
+                    currentLocation = location;
                     supportMapFragment.getMapAsync(new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
@@ -344,6 +345,8 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         Intent intent = new Intent(this, ViewNearbyPOIActivity.class);
         intent.putExtra("currentPOI", markerSelected);
         intent.putExtra("User", (Parcelable) user);
+        intent.putExtra("Current Coords", (Parcelable) new Coords(currentLocation.getLatitude(), currentLocation.getLongitude()));
+
         startActivity(intent);
     }
 
