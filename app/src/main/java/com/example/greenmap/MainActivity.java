@@ -79,17 +79,6 @@ public class MainActivity extends AppCompatActivity implements databaseInteracte
         userNameField = findViewById(R.id.editText);
         passwordField = findViewById(R.id.editText2);
         loginButton = findViewById(R.id.button2);
-
-//        loginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //DBINT.insertUser("hadsonshooley@gmail.communist", "vladimir3000", "walay", 35);
-//                //DBINT.insertAdmin(75, 9);
-//                //DBINT.insertWaterFountain(100.00f, 100.50f, 1, "hot bby wortr founten", 15, "where all them swEEt hot babes drink", true, false,true);
-//                //DBINT.insertBikeRack( 69.69f, 69.420f, 1, "hobo bikes", 25, "hobos like this bike rack", true );
-//                //DBINT.insertRecyclingBin(50.04f, 50.05f, 15, "glass ting init", 20, "yeah this a gret bin", "glass");
-//            }
-//        });
     }
 
     public void login(View view) throws ExecutionException, InterruptedException { //Login button

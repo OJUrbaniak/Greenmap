@@ -115,6 +115,18 @@
         app:layout_constraintTop_toTopOf="@+id/mapAPI"
         app:rippleColor="#FFFFFF" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/personFloatingButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:clickable="true"
+        android:onClick="returnToUser"
+        android:src="@drawable/ic_accessibility_black_24dp"
+        app:backgroundTint="#A1A1A1"
+        app:layout_constraintEnd_toEndOf="@+id/refreshButton"
+        app:layout_constraintTop_toBottomOf="@+id/refreshButton" />
+
     <Button
         android:id="@+id/button3"
         android:layout_width="wrap_content"

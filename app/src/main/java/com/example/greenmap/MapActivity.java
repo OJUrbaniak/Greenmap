@@ -8,6 +8,7 @@ import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.CancellationSignal;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -36,7 +38,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback, databaseInteracter {
+public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, databaseInteracter {
 
     User user;
     LatLng cameraLoc;
@@ -44,10 +46,16 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     Button confirmButton;
     Button moreInfoButton;
     FloatingActionButton refreshButton;
+    FloatingActionButton personButton;
     GoogleMap mapAPI;
     FloatingActionButton plotButton;
+
     boolean userMarkerPlaced = false;
     Marker userMarker;
+    boolean animationFinished = false;
+
+    final databaseInteracter dbInt = this;
+    boolean userLoc;
 
     Preferences userPref;
     SharedPreferences pref = null;
@@ -62,11 +70,17 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
+    DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
 
     PointOfInterest markerSelected;
 
+    boolean called;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        called = false;
+
+        userLoc = true;
         Log.i("MAP ACTIVITY CREATED", "IM CREATED YALL");
 
         try {
@@ -75,17 +89,8 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
         //Load in the users preferences (or the default ones) and pull the necessary points from the DB to show on map
         loadPreferences();
-        DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
+
         //Load markers based on users saved preferences
-        if(userPref.showTaps){
-            dbi.selectWaterPOIs(53.4053f, -2.9660f, userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered,this);
-        }
-        if(userPref.showBins){
-            dbi.selectRecyclingPOIs(53.4053f, -2.9660f, userPref.range, userPref.minRating, this);
-        }
-        if(userPref.showRacks){
-            dbi.selectBikePOIs(53.4053f, -2.9660f, userPref.range, 0, userPref.rackCovered, this);
-        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
@@ -95,9 +100,11 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         confirmButton = findViewById(R.id.button3);
         moreInfoButton = findViewById(R.id.moreInfoButton);
         refreshButton = findViewById(R.id.refreshButton);
+        personButton = findViewById(R.id.personFloatingButton);
 
         confirmButton.setVisibility(View.GONE);
         moreInfoButton.setVisibility(View.GONE);
+        personButton.setVisibility(View.GONE);
 
         //Get user from the previous page
         Intent i = getIntent();
@@ -119,6 +126,13 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             //Request permission
             ActivityCompat.requestPermissions(MapActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
         }
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        called = false;
+        userLoc = true;
     }
 
     private void getCurrentLocation() {
@@ -144,6 +158,19 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                             googleMap.addMarker(options);
                         }
                     });
+                    Log.i("map", "calling for POI with user Location");
+                    if (called == false) {
+                        if (userPref.showTaps) {
+                            dbi.selectWaterPOIs((float) location.getLatitude(), (float) location.getLongitude(), userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, dbInt);
+                        }
+                        if (userPref.showBins) {
+                            dbi.selectRecyclingPOIs((float) location.getLatitude(), (float) location.getLongitude(), userPref.range, userPref.minRating, dbInt);
+                        }
+                        if (userPref.showRacks) {
+                            dbi.selectBikePOIs((float) location.getLatitude(), (float) location.getLongitude(), userPref.range, userPref.minRating, userPref.rackCovered, dbInt);
+                        }
+                        called = true;
+                    }
                 }
             }
         });
@@ -205,33 +232,23 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         startActivity(intent);
     }
 
+    int cameraAnimation = 0;
+
     @Override
     public void onCameraMove() {
         cameraLoc = mapAPI.getCameraPosition().target;
         //Log.d("CMOVE","Camera moved, lat "+cameraLoc.latitude + " lon "+cameraLoc.longitude);
+        if(animationFinished == true) {
+            personButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.i("MAP READY", "IM READY YALL");
         mapAPI = googleMap;
+        mapAPI.setOnCameraMoveStartedListener(this);
         mapAPI.setOnCameraMoveListener(this);
-        for(PointOfInterest currentI : data) {
-            MarkerOptions marker;
-            //Initialise the latitude and longitude
-            LatLng latLng = new LatLng(currentI.coords.latitude, currentI.coords.longitude);
-            //Create a marker
-            if(currentI.type.equals("w")){
-                marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(currentI.name);
-            } else if(currentI.type.equals("b")){
-                marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title(currentI.name);
-            } else{
-                marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title(currentI.name);
-            }
-            Log.i("Adding marker", currentI.name);
-            mapAPI.addMarker(marker); //Add marker on map
-            Log.i("MAP MARKER ADDED", "added");
-        }
         mapAPI.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -298,26 +315,68 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void resultsReturned(JsonArray jArray) { //Plot marker points after receiving them from the database
         if(jArray.size() > 0) {
             float rating;
+            float[] results = new float[1];
+            float lng = 0f;
+            float lat =0f;
+            float currentLat;
+            float currentLng;
+            if (userLoc == true){
+                Log.i("userLoc", "true" );
+                currentLat = (float) currentLocation.getLatitude();
+                currentLng = (float) currentLocation.getLongitude();
+            } else {
+                Log.i("userLoc", "false" );
+                LatLng refreshCameraLoc = mapAPI.getCameraPosition().target;
+                currentLat = (float) refreshCameraLoc.latitude;
+                currentLng = (float) refreshCameraLoc.longitude;
+            }
+
             for(int n = 0; n < jArray.size(); n++) {
                 Log.i("JARRAYS FAT ASS SIZE IS", String.valueOf(jArray.size()));
                 Log.i("dbiMap", "POI found");
                 JsonObject jObj = jArray.get(n).getAsJsonObject(); //Get the POI object
                 //Define attributes for passing user information around front end
                 rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
-                //searchResults.add(new PoiSearchInfo(jObj.get("Name").toString(), jObj.get("Description").toString(), jObj.get("Type").getAsString(), rating, jObj.get("Latitude").getAsFloat(), jObj.get("Longitude").getAsFloat(), jObj.get("POI_ID").getAsInt()));
+                lat = (float) jObj.get("Latitude").getAsFloat();
+                lng = (float) jObj.get("Longitude").getAsFloat();
 
-                data.add(new PointOfInterest(
-                        jObj.get("POI_ID").getAsInt(),
-                        jObj.get("Name").toString(),
-                        jObj.get("Description").toString(),
-                        (double) jObj.get("Latitude").getAsFloat(),
-                        (double) jObj.get("Longitude").getAsFloat(),
-                        jObj.get("Type").getAsString(),
-                        (float) rating
-                ));
-                Log.i("dbiMap", "added POI name= "+ jObj.get("Name").toString());
-                Log.i("POI search info class check", data.get(n).name);
+
+                Log.i("distance", "current location lat = " +currentLat + " long = "+currentLng );
+                float[] distance = new float[1];
+                Location.distanceBetween(currentLat, currentLng, lat, lng, distance);
+                Log.i("distance", "POI name = " +jObj.get("Name").toString() + " distance = "+distance[0]+ " lat= " +lat+ " lng = "+ lng );
+                if (distance[0]<= userPref.range) {
+                    PointOfInterest newPOI = new PointOfInterest(
+                            jObj.get("POI_ID").getAsInt(),
+                            jObj.get("Name").toString(),
+                            jObj.get("Description").toString(),
+                            (double) lat,
+                            (double)lng,
+                            jObj.get("Type").getAsString(),
+                            (float) rating
+                    );
+                    data.add(newPOI);
+                    Log.i("dbiMap", "added POI name= " + jObj.get("Name").toString());
+                    Log.i("POI search info class check", data.get(n).name);
+
+                    MarkerOptions marker;
+                    //Initialise the latitude and longitude
+                    LatLng latLng = new LatLng(newPOI.coords.latitude, newPOI.coords.longitude);
+                    //Create a marker
+                    if (newPOI.type.equals("w")) {
+                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(newPOI.name.replaceAll("\"", ""));
+                    } else if (newPOI.type.equals("b")) {
+                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title(newPOI.name.replaceAll("\"", ""));
+                    } else {
+                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title(newPOI.name.replaceAll("\"", ""));
+                    }
+                    Log.i("Adding marker", newPOI.name);
+                    mapAPI.addMarker(marker); //Add marker on map
+                    Log.i("MAP MARKER ADDED", "added");
+                }
+
             }
+
             Log.i("SEARCH RESULTS SIZE TWO DING", String.valueOf(data.size()));
             //Loop round search results and display on map
 
@@ -350,11 +409,74 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         startActivity(intent);
     }
 
-    public void refreshMap(View view){
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+    boolean refreshMarkerPlaced = false;    //Keeps track of whether the refresh button's marker has been placed
+    Marker locationMarker;                  //The marker placed when the user presses the refresh button in another location
+    //LatLng oldLoc;                //Keeps track of the camera location when the user presses the refresh button
+
+    public void refreshMap(View view) {
+        userLoc = false;
+        LatLng refreshCameraLoc = mapAPI.getCameraPosition().target;
+        if (refreshCameraLoc != cameraLoc) {
+            personButton.setVisibility(View.VISIBLE);
+            //Refresh button needs to get coords from middle of camera
+            refreshCameraLoc = mapAPI.getCameraPosition().target;
+            //Initialise the latitude and longitude
+            LatLng latLng = new LatLng(cameraLoc.latitude, cameraLoc.longitude);
+            //Create a marker
+            MarkerOptions options = new MarkerOptions().position(cameraLoc).title("Position");
+
+            if (refreshMarkerPlaced == true) {
+                locationMarker.remove();
+            }
+
+            locationMarker = mapAPI.addMarker(options);
+            //Need to send cameraLoc to db to get POIS
+            DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
+            mapAPI.clear();
+            data.clear();
+            //Load markers based on users saved preferences
+            if (userPref.showTaps) {
+                dbi.selectWaterPOIs((float) refreshCameraLoc.latitude, (float) refreshCameraLoc.longitude, userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, this);
+            }
+            if (userPref.showBins) {
+                dbi.selectRecyclingPOIs((float) refreshCameraLoc.latitude, (float) refreshCameraLoc.longitude, userPref.range, userPref.minRating, this);
+            }
+            if (userPref.showRacks) {
+                dbi.selectBikePOIs((float) refreshCameraLoc.latitude, (float) refreshCameraLoc.longitude, userPref.range, userPref.minRating, userPref.rackCovered, this);
+            }
+
+            refreshMarkerPlaced = true;
+        }
+        else {
+            Toast toast = Toast.makeText(getApplicationContext(),"Move the map to use this button!",Toast.LENGTH_SHORT);
+            personButton.setVisibility(View.GONE);
+        }
+    }
+
+    public void returnToUser(View view) {
+        if (locationMarker != null) locationMarker.remove();
+        refreshMarkerPlaced = false;
+        Log.d("UserLocation","Current location lat "+currentLocation.getLatitude()+" lon"+currentLocation.getLongitude());
+        LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+        mapAPI.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+        personButton.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onCameraMoveStarted(int reason) {
+        if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+            //Toast.makeText(this, "The user gestured on the map.",
+                    //Toast.LENGTH_SHORT).show();
+            personButton.setVisibility(View.VISIBLE);
+        } else if (reason == GoogleMap.OnCameraMoveStartedListener
+                .REASON_API_ANIMATION) {
+            //Toast.makeText(this, "The user tapped something on the map.",
+                    //Toast.LENGTH_SHORT).show();
+        } else if (reason == GoogleMap.OnCameraMoveStartedListener
+                .REASON_DEVELOPER_ANIMATION) {
+            //Toast.makeText(this, "The app moved the camera.",
+                    //Toast.LENGTH_SHORT).show();
+        }
     }
 }
 
