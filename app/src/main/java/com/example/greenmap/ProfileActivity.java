@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -78,6 +79,7 @@ public class ProfileActivity extends AppCompatActivity implements databaseIntera
     @Override
     public void resultsReturned(JsonArray jArray) {
         if(jArray.size() > 0){
+            Log.i("carbon", "returned");
             int carbonPoints = jArray.get(0).getAsJsonObject().get("Carbon_Saved_Points").getAsInt();
             carbonPointsLabel.setText("Carbon Points: " + carbonPoints);
             user.carbon_saved_value = carbonPoints;
