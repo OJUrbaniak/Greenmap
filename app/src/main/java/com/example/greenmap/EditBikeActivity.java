@@ -57,9 +57,11 @@ public class EditBikeActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     public void backToView(){
-        Intent intent = new Intent(this,ViewNearbyPOIActivity.class);
-        intent.putExtra("currentPOI", currentPOI);
-        startActivity(intent);
+//        Intent intent = new Intent(this,CreatedListActivity.class);
+//        intent.putExtra("currentPOI", currentPOI);
+//        startActivity(intent);
+        setResult(RESULT_OK, null);
+        finish();
     }
 
     @Override

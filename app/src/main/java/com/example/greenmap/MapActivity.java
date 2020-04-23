@@ -160,15 +160,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                     });
                     Log.i("map", "calling for POI with user Location");
                     if (called == false) {
-                        if (userPref.showTaps) {
-                            dbi.selectWaterPOIs((float) location.getLatitude(), (float) location.getLongitude(), userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, dbInt);
-                        }
-                        if (userPref.showBins) {
-                            dbi.selectRecyclingPOIs((float) location.getLatitude(), (float) location.getLongitude(), userPref.range, userPref.minRating, dbInt);
-                        }
-                        if (userPref.showRacks) {
-                            dbi.selectBikePOIs((float) location.getLatitude(), (float) location.getLongitude(), userPref.range, userPref.minRating, userPref.rackCovered, dbInt);
-                        }
+                        showPOIwithPreferences(location.getLatitude(), location.getLongitude());
                         called = true;
                     }
                 }
@@ -440,17 +432,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                     .position(new LatLng(refreshCameraLoc.latitude, refreshCameraLoc.longitude))
                     .title("Around here")
             );
-            //Load markers based on users saved preferences
-            if (userPref.showTaps) {
-                dbi.selectWaterPOIs((float) refreshCameraLoc.latitude, (float) refreshCameraLoc.longitude, userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, this);
-            }
-            if (userPref.showBins) {
-                dbi.selectRecyclingPOIs((float) refreshCameraLoc.latitude, (float) refreshCameraLoc.longitude, userPref.range, userPref.minRating, this);
-            }
-            if (userPref.showRacks) {
-                dbi.selectBikePOIs((float) refreshCameraLoc.latitude, (float) refreshCameraLoc.longitude, userPref.range, userPref.minRating, userPref.rackCovered, this);
-            }
-
+            showPOIwithPreferences(refreshCameraLoc.latitude, refreshCameraLoc.longitude);
             refreshMarkerPlaced = true;
         }
         else {
@@ -466,6 +448,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
         mapAPI.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
         personButton.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -477,6 +460,19 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 .REASON_API_ANIMATION) {
         } else if (reason == GoogleMap.OnCameraMoveStartedListener
                 .REASON_DEVELOPER_ANIMATION) {
+        }
+    }
+
+    public void showPOIwithPreferences(double lat, double lon) {
+        //Load markers based on users saved preferences
+        if (userPref.showTaps) {
+            dbi.selectWaterPOIs((float) lat, (float) lon, userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, this);
+        }
+        if (userPref.showBins) {
+            dbi.selectRecyclingPOIs((float) lat, (float) lon, userPref.range, userPref.minRating, this);
+        }
+        if (userPref.showRacks) {
+            dbi.selectBikePOIs((float) lat, (float) lon, userPref.range, userPref.minRating, userPref.rackCovered, this);
         }
     }
 }

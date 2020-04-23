@@ -39,10 +39,10 @@
         android:layout_height="410dp"
         android:layout_marginTop="8dp"
         android:fontFamily="casual"
-        android:text="The team working to deliver sensational applications that really make you consider all that vegan good good and hate everyone that drives anything other than a tesla is made up of 5 friendly yet horrifying monsters and one beautiful golden skinned, big bootyed king that will deliver us all from our sins."
+        android:text="The Greenmap team consists of individuals who care about the welfare of the planet. We work to help create a greener future for the world. Our goal is to provide people with the ability to contribute to saving the Earth with information"
         android:textAlignment="center"
         android:textColor="#F4F4F4"
-        android:textSize="24sp"
+        android:textSize="27sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView34" />

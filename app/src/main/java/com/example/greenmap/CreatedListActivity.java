@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -30,6 +32,9 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
     Typeface tf; //casual
     Typeface tf2; //sans-serif-light
 
+    int arrayListIndex;
+
+    boolean plotted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,8 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 null);
         TextView searchTextView = (TextView) searchView.findViewById(id);
         searchTextView.setTextColor(Color.WHITE);
+
+        plotted = false;
 
         table = findViewById(R.id.createdPOITable);
         Intent i = getIntent();
@@ -102,12 +109,21 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                         (double) jObj.get("Longitude").getAsFloat(),
                         jObj.get("Type").getAsString()
                 ));
+            }
+        } else {
+            //no POIs found
+        }
 
-                final int arrayListIndex = n + 1;
-                Log.i("CreatedList", "added POI name= "+ jObj.get("Name").toString() + " type = "+ jObj.get("Type").getAsString()+ " index = "+ arrayListIndex+ " POID = "+ data.get(arrayListIndex).id);
+        if(plotted == false){
+            for(final PointOfInterest currentItem : data){
 
-                String poiName = jObj.get("Name").toString().replaceAll("\"", "");
-                String poiDesc = jObj.get("Description").toString().replaceAll("\"", "");
+                //Log.i("CreatedList", "added POI name= "+ jObj.get("Name").toString() + " type = "+ jObj.get("Type").getAsString()+ " index = "+ arrayListIndex+ " POID = "+ data.get(arrayListIndex).id);
+
+//                String poiName = jObj.get("Name").toString().replaceAll("\"", "");
+//                String poiDesc = jObj.get("Description").toString().replaceAll("\"", "");
+
+                String poiName = currentItem.name.replaceAll("\"", "");
+                String poiDesc = currentItem.desc.replaceAll("\"", "");
 
                 //Table row
                 TableRow tr = new TableRow(this);
@@ -153,7 +169,27 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 viewButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        editPressed(arrayListIndex, v);
+                        Log.i("Edit Button", "clicked");
+//                        editPressed(arrayListIndex, v);
+                        Log.i("Edit button:", currentItem.name);
+                        if(currentItem.type.equals('w')){
+                            Log.i("CreatedList", "type= "+currentItem.type);
+                            Intent intent = new Intent(v.getContext(),EditWaterActivity.class);
+                            intent.putExtra("currentPOI", currentItem);
+                            startActivityForResult(intent, 1);
+                        }else if (currentItem.type.equals('r')){
+                            Intent intent = new Intent(v.getContext(),EditBinActivity.class);
+                            Log.i("CreatedList", "type= "+currentItem.type);
+                            intent.putExtra("currentPOI", currentItem);
+                            startActivityForResult(intent, 1);
+                        } else if (currentItem.type.equals('b')){
+                            Log.i("CreatedList", "type= "+currentItem.type);
+                            Intent intent = new Intent(v.getContext(),EditBikeActivity.class);
+                            intent.putExtra("currentPOI", currentItem);
+                            startActivityForResult(intent, 1);
+                        } else {
+                            return;
+                        }
                     }
                 });
                 viewButton.setLayoutParams(itemLayout);
@@ -173,117 +209,59 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                     public void onClick(View view) {
                         deletePOI(data.get(arrayListIndex).id);
                         deleteButton.setTextColor(Color.parseColor("#910000"));
-                        deleteButton.setText("Deleted");
+                        deleteButton.setText("Deleting...");
+                        finish();
+                        overridePendingTransition(0, 0);
+                        startActivity(getIntent());
+                        overridePendingTransition(0, 0);
                     }
                 });
                 tr.addView(deleteButton);
 
                 //Add row to table
                 table.addView(tr);
-//                //add the POIs to the table
-//                TableRow tr = new TableRow(this);
-//                TextView name = new TextView(this);
-//                TextView desc = new TextView(this);
-//
-//                name.setText(jObj.get("Name").toString().replace("\"",""));
-//                desc.setText(jObj.get("Description").toString().replace("\"",""));
-//
-//                name.setTextColor(Color.parseColor("#F4F4F4"));
-//                desc.setTextColor(Color.parseColor("#F4F4F4"));
-//
-//                Button viewButton = new Button(this);
-//                Button delete = new Button(this);
-//
-//                viewButton.setText("Edit POI"); viewButton.setBackgroundColor(Color.parseColor("#777777"));
-//                viewButton.setTextColor(Color.parseColor("#F4F4F4")); viewButton.setBackground(getDrawable(R.drawable.button_rounded));
-//
-//                viewButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        //Log.i("CreatedList", "type= "+data.type);
-//                        if(data.type.equals("w")){
-//                            Log.i("CreatedList", "type= "+data.type);
-//                            Intent intent = new Intent(v.getContext(),EditWaterActivity.class);
-//                            intent.putExtra("currentPOI", data);
-//                            startActivity(intent);
-//                        }else if (data.type.equals("r")){
-//                            Intent intent = new Intent(v.getContext(),EditBinActivity.class);
-//                            Log.i("CreatedList", "type= "+data.type);
-//                            intent.putExtra("currentPOI", data);
-//                            startActivity(intent);
-//                        } else if (data.type.equals("b")){
-//                            Log.i("CreatedList", "type= "+data.type);
-//                            Intent intent = new Intent(v.getContext(),EditBikeActivity.class);
-//                            intent.putExtra("currentPOI", data);
-//                            startActivity(intent);
-//                        } else {
-//                            return;
-//                        }
-//                        Log.i("VIEW", String.valueOf(v));
-//                    }
-//                });
-//
-//                final int user_id= data.id;
-//                delete.setText("Delete"); delete.setBackgroundColor(Color.parseColor("#777777"));
-//                delete.setTextColor(Color.parseColor("#922a31")); delete.setBackground(getDrawable(R.drawable.button_rounded));
-//                delete.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        deletePOI(user_id);
-//                    }
-//                });
-//
-//                TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.30f);
-//                TableRow.LayoutParams editButtonLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.20f);
-//                TableRow.LayoutParams deleteButtonLayout = editButtonLayout;
-//
-//                editButtonLayout.setMargins(5,0,0,10);
-//                deleteButtonLayout.setMargins(10,0,0,10);
-//
-//                name.setLayoutParams(itemLayout);
-//                desc.setLayoutParams(itemLayout);
-//                viewButton.setLayoutParams(editButtonLayout);
-//                delete.setLayoutParams(deleteButtonLayout);
-//
-//                tr.setGravity(17);
-//                name.setGravity(17);
-//                desc.setGravity(17);
-//                viewButton.setGravity(17);
-//                delete.setGravity(17);
-//
-//                tr.addView(name);
-//                tr.addView(desc);
-//                tr.addView(viewButton);
-//                tr.addView(delete);
-//                table.addView(tr);
             }
-
-        } else {
-            //no POIs found
+            plotted = true;
         }
     }
 
     private void editPressed(int index, View v){
 
-        if(data.get(index).type.equals("w")){
+        Log.i("Edit Button", "index: "+ index);
+        Log.i("Edit button:", data.get(index).name);
+
+        if(data.get(index).type.equals('w')){
             Log.i("CreatedList", "type= "+data.get(index).type);
             Intent intent = new Intent(v.getContext(),EditWaterActivity.class);
             intent.putExtra("currentPOI", data.get(index));
-            startActivity(intent);
-        }else if (data.get(index).type.equals("r")){
+            startActivityForResult(intent, 1);
+        }else if (data.get(index).type.equals('r')){
             Intent intent = new Intent(v.getContext(),EditBinActivity.class);
             Log.i("CreatedList", "type= "+data.get(index).type);
             intent.putExtra("currentPOI", data.get(index));
-            startActivity(intent);
-        } else if (data.get(index).type.equals("b")){
+            startActivityForResult(intent, 1);
+        } else if (data.get(index).type.equals('b')){
             Log.i("CreatedList", "type= "+data.get(index).type);
             Intent intent = new Intent(v.getContext(),EditBikeActivity.class);
             intent.putExtra("currentPOI", data.get(index));
-            startActivity(intent);
+            startActivityForResult(intent, 1);
         } else {
             return;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            Log.i("onActivityResult", "RESULT OK");
+            Intent refresh = new Intent(this, CreatedListActivity.class);
+            refresh.putExtra("User", (Parcelable) currentUser);
+            startActivity(refresh);
+            this.finish();
+        }
+    }
+
 
     @Override
     public boolean onQueryTextSubmit(String s) {
