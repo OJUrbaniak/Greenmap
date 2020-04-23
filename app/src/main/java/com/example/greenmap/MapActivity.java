@@ -76,6 +76,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         called = false;
+
         userLoc = true;
         Log.i("MAP ACTIVITY CREATED", "IM CREATED YALL");
 
@@ -360,11 +361,11 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                     LatLng latLng = new LatLng(newPOI.coords.latitude, newPOI.coords.longitude);
                     //Create a marker
                     if (newPOI.type.equals("w")) {
-                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(newPOI.name);
+                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).title(newPOI.name.replaceAll("\"", ""));
                     } else if (newPOI.type.equals("b")) {
-                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title(newPOI.name);
+                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)).title(newPOI.name.replaceAll("\"", ""));
                     } else {
-                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title(newPOI.name);
+                        marker = new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW)).title(newPOI.name.replaceAll("\"", ""));
                     }
                     Log.i("Adding marker", newPOI.name);
                     mapAPI.addMarker(marker); //Add marker on map

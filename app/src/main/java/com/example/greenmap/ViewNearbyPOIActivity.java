@@ -159,10 +159,10 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
                     typeString = "Recycling Bin";
                     break;
             }
-            nameLabel.setText(currentPOI.name);
+            nameLabel.setText(currentPOI.name.replaceAll("\"", ""));
             typeLabel.setText(typeString);
             ratingLabel.setText(String.valueOf(currentPOI.reviewRating));
-            descLabel.setText(String.valueOf(currentPOI.desc));
+            descLabel.setText(String.valueOf(currentPOI.desc.replaceAll("\"", "")));
         }
     }
 }
