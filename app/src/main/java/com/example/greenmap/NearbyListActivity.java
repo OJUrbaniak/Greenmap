@@ -1,18 +1,14 @@
 package com.example.greenmap;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.content.Intent;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -39,7 +35,7 @@ public class NearbyListActivity extends AppCompatActivity {
         currentUser = (User)i.getSerializableExtra("User");
         Log.i("nearbyList", "currentuser name is "+ currentUser.username);
 
-        table = findViewById(R.id.POITable);
+        table = findViewById(R.id.createdPOITable);
         deletePOILabel = findViewById(R.id.deletePOILabel);
 
         tf = Typeface.create("casual", Typeface.NORMAL);

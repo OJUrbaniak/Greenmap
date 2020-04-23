@@ -38,7 +38,7 @@ public class AccountSearchActivity extends AppCompatActivity implements database
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_search);
-        nameTable = findViewById(R.id.POITable);
+        nameTable = findViewById(R.id.createdPOITable);
         nameSearch = findViewById(R.id.nameSearch);
         searchButton = findViewById(R.id.searchButton);
         Intent i = getIntent();
