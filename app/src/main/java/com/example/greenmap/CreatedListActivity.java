@@ -102,7 +102,7 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 //Table row
                 TableRow tr = new TableRow(this);
                 TableRow.LayoutParams itemLayout;
-                itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
+                itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.25f);
 
                 int leftMargin=10;
                 int topMargin=4;
@@ -123,6 +123,17 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 desc.setTypeface(tf);
                 desc.setTextColor(Color.parseColor("#F4F4F4"));
 
+                //Set layout for content
+                name.setLayoutParams(itemLayout);
+                desc.setLayoutParams(itemLayout);
+
+                //17 = Gravity.CENTER
+                tr.setGravity(17);
+                name.setGravity(17);
+
+                tr.addView(name);
+                tr.addView(desc);
+
                 //ViewPOI button
                 final Button viewButton = new Button(this);
                 viewButton.setText("Edit POI");
@@ -135,53 +146,30 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                         editPressed(arrayListIndex, v);
                     }
                 });
+                viewButton.setLayoutParams(itemLayout);
+                viewButton.setGravity(17);
+                tr.addView(viewButton);
 
                 //Admin buttons
                 final Button deleteButton = new Button(this);
-                if(currentUser.permissionLevel > 0){
-                    deleteButton.setText("Delete POI");
-                    deleteButton.setTypeface(tf2);
-                    deleteButton.setBackgroundColor(Color.parseColor("#777777"));
-                    deleteButton.setTextColor(Color.parseColor("#F4F4F4"));
-                    deleteButton.setLayoutParams(itemLayout);
-                    deleteButton.setGravity(17);
-                    deleteButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            deletePOI(data.get(arrayListIndex).id);
-                            deleteButton.setTextColor(Color.parseColor("#910000"));
-                            deleteButton.setText("Deleted");
-                        }
-                    });
-                }
-
-                //Set layout for content
-                tr.setLayoutParams(itemLayout);
-                name.setLayoutParams(itemLayout);
-                desc.setLayoutParams(itemLayout);
-                viewButton.setLayoutParams(itemLayout);
-
-                //17 = Gravity.CENTER
-                tr.setGravity(17);
-                name.setGravity(17);
-                viewButton.setGravity(17);
-
-
-                tr.addView(name);
-                tr.addView(desc);
-                tr.addView(viewButton);
+                deleteButton.setText("Delete POI");
+                deleteButton.setTypeface(tf2);
+                deleteButton.setBackgroundColor(Color.parseColor("#777777"));
+                deleteButton.setTextColor(Color.parseColor("#F4F4F4"));
+                deleteButton.setLayoutParams(itemLayout);
+                deleteButton.setGravity(17);
+                deleteButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deletePOI(data.get(arrayListIndex).id);
+                        deleteButton.setTextColor(Color.parseColor("#910000"));
+                        deleteButton.setText("Deleted");
+                    }
+                });
                 tr.addView(deleteButton);
 
+                //Add row to table
                 table.addView(tr);
-
-
-
-
-
-
-
-
-
 //                //add the POIs to the table
 //                TableRow tr = new TableRow(this);
 //                TextView name = new TextView(this);
