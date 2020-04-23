@@ -310,14 +310,14 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 JsonObject jObj = jArray.get(n).getAsJsonObject(); //Get the POI object
                 //Define attributes for passing user information around front end
                 rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
-                lng = (float) jObj.get("Latitude").getAsFloat();
-                lat = (float) jObj.get("Longitude").getAsFloat();
+                lat = (float) jObj.get("Latitude").getAsFloat();
+                lng = (float) jObj.get("Longitude").getAsFloat();
                 float currentLat = (float) currentLocation.getLatitude();
                 float currentLng = (float) currentLocation.getLongitude();
                 Log.i("distance", "current location lat = " +currentLat + " long = "+currentLng );
                 float[] distance = new float[1];
                 Location.distanceBetween(currentLat, currentLng, lat, lng, distance);
-                Log.i("distance", "POI name = " +jObj.get("Name").toString() + " distance = "+distance[0] );
+                Log.i("distance", "POI name = " +jObj.get("Name").toString() + " distance = "+distance[0]+ " lat= " +lat+ " lng = "+ lng );
                 //if (distance[0]<= userPref.range) {
                     PointOfInterest newPOI = new PointOfInterest(
                             jObj.get("POI_ID").getAsInt(),

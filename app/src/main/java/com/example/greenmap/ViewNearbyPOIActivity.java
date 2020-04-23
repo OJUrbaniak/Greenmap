@@ -109,7 +109,7 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
         if(results[0] <= 200){
             dbi.updateCarbon_Saved_Points(10, currentUser.userID);
             //used
-            Log.i("used", "distance = "+results[0]+ " used");
+            Log.i("used", "distance = "+results[0]+ " coords= " +currentCoords.latitude+" " +currentCoords.longitude+" " + currentPOI.coords.latitude+" " + currentPOI.coords.longitude);
             finish();
         } else {
             Log.i("used", "distance = "+results[0]+ "  not used");
