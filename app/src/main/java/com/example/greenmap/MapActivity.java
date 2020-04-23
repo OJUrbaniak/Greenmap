@@ -242,7 +242,6 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             personButton.setVisibility(View.VISIBLE);
         }
     }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Log.i("MAP READY", "IM READY YALL");
@@ -262,14 +261,16 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Log.i("Google Map Marker", "Clicked");
-                if(marker.getTitle().equals("New POI Location")|| marker.getTitle().equals("Current Location")){
+                if(marker.getTitle().equals("New POI Location")|| marker.getTitle().equals("Current Location")|| marker.getTitle().equals("Around here")){
                     moreInfoButton.setVisibility(View.GONE);
+                    plotButton.setVisibility(View.GONE);
                     markerSelected = null;
                 } else {
                     LatLng pos = marker.getPosition();
                     markerSelected = returnPointOfInterest(pos);
                     Log.i("Marker selecteds name is", markerSelected.name);
                     moreInfoButton.setVisibility(View.VISIBLE);
+                    plotButton.setVisibility(View.GONE);
                 }
                 return false;
             }
@@ -434,6 +435,11 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
             mapAPI.clear();
             data.clear();
+            mapAPI.addMarker(new MarkerOptions().position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)).title("Current Location"));
+            mapAPI.addMarker(new MarkerOptions()
+                    .position(new LatLng(refreshCameraLoc.latitude, refreshCameraLoc.longitude))
+                    .title("Around here")
+            );
             //Load markers based on users saved preferences
             if (userPref.showTaps) {
                 dbi.selectWaterPOIs((float) refreshCameraLoc.latitude, (float) refreshCameraLoc.longitude, userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, this);
@@ -465,17 +471,12 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     @Override
     public void onCameraMoveStarted(int reason) {
         if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-            //Toast.makeText(this, "The user gestured on the map.",
-                    //Toast.LENGTH_SHORT).show();
             personButton.setVisibility(View.VISIBLE);
+            plotButton.setVisibility(View.VISIBLE);
         } else if (reason == GoogleMap.OnCameraMoveStartedListener
                 .REASON_API_ANIMATION) {
-            //Toast.makeText(this, "The user tapped something on the map.",
-                    //Toast.LENGTH_SHORT).show();
         } else if (reason == GoogleMap.OnCameraMoveStartedListener
                 .REASON_DEVELOPER_ANIMATION) {
-            //Toast.makeText(this, "The app moved the camera.",
-                    //Toast.LENGTH_SHORT).show();
         }
     }
 }
