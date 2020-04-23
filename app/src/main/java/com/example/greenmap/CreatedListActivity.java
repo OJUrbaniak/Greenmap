@@ -34,6 +34,7 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
 
     int arrayListIndex;
 
+    boolean plotted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,8 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 null);
         TextView searchTextView = (TextView) searchView.findViewById(id);
         searchTextView.setTextColor(Color.WHITE);
+
+        plotted = false;
 
         table = findViewById(R.id.createdPOITable);
         Intent i = getIntent();
@@ -107,7 +110,11 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                         jObj.get("Type").getAsString()
                 ));
             }
+        } else {
+            //no POIs found
+        }
 
+        if(plotted == false){
             for(final PointOfInterest currentItem : data){
 
                 //Log.i("CreatedList", "added POI name= "+ jObj.get("Name").toString() + " type = "+ jObj.get("Type").getAsString()+ " index = "+ arrayListIndex+ " POID = "+ data.get(arrayListIndex).id);
@@ -214,9 +221,7 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 //Add row to table
                 table.addView(tr);
             }
-
-        } else {
-            //no POIs found
+            plotted = true;
         }
     }
 

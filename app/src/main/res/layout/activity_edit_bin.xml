@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <EditText
-        android:id="@+id/editText16"
+        android:id="@+id/editBinNameBox"
         android:layout_width="243dp"
         android:layout_height="56dp"
         android:ems="10"
