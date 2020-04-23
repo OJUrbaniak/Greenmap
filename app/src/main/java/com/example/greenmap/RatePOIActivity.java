@@ -62,8 +62,8 @@ public class RatePOIActivity  extends FragmentActivity implements OnMapReadyCall
         mapFragment.getMapAsync(this);
 
         currentPOI = (PointOfInterest) getIntent().getSerializableExtra("currentPOI");
-        nameLabel.setText(nameLabel.getText()+" "+currentPOI.name);
-        descLabel.setText(descLabel.getText()+" "+String.valueOf(currentPOI.desc));
+        nameLabel.setText(nameLabel.getText()+" "+currentPOI.name.replaceAll("\"", ""));
+        descLabel.setText(descLabel.getText()+" "+String.valueOf(currentPOI.desc).replaceAll("\"", ""));
 
         rateButton.setOnClickListener(new View.OnClickListener() {
             @Override
