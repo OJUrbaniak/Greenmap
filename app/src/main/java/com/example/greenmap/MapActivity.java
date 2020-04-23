@@ -38,7 +38,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback, GoogleMap.CancelableCallback, databaseInteracter {
+public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraMoveListener, OnMapReadyCallback, GoogleMap.OnCameraMoveStartedListener, databaseInteracter {
 
     User user;
     LatLng cameraLoc;
@@ -49,8 +49,11 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     FloatingActionButton personButton;
     GoogleMap mapAPI;
     FloatingActionButton plotButton;
+
     boolean userMarkerPlaced = false;
     Marker userMarker;
+    boolean animationFinished = false;
+
     final databaseInteracter dbInt = this;
     boolean userLoc;
 
@@ -233,8 +236,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void onCameraMove() {
         cameraLoc = mapAPI.getCameraPosition().target;
         //Log.d("CMOVE","Camera moved, lat "+cameraLoc.latitude + " lon "+cameraLoc.longitude);
-        cameraAnimation++;
-        if (cameraAnimation > 20) {
+        if(animationFinished == true) {
             personButton.setVisibility(View.VISIBLE);
         }
     }
@@ -243,6 +245,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     public void onMapReady(GoogleMap googleMap) {
         Log.i("MAP READY", "IM READY YALL");
         mapAPI = googleMap;
+        mapAPI.setOnCameraMoveStartedListener(this);
         mapAPI.setOnCameraMoveListener(this);
         mapAPI.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -447,7 +450,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     }
 
     public void returnToUser(View view) {
-        locationMarker.remove();
+        if (locationMarker != null) locationMarker.remove();
         refreshMarkerPlaced = false;
         Log.d("UserLocation","Current location lat "+currentLocation.getLatitude()+" lon"+currentLocation.getLongitude());
         LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
@@ -456,13 +459,20 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     }
 
     @Override
-    public void onFinish() {
-        //
-    }
-
-    @Override
-    public void onCancel() {
-
+    public void onCameraMoveStarted(int reason) {
+        if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+            //Toast.makeText(this, "The user gestured on the map.",
+                    //Toast.LENGTH_SHORT).show();
+            personButton.setVisibility(View.VISIBLE);
+        } else if (reason == GoogleMap.OnCameraMoveStartedListener
+                .REASON_API_ANIMATION) {
+            //Toast.makeText(this, "The user tapped something on the map.",
+                    //Toast.LENGTH_SHORT).show();
+        } else if (reason == GoogleMap.OnCameraMoveStartedListener
+                .REASON_DEVELOPER_ANIMATION) {
+            //Toast.makeText(this, "The app moved the camera.",
+                    //Toast.LENGTH_SHORT).show();
+        }
     }
 }
 
