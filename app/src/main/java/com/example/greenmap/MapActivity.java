@@ -312,7 +312,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                         (double) jObj.get("Latitude").getAsFloat(),
                         (double) jObj.get("Longitude").getAsFloat(),
                         jObj.get("Type").getAsString(),
-                        (int) rating
+                        (float) rating
                 ));
                 Log.i("dbiMap", "added POI name= "+ jObj.get("Name").toString());
                 Log.i("POI search info class check", data.get(n).name);

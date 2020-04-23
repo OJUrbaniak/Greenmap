@@ -185,19 +185,22 @@ public class RatePOIActivity  extends FragmentActivity implements OnMapReadyCall
     public void resultsReturned(JsonArray jArray) {
         int oldRating;
         oldRating = 0;
+        int numberIncrease;
+        numberIncrease = 0;
         if(jArray.size() > 0){
             oldRating = jArray.get(0).getAsJsonObject().get("Rating").getAsInt();
             dbi.updateRating(newRating, currentPOI.id, currentUser.userID);
         } else{
             dbi.insertRating(currentUser.userID, currentPOI.id, newRating);
+            numberIncrease = 1;
         }
         Log.i("Rate", "type = "+currentPOI.type+ " new rating = "+ newRating);
         if(currentPOI.type.equals("w")){
-            dbi.updateWaterFountainRating(newRating, oldRating, currentPOI.id);
+            dbi.updateWaterFountainRating(newRating, oldRating, numberIncrease, currentPOI.id);
         }else if (currentPOI.type.equals("b")){
-            dbi.updateBikeRackRating(newRating, oldRating, currentPOI.id);
+            dbi.updateBikeRackRating(newRating, oldRating, numberIncrease, currentPOI.id);
         }else if (currentPOI.type.equals("r")){
-            dbi.updateRecyclingBinRating(newRating, oldRating, currentPOI.id);
+            dbi.updateRecyclingBinRating(newRating, oldRating, numberIncrease, currentPOI.id);
         } else {
             Log.i("Rate", "wtf");
         }

@@ -12,7 +12,7 @@ public class PointOfInterest implements Serializable {
     String desc;
     String type;          //char r = recycling, b = bike rack, w = waterfountain
     int carbonSaved;    //Will have to decide what this is for different POIs and whether it will change over time
-    int reviewRating;
+    float reviewRating;
     double distance;
     Coords coords;
 
@@ -27,7 +27,7 @@ public class PointOfInterest implements Serializable {
     }
 
     //For sending off to the more info on markers
-    public PointOfInterest(int id, String name, String desc, Double lat, Double lon, String type, int reviewRating){
+    public PointOfInterest(int id, String name, String desc, Double lat, Double lon, String type, float reviewRating){
         this.id = id;
         this.name = name;
         this.desc = desc;
@@ -37,7 +37,7 @@ public class PointOfInterest implements Serializable {
     }
 
     //With reviewRating and distance -- when POIs are retrieved from DB?
-    PointOfInterest(int id, String name, String desc, Double lat, Double lon, String type, int reviewRating, double distance) {
+    PointOfInterest(int id, String name, String desc, Double lat, Double lon, String type, float reviewRating, double distance) {
         this.id = id;
         this.name = name;
         this.desc = desc;

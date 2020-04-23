@@ -16,13 +16,14 @@ import android.widget.TextView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+
 public class CreatedListActivity extends AppCompatActivity implements databaseInteracter {
 
     TableLayout table;
-    PointOfInterest data;
     DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
     User currentUser;
-
+    ArrayList<PointOfInterest> data = new ArrayList<PointOfInterest> ();
     Typeface tf; //casual
     Typeface tf2; //sans-serif-light
 
@@ -83,7 +84,7 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
                 //searchResults.add(new PoiSearchInfo(jObj.get("Name").toString(), jObj.get("Description").toString(), jObj.get("Type").getAsString(), rating, jObj.get("Latitude").getAsFloat(), jObj.get("Longitude").getAsFloat(), jObj.get("POI_ID").getAsInt()));
 
-                data=(new PointOfInterest(
+                data.add(new PointOfInterest(
                         jObj.get("POI_ID").getAsInt(),
                         jObj.get("Name").toString(),
                         jObj.get("Description").toString(),
@@ -92,7 +93,8 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                         jObj.get("Type").getAsString()
                 ));
 
-                Log.i("CreatedList", "added POI name= "+ jObj.get("Name").toString());
+                final int arrayListIndex = n + 1;
+                Log.i("CreatedList", "added POI name= "+ jObj.get("Name").toString() + " type = "+ jObj.get("Type").getAsString()+ " index = "+ arrayListIndex+ " POID = "+ data.get(arrayListIndex).id);
 
                 String poiName = jObj.get("Name").toString().replaceAll("\"", "");
                 String poiDesc = jObj.get("Description").toString().replaceAll("\"", "");
@@ -130,26 +132,7 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 viewButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //Log.i("CreatedList", "type= "+data.type);
-                        if(data.type.equals("w")){
-                            Log.i("CreatedList", "type= "+data.type);
-                            Intent intent = new Intent(v.getContext(),EditWaterActivity.class);
-                            intent.putExtra("currentPOI", data);
-                            startActivity(intent);
-                        }else if (data.type.equals("r")){
-                            Intent intent = new Intent(v.getContext(),EditBinActivity.class);
-                            Log.i("CreatedList", "type= "+data.type);
-                            intent.putExtra("currentPOI", data);
-                            startActivity(intent);
-                        } else if (data.type.equals("b")){
-                            Log.i("CreatedList", "type= "+data.type);
-                            Intent intent = new Intent(v.getContext(),EditBikeActivity.class);
-                            intent.putExtra("currentPOI", data);
-                            startActivity(intent);
-                        } else {
-                            return;
-                        }
-                        Log.i("VIEW", String.valueOf(v));
+                        editPressed(arrayListIndex, v);
                     }
                 });
 
@@ -165,7 +148,7 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                     deleteButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            deletePOI(data.id);
+                            deletePOI(data.get(arrayListIndex).id);
                             deleteButton.setTextColor(Color.parseColor("#910000"));
                             deleteButton.setText("Deleted");
                         }
@@ -279,6 +262,28 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
 
         } else {
             //no POIs found
+        }
+    }
+
+    private void editPressed(int index, View v){
+
+        if(data.get(index).type.equals("w")){
+            Log.i("CreatedList", "type= "+data.get(index).type);
+            Intent intent = new Intent(v.getContext(),EditWaterActivity.class);
+            intent.putExtra("currentPOI", data.get(index));
+            startActivity(intent);
+        }else if (data.get(index).type.equals("r")){
+            Intent intent = new Intent(v.getContext(),EditBinActivity.class);
+            Log.i("CreatedList", "type= "+data.get(index).type);
+            intent.putExtra("currentPOI", data.get(index));
+            startActivity(intent);
+        } else if (data.get(index).type.equals("b")){
+            Log.i("CreatedList", "type= "+data.get(index).type);
+            Intent intent = new Intent(v.getContext(),EditBikeActivity.class);
+            intent.putExtra("currentPOI", data.get(index));
+            startActivity(intent);
+        } else {
+            return;
         }
     }
 }

@@ -614,10 +614,11 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean updateWaterFountain(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, boolean Drink_Straight_Tap, boolean Bottle_Filling_Tap, boolean Filtered){
-        String urlParameters  = "UPDATE";
-        String[] params = {urlParameters, "update.php"};
+    public boolean updateWaterFountain(String Name, String Description,  boolean Drink_Straight_Tap, boolean Bottle_Filling_Tap, boolean Filtered, int POI_ID){
+        String SQLQuery  = "UPDATE `GreenMap`.`WaterFountainPOI` SET `Name` = \""+Name+"\", `Description` = \""+Description+"\", `Drink_Straight_Tap` = "+Drink_Straight_Tap+", `Bottle_Filling_Tap` = "+Bottle_Filling_Tap+", `Filtered` = "+Filtered+" WHERE (`POI_ID` = "+POI_ID+")";
         try {
+            SQLQuery = URLEncoder.encode(SQLQuery, "UTF-8");
+            String[] params = {"query="+SQLQuery, "update.php"};
             SendPostTask update = new SendPostTask();
             update.execute(params);
             return true;
@@ -627,10 +628,11 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean updateBikeRack(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID,  boolean Covered){
-        String urlParameters  = "UPDATE";
-        String[] params = {urlParameters, "update.php"};
+    public boolean updateBikeRack(String Name, String Description,  boolean Covered, int POI_ID){
+        String SQLQuery  = "UPDATE `GreenMap`.`BikeRackPOI` SET `Name` = \""+Name+"\", `Description` = \""+Description+"\", `Covered` = "+Covered+" WHERE (`POI_ID` = "+POI_ID+")";
         try {
+            SQLQuery = URLEncoder.encode(SQLQuery, "UTF-8");
+            String[] params = {"query="+SQLQuery, "update.php"};
             SendPostTask update = new SendPostTask();
             update.execute(params);
             return true;
@@ -640,10 +642,11 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean updateRecyclingBin(float lat, float lng, String Name, int Carbon_Saved_Value, String Description, int userID, String Recycling_Bin_Type){
-        String urlParameters  = "UPDATE ";
-        String[] params = {"query="+urlParameters, "update.php"};
+    public boolean updateRecyclingBin(String Name, String Description,  String binType, int POI_ID){
+        String SQLQuery  = "UPDATE `GreenMap`.`RecyclingBinPOI` SET `Name` = \""+Name+"\", `Description` = \""+Description+"\", `Recycling_Bin_Type` = \""+binType+"\" WHERE (`POI_ID` = "+POI_ID+")";
         try {
+            SQLQuery = URLEncoder.encode(SQLQuery, "UTF-8");
+            String[] params = {"query="+SQLQuery, "update.php"};
             SendPostTask update = new SendPostTask();
             update.execute(params);
             return true;
@@ -653,11 +656,11 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean updateRecyclingBinRating(int newRating, int oldRating, int POI_ID){
+    public boolean updateRecyclingBinRating(int newRating, int oldRating, int numberIncrease, int POI_ID){
         int change = newRating - oldRating;
         String SQLQuery = "";
         try {
-            SQLQuery = URLEncoder.encode("UPDATE GreenMap.RecyclingBinPOI SET Review_Rating = Review_Rating + "+change+" WHERE (POI_ID = "+POI_ID+")", "UTF-8");
+            SQLQuery = URLEncoder.encode("UPDATE GreenMap.RecyclingBinPOI SET Review_Rating = Review_Rating + "+change+", No_Reviews = No_Reviews + "+numberIncrease+" WHERE (POI_ID = "+POI_ID+")", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -672,11 +675,11 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean updateBikeRackRating(int newRating, int oldRating, int POI_ID){
+    public boolean updateBikeRackRating(int newRating, int oldRating, int numberIncrease, int POI_ID){
         int change = newRating - oldRating;
         String SQLQuery = "";
         try {
-            SQLQuery = URLEncoder.encode("UPDATE GreenMap.BikeRackPOI SET Review_Rating = Review_Rating + "+change+" WHERE (POI_ID = "+POI_ID+")", "UTF-8");
+            SQLQuery = URLEncoder.encode("UPDATE GreenMap.BikeRackPOI SET Review_Rating = Review_Rating + "+change+", No_Reviews = No_Reviews + "+numberIncrease+" WHERE (POI_ID = "+POI_ID+")", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -691,11 +694,11 @@ class DatabaseInterfaceDBI{
         }
     }
 
-    public boolean updateWaterFountainRating(int newRating, int oldRating, int POI_ID){
+    public boolean updateWaterFountainRating(int newRating, int oldRating, int numberIncrease, int POI_ID){
         int change = newRating - oldRating;
         String SQLQuery = "";
         try {
-            SQLQuery = URLEncoder.encode("UPDATE GreenMap.WaterFountainPOI SET Review_Rating = Review_Rating + "+change+" WHERE (POI_ID = "+POI_ID+")", "UTF-8");
+            SQLQuery = URLEncoder.encode("UPDATE GreenMap.WaterFountainPOI SET Review_Rating = Review_Rating + "+change+", No_Reviews = No_Reviews + "+numberIncrease+" WHERE (POI_ID = "+POI_ID+")", "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

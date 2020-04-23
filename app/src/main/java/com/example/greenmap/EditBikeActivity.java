@@ -25,6 +25,12 @@ public class EditBikeActivity extends FragmentActivity implements OnMapReadyCall
     SupportMapFragment mapFragment;
 
     PointOfInterest currentPOI;
+    DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
+
+    TextView nameLabel;
+    TextView descLabel;
+    EditText nameBox;
+    EditText descBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +42,11 @@ public class EditBikeActivity extends FragmentActivity implements OnMapReadyCall
 
         location = currentPOI.coords;
 
-        DatabaseInterfaceDBI DBI = new DatabaseInterfaceDBI();
 
-        TextView nameLabel = findViewById(R.id.nameLabel);
-        TextView descLabel = findViewById(R.id.descLabel);
-        EditText nameBox = findViewById(R.id.nameBox);
-        EditText descBox = findViewById(R.id.descBox);
+        nameLabel = findViewById(R.id.nameLabel);
+        descLabel = findViewById(R.id.descLabel);
+        nameBox = findViewById(R.id.nameBox);
+        descBox = findViewById(R.id.descBox);
 
         Button confirmbutton = findViewById(R.id.button32);
 
@@ -53,6 +58,7 @@ public class EditBikeActivity extends FragmentActivity implements OnMapReadyCall
 
     public void backToView(View view){
         Intent intent = new Intent(this,ViewPOIActivity.class);
+        intent.putExtra("currentPOI", currentPOI);
         startActivity(intent);
     }
 
@@ -81,6 +87,7 @@ public class EditBikeActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     public void editClicked(View view){
-        //Update in the DB
+        //need to fix covered
+        dbi.updateBikeRack(nameBox.getText().toString(), descBox.getText().toString(), true, currentPOI.id);
     }
 }
