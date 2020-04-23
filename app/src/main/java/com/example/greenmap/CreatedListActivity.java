@@ -107,12 +107,17 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                         (double) jObj.get("Longitude").getAsFloat(),
                         jObj.get("Type").getAsString()
                 ));
+            }
 
-                arrayListIndex = n + 1;
-                Log.i("CreatedList", "added POI name= "+ jObj.get("Name").toString() + " type = "+ jObj.get("Type").getAsString()+ " index = "+ arrayListIndex+ " POID = "+ data.get(arrayListIndex).id);
+            for(final PointOfInterest currentItem : data){
 
-                String poiName = jObj.get("Name").toString().replaceAll("\"", "");
-                String poiDesc = jObj.get("Description").toString().replaceAll("\"", "");
+                //Log.i("CreatedList", "added POI name= "+ jObj.get("Name").toString() + " type = "+ jObj.get("Type").getAsString()+ " index = "+ arrayListIndex+ " POID = "+ data.get(arrayListIndex).id);
+
+//                String poiName = jObj.get("Name").toString().replaceAll("\"", "");
+//                String poiDesc = jObj.get("Description").toString().replaceAll("\"", "");
+
+                String poiName = currentItem.name.replaceAll("\"", "");
+                String poiDesc = currentItem.desc.replaceAll("\"", "");
 
                 //Table row
                 TableRow tr = new TableRow(this);
@@ -159,7 +164,26 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                     @Override
                     public void onClick(View v) {
                         Log.i("Edit Button", "clicked");
-                        editPressed(arrayListIndex, v);
+//                        editPressed(arrayListIndex, v);
+                        Log.i("Edit button:", currentItem.name);
+                        if(currentItem.type.equals('w')){
+                            Log.i("CreatedList", "type= "+currentItem.type);
+                            Intent intent = new Intent(v.getContext(),EditWaterActivity.class);
+                            intent.putExtra("currentPOI", currentItem);
+                            startActivityForResult(intent, 1);
+                        }else if (currentItem.type.equals('r')){
+                            Intent intent = new Intent(v.getContext(),EditBinActivity.class);
+                            Log.i("CreatedList", "type= "+currentItem.type);
+                            intent.putExtra("currentPOI", currentItem);
+                            startActivityForResult(intent, 1);
+                        } else if (currentItem.type.equals('b')){
+                            Log.i("CreatedList", "type= "+currentItem.type);
+                            Intent intent = new Intent(v.getContext(),EditBikeActivity.class);
+                            intent.putExtra("currentPOI", currentItem);
+                            startActivityForResult(intent, 1);
+                        } else {
+                            return;
+                        }
                     }
                 });
                 viewButton.setLayoutParams(itemLayout);
