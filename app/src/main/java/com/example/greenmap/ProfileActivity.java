@@ -9,31 +9,37 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class ProfileActivity extends AppCompatActivity {
+import com.google.gson.JsonArray;
+
+public class ProfileActivity extends AppCompatActivity implements databaseInteracter {
 
     User user;
     TextView usernameTextLabel;
     TextView carbonPointsLabel;
-//    Button viewPOILabel;
-//    Button signOutLabel;
-//    Button tosButton;
-//    Button ppButton;
-//    Button aboutUsButton;
+    DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_profile);
 
         Intent i = getIntent();
         user = (User)i.getSerializableExtra("User");
+        dbi.selectUserbyID(user.userID, this);
 
         usernameTextLabel = findViewById(R.id.textView17);
         carbonPointsLabel = findViewById(R.id.textView20);
 
         usernameTextLabel.setText(user.username);
         carbonPointsLabel.setText("Carbon Points: " + user.carbon_saved_value);
+    }
+
+    @Override
+    protected  void onResume(){
+        super.onResume();
+        dbi.selectUserbyID(user.userID, this);
     }
 
     public void signOut(View view) {
@@ -66,5 +72,15 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this,FollowersActivity.class);
         intent.putExtra("User", (Parcelable) user);
         startActivity(intent);
+    }
+
+
+    @Override
+    public void resultsReturned(JsonArray jArray) {
+        if(jArray.size() > 0){
+            int carbonPoints = jArray.get(0).getAsJsonObject().get("Carbon_Saved_Points").getAsInt();
+            carbonPointsLabel.setText("Carbon Points: " + carbonPoints);
+            user.carbon_saved_value = carbonPoints;
+        }
     }
 }

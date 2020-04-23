@@ -727,6 +727,23 @@ class DatabaseInterfaceDBI{
         }
     }
 
+    public boolean updateCarbon_Saved_Points(int Carbon_Saved_Points, int User_ID){
+        String SQLQuery = "";
+        try {
+            SQLQuery = URLEncoder.encode("UPDATE GreenMap.User SET Carbon_Saved_Points =  Carbon_Saved_Points + "+Carbon_Saved_Points+" WHERE (User_ID = "+User_ID+")", "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String[] params = {"query="+SQLQuery, "update.php"};
+        try {
+            SendPostTask update = new SendPostTask();
+            update.execute(params);
+            return true;
+        } catch (Exception ex) {
+            Logger.getLogger(DatabaseInterfaceDBI.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
 
     //--------delete statements------
 

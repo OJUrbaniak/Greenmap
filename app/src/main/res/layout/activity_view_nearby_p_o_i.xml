@@ -134,7 +134,8 @@
         android:id="@+id/button17"
         android:layout_width="162dp"
         android:layout_height="50dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/button_rounded"
         android:fontFamily="sans-serif-light"
         android:onClick="goToRate"
@@ -142,8 +143,23 @@
         android:textColor="#F4F4F4"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.104"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingLabel" />
+
+    <Button
+        android:id="@+id/button14"
+        android:layout_width="162dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/button_rounded"
+        android:fontFamily="sans-serif-light"
+        android:onClick="usePOI"
+        android:text="Use POI"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/button17"
         app:layout_constraintTop_toBottomOf="@+id/ratingLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

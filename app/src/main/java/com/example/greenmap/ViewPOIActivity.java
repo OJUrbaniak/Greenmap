@@ -55,6 +55,7 @@ public class ViewPOIActivity extends FragmentActivity implements OnMapReadyCallb
         descLabel.setText(descLabel.getText()+" "+String.valueOf(currentPOI.desc));
     }
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         //Disable any movement of the map

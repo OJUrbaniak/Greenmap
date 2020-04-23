@@ -22,6 +22,7 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
     SupportMapFragment mapFragment;
     PointOfInterest currentPOI;
     User currentUser;
+    DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,5 +84,10 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
         intent.putExtra("currentPOI", currentPOI);
         intent.putExtra("User", (Parcelable) currentUser);
         startActivity(intent);
+    }
+
+    public void usePOI(View view){
+        //if(distance to POI <= 200m)
+        dbi.updateCarbon_Saved_Points(10, currentUser.userID);
     }
 }
