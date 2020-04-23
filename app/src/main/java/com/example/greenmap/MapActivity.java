@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -44,6 +45,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     Button confirmButton;
     Button moreInfoButton;
     FloatingActionButton refreshButton;
+    FloatingActionButton personButton;
     GoogleMap mapAPI;
     FloatingActionButton plotButton;
     boolean userMarkerPlaced = false;
@@ -95,9 +97,11 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         confirmButton = findViewById(R.id.button3);
         moreInfoButton = findViewById(R.id.moreInfoButton);
         refreshButton = findViewById(R.id.refreshButton);
+        personButton = findViewById(R.id.personFloatingButton);
 
         confirmButton.setVisibility(View.GONE);
         moreInfoButton.setVisibility(View.GONE);
+        personButton.setVisibility(View.GONE);
 
         //Get user from the previous page
         Intent i = getIntent();
@@ -205,10 +209,13 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         startActivity(intent);
     }
 
+    int cameraAnimation = 0;
+
     @Override
     public void onCameraMove() {
         cameraLoc = mapAPI.getCameraPosition().target;
         //Log.d("CMOVE","Camera moved, lat "+cameraLoc.latitude + " lon "+cameraLoc.longitude);
+
     }
 
     @Override
@@ -350,11 +357,55 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         startActivity(intent);
     }
 
-    public void refreshMap(View view){
-        finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+    boolean refreshMarkerPlaced = false;    //Keeps track of whether the refresh button's marker has been placed
+    Marker locationMarker;                  //The marker placed when the user presses the refresh button in another location
+    //LatLng oldLoc;                //Keeps track of the camera location when the user presses the refresh button
+
+    public void refreshMap(View view) {
+        LatLng refreshCameraLoc = mapAPI.getCameraPosition().target;
+        if (refreshCameraLoc != cameraLoc) {
+            personButton.setVisibility(View.VISIBLE);
+            //Refresh button needs to get coords from middle of camera
+            refreshCameraLoc = mapAPI.getCameraPosition().target;
+            //Initialise the latitude and longitude
+            LatLng latLng = new LatLng(cameraLoc.latitude, cameraLoc.longitude);
+            //Create a marker
+            MarkerOptions options = new MarkerOptions().position(cameraLoc).title("Position");
+
+            if (refreshMarkerPlaced == true) {
+                locationMarker.remove();
+            }
+
+            locationMarker = mapAPI.addMarker(options);
+            //Need to send cameraLoc to db to get POIS
+            DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
+            data.clear();
+            //Load markers based on users saved preferences
+            if (userPref.showTaps) {
+                dbi.selectWaterPOIs((float) refreshCameraLoc.latitude, (float) refreshCameraLoc.longitude, userPref.range, userPref.minRating, userPref.tapBottleRefill, userPref.drinkingTap, userPref.tapFiltered, this);
+            }
+            if (userPref.showBins) {
+                dbi.selectRecyclingPOIs((float) refreshCameraLoc.latitude, (float) refreshCameraLoc.longitude, userPref.range, userPref.minRating, this);
+            }
+            if (userPref.showRacks) {
+                dbi.selectBikePOIs((float) refreshCameraLoc.latitude, (float) refreshCameraLoc.longitude, userPref.range, userPref.minRating, userPref.rackCovered, this);
+            }
+
+            refreshMarkerPlaced = true;
+        }
+        else {
+            Toast toast = Toast.makeText(getApplicationContext(),"Move the map to use this button!",Toast.LENGTH_SHORT);
+            personButton.setVisibility(View.GONE);
+        }
+    }
+
+    public void returnToUser(View view) {
+        locationMarker.remove();
+        refreshMarkerPlaced = false;
+        Log.d("UserLocation","Current location lat "+currentLocation.getLatitude()+" lon"+currentLocation.getLongitude());
+        LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+        mapAPI.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+        personButton.setVisibility(View.GONE);
     }
 }
 
