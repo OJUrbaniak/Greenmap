@@ -318,13 +318,13 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 float[] distance = new float[1];
                 Location.distanceBetween(currentLat, currentLng, lat, lng, distance);
                 Log.i("distance", "POI name = " +jObj.get("Name").toString() + " distance = "+distance[0]+ " lat= " +lat+ " lng = "+ lng );
-                //if (distance[0]<= userPref.range) {
+                if (distance[0]<= userPref.range) {
                     PointOfInterest newPOI = new PointOfInterest(
                             jObj.get("POI_ID").getAsInt(),
                             jObj.get("Name").toString(),
                             jObj.get("Description").toString(),
-                            (double) lng,
                             (double) lat,
+                            (double)lng,
                             jObj.get("Type").getAsString(),
                             (float) rating
                     );
@@ -346,7 +346,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                     Log.i("Adding marker", newPOI.name);
                     mapAPI.addMarker(marker); //Add marker on map
                     Log.i("MAP MARKER ADDED", "added");
-                //}
+                }
 
             }
 
