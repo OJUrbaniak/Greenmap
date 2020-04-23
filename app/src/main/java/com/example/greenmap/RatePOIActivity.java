@@ -21,8 +21,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.JsonArray;
 
-import org.w3c.dom.Text;
-
 public class RatePOIActivity  extends FragmentActivity implements OnMapReadyCallback, databaseInteracter{
 
     int rateValue;

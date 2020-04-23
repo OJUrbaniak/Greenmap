@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 
-import android.util.Log;
 import android.view.View;
 import android.content.Intent;
 import android.widget.TextView;
@@ -15,8 +14,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import org.w3c.dom.Text;
 
 public class ViewPOIActivity extends FragmentActivity implements OnMapReadyCallback {
 
