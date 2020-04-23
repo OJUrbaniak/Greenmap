@@ -131,6 +131,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     protected void onResume(){
         super.onResume();
         called = false;
+        userLoc = true;
     }
 
     private void getCurrentLocation() {
@@ -316,6 +317,18 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
             float[] results = new float[1];
             float lng = 0f;
             float lat =0f;
+            float currentLat;
+            float currentLng;
+            if (userLoc == true){
+                Log.i("userLoc", "true" );
+                currentLat = (float) currentLocation.getLatitude();
+                currentLng = (float) currentLocation.getLongitude();
+            } else {
+                Log.i("userLoc", "false" );
+                LatLng refreshCameraLoc = mapAPI.getCameraPosition().target;
+                currentLat = (float) refreshCameraLoc.latitude;
+                currentLng = (float) refreshCameraLoc.longitude;
+            }
 
             for(int n = 0; n < jArray.size(); n++) {
                 Log.i("JARRAYS FAT ASS SIZE IS", String.valueOf(jArray.size()));
@@ -325,17 +338,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
                 lat = (float) jObj.get("Latitude").getAsFloat();
                 lng = (float) jObj.get("Longitude").getAsFloat();
-                float currentLat;
-                float currentLng;
-                if (userLoc == true){
-                    currentLat = (float) currentLocation.getLatitude();
-                    currentLng = (float) currentLocation.getLongitude();
-                } else {
-                    LatLng refreshCameraLoc = mapAPI.getCameraPosition().target;
-                    currentLat = (float) cameraLoc.latitude;
-                    currentLng = (float) cameraLoc.longitude;
-                    userLoc = true;
-                }
+
 
                 Log.i("distance", "current location lat = " +currentLat + " long = "+currentLng );
                 float[] distance = new float[1];
