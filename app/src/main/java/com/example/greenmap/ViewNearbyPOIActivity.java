@@ -1,4 +1,5 @@
 package com.example.greenmap;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -17,8 +18,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
-public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapReadyCallback {
+public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapReadyCallback, databaseInteracter {
 
     GoogleMap mapAPI;
     SupportMapFragment mapFragment;
@@ -26,6 +29,9 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
     User currentUser;
     DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
     Coords currentCoords;
+    TextView infoPopUp;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,37 +40,22 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
         Intent i = getIntent();
         currentUser = (User)i.getSerializableExtra("User");
         currentCoords = (Coords)i.getSerializableExtra("Current Coords");
-
-        if (currentCoords != null){
-            Log.i("veiw POI", "location obtained");
-        }
-
-        TextView nameLabel = findViewById(R.id.nameInfoLabel);
-        TextView typeLabel = findViewById(R.id.typeInfoLabel);
-        TextView ratingLabel = findViewById(R.id.ratingInfoLabel);
-        TextView descLabel = findViewById(R.id.descInfoLabel);
-
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
-        mapFragment.getMapAsync(this);
-
+        infoPopUp = findViewById(R.id.infoPopUp);
+        infoPopUp.setText("");
         currentPOI = (PointOfInterest) i.getSerializableExtra("currentPOI");
-        nameLabel.setText(nameLabel.getText()+" "+currentPOI.name);
-        //extrasLabel.setText(currentPOI.name);
-        String typeString = "";
-        switch (currentPOI.type) {
+        /*switch (currentPOI.type) {
             case "w":
-                typeString = "Water Fountain";
+                dbi.selectWaterPOIbyPOI_ID(currentPOI.id, this);
                 break;
             case "b":
-                typeString = "Bike Rack";
+                dbi.selectBikePOIbyPOI_ID(currentPOI.id, this);
                 break;
             case "r":
-                typeString = "Recycling Bin";
+                dbi.selectRecyclingPOIbyPOI_ID(currentPOI.id, this);
                 break;
-        }
-        typeLabel.setText(typeLabel.getText()+" "+ typeString);
-        ratingLabel.setText(ratingLabel.getText()+" "+String.valueOf(currentPOI.reviewRating));
-        descLabel.setText(descLabel.getText()+" "+String.valueOf(currentPOI.desc));
+        }*/
+
+
     }
 
     @Override
@@ -99,6 +90,17 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
         super.onResume();
         Intent i = getIntent();
         currentCoords = (Coords)i.getSerializableExtra("Current Coords");
+        switch (currentPOI.type) {
+            case "w":
+                dbi.selectWaterPOIbyPOI_ID(currentPOI.id, this);
+                break;
+            case "b":
+                dbi.selectBikePOIbyPOI_ID(currentPOI.id, this);
+                break;
+            case "r":
+                dbi.selectRecyclingPOIbyPOI_ID(currentPOI.id, this);
+                break;
+        }
     }
 
     public void usePOI(View view){
@@ -108,9 +110,60 @@ public class ViewNearbyPOIActivity  extends FragmentActivity implements OnMapRea
             dbi.updateCarbon_Saved_Points(10, currentUser.userID);
             //used
             Log.i("used", "distance = "+results[0]+ " used");
+            finish();
         } else {
             Log.i("used", "distance = "+results[0]+ "  not used");
+            //show error message
+            infoPopUp.setText("You are too far from the Point of Interest!");
         }
 
+    }
+
+    @Override
+    public void resultsReturned(JsonArray jArray) {
+        if (jArray.size() > 0){
+            JsonObject jObj = jArray.get(0).getAsJsonObject();
+            float rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
+            Log.i("rating", "loaded rating as "+ rating);
+            currentPOI = new PointOfInterest(
+                    jObj.get("POI_ID").getAsInt(),
+                    jObj.get("Name").toString(),
+                    jObj.get("Description").toString(),
+                    currentPOI.coords.latitude,
+                    currentPOI.coords.longitude,
+                    currentPOI.type,
+                    (float) rating
+            );
+            if (currentCoords != null){
+                Log.i("veiw POI", "location obtained");
+            }
+
+            TextView nameLabel = findViewById(R.id.nameInfoLabel);
+            TextView typeLabel = findViewById(R.id.typeInfoLabel);
+            TextView ratingLabel = findViewById(R.id.ratingInfoLabel);
+            TextView descLabel = findViewById(R.id.descInfoLabel);
+
+            mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapAPI);
+            mapFragment.getMapAsync(this);
+
+
+            //extrasLabel.setText(currentPOI.name);
+            String typeString = "";
+            switch (currentPOI.type) {
+                case "w":
+                    typeString = "Water Fountain";
+                    break;
+                case "b":
+                    typeString = "Bike Rack";
+                    break;
+                case "r":
+                    typeString = "Recycling Bin";
+                    break;
+            }
+            nameLabel.setText(currentPOI.name);
+            typeLabel.setText(typeString);
+            ratingLabel.setText(String.valueOf(currentPOI.reviewRating));
+            descLabel.setText(String.valueOf(currentPOI.desc));
+        }
     }
 }

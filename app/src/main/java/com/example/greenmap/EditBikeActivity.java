@@ -56,8 +56,8 @@ public class EditBikeActivity extends FragmentActivity implements OnMapReadyCall
 
     }
 
-    public void backToView(View view){
-        Intent intent = new Intent(this,ViewPOIActivity.class);
+    public void backToView(){
+        Intent intent = new Intent(this,ViewNearbyPOIActivity.class);
         intent.putExtra("currentPOI", currentPOI);
         startActivity(intent);
     }
@@ -89,5 +89,6 @@ public class EditBikeActivity extends FragmentActivity implements OnMapReadyCall
     public void editClicked(View view){
         //need to fix covered
         dbi.updateBikeRack(nameBox.getText().toString(), descBox.getText().toString(), true, currentPOI.id);
+        backToView();
     }
 }

@@ -162,4 +162,20 @@
         app:layout_constraintStart_toEndOf="@+id/button17"
         app:layout_constraintTop_toBottomOf="@+id/ratingLabel" />
 
+    <TextView
+        android:id="@+id/infoPopUp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="#353535"
+        android:fontFamily="casual"
+        android:textAlignment="center"
+        android:textColor="#F4F4F4"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/button17"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="test" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

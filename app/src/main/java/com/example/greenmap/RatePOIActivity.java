@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.content.Intent;
@@ -171,14 +172,17 @@ public class RatePOIActivity  extends FragmentActivity implements OnMapReadyCall
             newRating = rateValue;
             dbi.selectRating(currentUser.userID, currentPOI.id, this);
             infoPopUp.setText("Rating saved! Thanks for your feedback!");
+            finish();
         } else{
             //display an error message asking to check a box
             infoPopUp.setText("Please check a box!");
         }
     }
 
-    public void returnToMap(View view){
-        finish();
+    public void returnToMap(){
+        Intent intent = new Intent(this, MapActivity.class);
+        intent.putExtra("User", (Parcelable) currentUser);
+        startActivity(intent);
     }
 
     @Override
