@@ -51,6 +51,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     boolean userMarkerPlaced = false;
     Marker userMarker;
     final databaseInteracter dbInt = this;
+    boolean userLoc;
 
     Preferences userPref;
     SharedPreferences pref = null;
@@ -74,6 +75,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         called = false;
+        userLoc = true;
         Log.i("MAP ACTIVITY CREATED", "IM CREATED YALL");
 
         try {
@@ -319,8 +321,18 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
                 rating = (float) jObj.get("Review_Rating").getAsInt() / jObj.get("No_Reviews").getAsInt();
                 lat = (float) jObj.get("Latitude").getAsFloat();
                 lng = (float) jObj.get("Longitude").getAsFloat();
-                float currentLat = (float) currentLocation.getLatitude();
-                float currentLng = (float) currentLocation.getLongitude();
+                float currentLat;
+                float currentLng;
+                if (userLoc == true){
+                    currentLat = (float) currentLocation.getLatitude();
+                    currentLng = (float) currentLocation.getLongitude();
+                } else {
+                    LatLng refreshCameraLoc = mapAPI.getCameraPosition().target;
+                    currentLat = (float) cameraLoc.latitude;
+                    currentLng = (float) cameraLoc.longitude;
+                    userLoc = true;
+                }
+
                 Log.i("distance", "current location lat = " +currentLat + " long = "+currentLng );
                 float[] distance = new float[1];
                 Location.distanceBetween(currentLat, currentLng, lat, lng, distance);
@@ -394,6 +406,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
     //LatLng oldLoc;                //Keeps track of the camera location when the user presses the refresh button
 
     public void refreshMap(View view) {
+        userLoc = false;
         LatLng refreshCameraLoc = mapAPI.getCameraPosition().target;
         if (refreshCameraLoc != cameraLoc) {
             personButton.setVisibility(View.VISIBLE);
