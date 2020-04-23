@@ -24,18 +24,15 @@
             android:layout_weight="7"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/editText14"
+            <SearchView
+                android:id="@+id/search"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="0dp"
-                android:layout_weight="0.85"
-                android:ems="10"
-                android:fontFamily="casual"
-                android:hint="@android:string/search_go"
-                android:inputType="textPersonName"
-                android:textColor="#F4F4F4" />
+                android:layout_weight=".85"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search"
+                android:searchIcon="@android:drawable/ic_menu_search" />
 
             <ImageButton
                 android:id="@+id/imageButton"

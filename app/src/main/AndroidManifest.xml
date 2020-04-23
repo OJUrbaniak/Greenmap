@@ -38,7 +38,7 @@
         <activity android:name=".EditBikeActivity" />
         <activity android:name=".ViewPOIActivity" />
         <activity android:name=".CreatedListActivity"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".CreateWaterActivity" />
         <activity android:name=".CreateBikeActivity" />
         <activity android:name=".CreatePOIActivity" />

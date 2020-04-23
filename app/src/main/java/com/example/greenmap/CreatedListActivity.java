@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -18,7 +21,7 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
-public class CreatedListActivity extends AppCompatActivity implements databaseInteracter {
+public class CreatedListActivity extends AppCompatActivity implements databaseInteracter, SearchView.OnQueryTextListener {
 
     TableLayout table;
     DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
@@ -32,6 +35,14 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_created_list);
+        //android.widget.SearchView search = findViewById(R.id.sea)
+        SearchView searchView = findViewById(R.id.search);
+        searchView.setOnQueryTextListener(this);
+        int id = searchView.getContext().getResources().getIdentifier("android:id/search_src_text", null,
+                null);
+        TextView searchTextView = (TextView) searchView.findViewById(id);
+        searchTextView.setTextColor(Color.WHITE);
+
         table = findViewById(R.id.createdPOITable);
         Intent i = getIntent();
         currentUser = (User)i.getSerializableExtra("User");
@@ -273,5 +284,31 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
         } else {
             return;
         }
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        for (int i = 0; i < table.getChildCount(); i++) {
+            View v = table.getChildAt(i);
+            if (v instanceof TableRow) {
+                View nameView = ((TableRow) v).getChildAt(0);
+                if (nameView instanceof TextView) {
+                    //Log.d("SEARCHD",((TextView) nameView).getText().toString()+"  searchString: "+s);
+                    String name = ((TextView) nameView).getText().toString();
+                    if (!name.toUpperCase().contains(s.toUpperCase())) {
+                        v.setVisibility(View.GONE);
+                    }
+                    else {
+                        v.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
