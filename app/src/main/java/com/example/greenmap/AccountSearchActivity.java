@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,36 +30,54 @@ public class AccountSearchActivity extends AppCompatActivity implements database
     DatabaseInterfaceDBI dbi = new DatabaseInterfaceDBI();
     User currentUser;
 
+    TextView banLabel;
+    TextView makeAdminLabel;
+
+    Typeface tf; //casual
+    Typeface tf2; //sans-serif-light
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_search);
-        nameTable = findViewById(R.id.nameTable);
+        nameTable = findViewById(R.id.accountTable);
         nameSearch = findViewById(R.id.nameSearch);
         searchButton = findViewById(R.id.searchButton);
         Intent i = getIntent();
         currentUser = (User)i.getSerializableExtra("User");
 
-        Typeface tf = Typeface.create("casual", Typeface.NORMAL);
+        banLabel = findViewById(R.id.banUserLabel);
+        makeAdminLabel = findViewById(R.id.makeAdminLabel);
+
+        tf = Typeface.create("casual", Typeface.NORMAL);
+        tf2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
+
         TableRow tr = new TableRow(this);
-        TextView name = new TextView(this); name.setText("Name"); name.setTextColor(Color.parseColor("#F4F4F4")); name.setWidth(400); name.setTypeface(tf);
-        TextView add = new TextView(this); add.setText("Follow"); add.setTextColor(Color.parseColor("#F4F4F4")); add.setWidth(400); add.setTypeface(tf);
+        nameTable.removeAllViews();
+//        TextView name = new TextView(this); name.setText("Name"); name.setTextColor(Color.parseColor("#F4F4F4")); name.setWidth(400); name.setTypeface(tf);
+//        TextView add = new TextView(this); add.setText("Follow"); add.setTextColor(Color.parseColor("#F4F4F4")); add.setWidth(400); add.setTypeface(tf);
         Log.i("nearbyList", "currentuser permissionlevel  is "+ currentUser.permissionLevel);
         if (currentUser.permissionLevel > 0){
             Log.i("nearbyList", "user is admin");
-            TextView ban = new TextView(this); ban.setText("Ban User"); ban.setTextColor(Color.parseColor("#F4F4F4")); ban.setWidth(400); ban.setTypeface(tf);
-            TextView admin = new TextView(this); admin.setText("Make Admin"); admin.setTextColor(Color.parseColor("#F4F4F4")); admin.setWidth(400); admin.setTypeface(tf);
-            add.setWidth(400);
-            name.setWidth(400);
-            tr.addView(name);
-            tr.addView(add);
-            tr.addView(ban);
-            tr.addView(admin);
+            banLabel.setVisibility(View.VISIBLE);
+            makeAdminLabel.setVisibility(View.VISIBLE);
+
+//            TextView ban = new TextView(this); ban.setText("Ban User"); ban.setTextColor(Color.parseColor("#F4F4F4")); ban.setWidth(400); ban.setTypeface(tf);
+//            TextView admin = new TextView(this); admin.setText("Make Admin"); admin.setTextColor(Color.parseColor("#F4F4F4")); admin.setWidth(400); admin.setTypeface(tf);
+//            add.setWidth(400);
+//            name.setWidth(400);
+//            tr.addView(name);
+//            tr.addView(add);
+//            tr.addView(ban);
+//            tr.addView(admin);
         } else{
-            tr.addView(name);
-            tr.addView(add);
+            banLabel.setVisibility(View.GONE);
+            makeAdminLabel.setVisibility(View.GONE);
+
+//            tr.addView(name);
+//            tr.addView(add);
         }
-        nameTable.addView(tr);
+        //nameTable.addView(tr);
     }
 
     public void search(View view){
@@ -69,69 +88,162 @@ public class AccountSearchActivity extends AppCompatActivity implements database
     }
 
     private void showResults(){
-        int count = nameTable.getChildCount();
-        for (int i = 1; i < count; i++) {
-            View child = nameTable.getChildAt(i);
-            if (child instanceof TableRow) ((ViewGroup) child).removeAllViews();
-        }
+//        int count = nameTable.getChildCount();
+//        for (int i = 1; i < count; i++) {
+//            View child = nameTable.getChildAt(i);
+//            if (child instanceof TableRow) ((ViewGroup) child).removeAllViews();
+//        }
         for (final User result: searchResults) {
 
-            final String userN = result.username;
+            String username = result.username.toString().replaceAll("\"", "");
+
+            //Table row
+            TableRow.LayoutParams itemLayout;
             TableRow tr = new TableRow(this);
+            if(currentUser.permissionLevel > 0){
+                itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
+            } else{
+                itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
+            }
 
+
+            int leftMargin=10;
+            int topMargin=4;
+            int rightMargin=10;
+            int bottomMargin=4;
+
+            itemLayout.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+
+            //Name
             TextView name = new TextView(this);
-            name.setText(userN);
+            name.setText(username);
+            name.setTypeface(tf);
             name.setTextColor(Color.parseColor("#F4F4F4"));
-            name.setWidth(500);
-            name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
-            Button add = new Button(this);
-            add.setText("Follow");
-            add.setBackground(getDrawable(R.drawable.button_rounded));
-            add.setTextColor(Color.parseColor("#F4F4F4"));
-            add.setWidth(300);
-            add.setOnClickListener(new View.OnClickListener() {
+            //Follow button
+            final Button followButton = new Button(this);
+            followButton.setText("Follow");
+            followButton.setTypeface(tf2);
+            followButton.setBackgroundColor(Color.parseColor("#777777"));
+            followButton.setTextColor(Color.parseColor("#F4F4F4"));
+            followButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     follow(result);
+                    followButton.setText("Followed!");
                 }
             });
 
-            if (currentUser.permissionLevel > 0) {
-            Button admin = new Button(this);
-            admin.setText("admin");
-            admin.setBackground(getDrawable(R.drawable.button_rounded));
-            admin.setTextColor(Color.parseColor("#F4F4F4"));
-            admin.setWidth(300);
-            admin.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    admin(result);
-                }
-            });
+            //Admin buttons
+            final Button banButton = new Button(this);
+            final Button makeAdminButton = new Button(this);
+            if(currentUser.permissionLevel > 0){
+                banButton.setText("Ban User");
+                banButton.setTypeface(tf2);
+                banButton.setBackgroundColor(Color.parseColor("#777777"));
+                banButton.setTextColor(Color.parseColor("#F4F4F4"));
+                banButton.setLayoutParams(itemLayout);
+                banButton.setGravity(17);
+                banButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ban(result);
+                        banButton.setTextColor(Color.parseColor("#910000"));
+                        banButton.setText("User Banned");
+                        nameTable.removeView(view.getParent());
+                    }
+                });
 
+                makeAdminButton.setText("Make Admin");
+                makeAdminButton.setTypeface(tf2);
+                makeAdminButton.setBackgroundColor(Color.parseColor("#777777"));
+                makeAdminButton.setTextColor(Color.parseColor("#F4F4F4"));
+                makeAdminButton.setLayoutParams(itemLayout);
+                makeAdminButton.setGravity(17);
+                makeAdminButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        follow(result);
+                        makeAdminButton.setText("Permissions Given");
+                    }
+                });
+            }
 
-            Button ban = new Button(this);
-            ban.setText("Ban");
-            ban.setBackground(getDrawable(R.drawable.button_rounded));
-            ban.setTextColor(Color.parseColor("#922a31"));
-            ban.setWidth(300);
-            ban.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ban(result);
-                }
-            });
+            //Set layout for content
+            tr.setLayoutParams(itemLayout);
+            name.setLayoutParams(itemLayout);
+            followButton.setLayoutParams(itemLayout);
+
+            //17 = Gravity.CENTER
+            tr.setGravity(17);
+            name.setGravity(17);
+            followButton.setGravity(17);
+
 
             tr.addView(name);
-            tr.addView(add);
-            tr.addView(ban);
-            tr.addView(admin);
-            } else {
-                tr.addView(name);
-                tr.addView(add);
+            tr.addView(followButton);
+            if(currentUser.permissionLevel > 0){
+                tr.addView(banButton);
+                tr.addView(makeAdminButton);
             }
             nameTable.addView(tr);
+
+//            final String userN = result.username;
+//            TableRow tr = new TableRow(this);
+//
+//            TextView name = new TextView(this);
+//            name.setText(userN);
+//            name.setTextColor(Color.parseColor("#F4F4F4"));
+//            name.setWidth(500);
+//            name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+//
+//            Button add = new Button(this);
+//            add.setText("Follow");
+//            add.setBackground(getDrawable(R.drawable.button_rounded));
+//            add.setTextColor(Color.parseColor("#F4F4F4"));
+//            add.setWidth(300);
+//            add.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    follow(result);
+//                }
+//            });
+//
+//            if (currentUser.permissionLevel > 0) {
+//            Button admin = new Button(this);
+//            admin.setText("admin");
+//            admin.setBackground(getDrawable(R.drawable.button_rounded));
+//            admin.setTextColor(Color.parseColor("#F4F4F4"));
+//            admin.setWidth(300);
+//            admin.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    admin(result);
+//                }
+//            });
+//
+//
+//            Button ban = new Button(this);
+//            ban.setText("Ban");
+//            ban.setBackground(getDrawable(R.drawable.button_rounded));
+//            ban.setTextColor(Color.parseColor("#922a31"));
+//            ban.setWidth(300);
+//            ban.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    ban(result);
+//                }
+//            });
+//
+//            tr.addView(name);
+//            tr.addView(add);
+//            tr.addView(ban);
+//            tr.addView(admin);
+//            } else {
+//                tr.addView(name);
+//                tr.addView(add);
+//            }
+//            nameTable.addView(tr);
 
         }
     }

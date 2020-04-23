@@ -102,7 +102,7 @@ public class NearbyListActivity extends AppCompatActivity {
                 final int user_id = currItem.id;
                 delete.setText("Delete");
                 delete.setBackgroundColor(Color.parseColor("#777777"));
-                delete.setTextColor(Color.parseColor("#922a31"));
+                delete.setTextColor(Color.parseColor("#F4F4F4"));
                 delete.setBackground(getDrawable(R.drawable.button_rounded));
                 delete.setOnClickListener(new View.OnClickListener() {
                     @Override

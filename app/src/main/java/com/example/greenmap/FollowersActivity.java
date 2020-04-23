@@ -10,19 +10,16 @@ import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 
 import java.util.ArrayList;
-import java.util.List;
+
 import android.widget.Button;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import org.w3c.dom.Text;
 
 public class FollowersActivity extends AppCompatActivity implements databaseInteracter {
 
@@ -36,6 +33,7 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
 
     TableLayout tableInfo;
 
+    TextView followingNumberLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +48,8 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
         //or to support all versions use
         tf = Typeface.create("casual", Typeface.NORMAL);
         tf2 = Typeface.create("sans-serif-light", Typeface.NORMAL);
+
+        followingNumberLabel = findViewById(R.id.followingNumberLabel);
     }
 
 
@@ -78,6 +78,13 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
             TableRow tr = new TableRow(this);
             TableRow.LayoutParams itemLayout = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.3f);
 
+            int leftMargin=10;
+            int topMargin=2;
+            int rightMargin=10;
+            int bottomMargin=2;
+
+            itemLayout.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+
             //Name
             TextView name = new TextView(this);
             name.setText(username);
@@ -91,7 +98,7 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
             cPoints.setTextColor(Color.parseColor("#F4F4F4"));
 
             //Unfollow button
-            Button unfollowButton = new Button(this);
+            final Button unfollowButton = new Button(this);
             unfollowButton.setText("Unfollow");
             unfollowButton.setTypeface(tf2);
             unfollowButton.setBackgroundColor(Color.parseColor("#777777"));
@@ -100,10 +107,12 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
                 @Override
                 public void onClick(View view) {
                     unfollow(result);
+                    unfollowButton.setText("Unfollowed!");
                 }
             });
 
             //Set layout for content
+            tr.setLayoutParams(itemLayout);
             name.setLayoutParams(itemLayout);
             cPoints.setLayoutParams(itemLayout);
             unfollowButton.setLayoutParams(itemLayout);
@@ -113,6 +122,7 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
             name.setGravity(17);
             cPoints.setGravity(17);
             unfollowButton.setGravity(17);
+
 
             tr.addView(name);
             tr.addView(cPoints);
@@ -145,7 +155,7 @@ public class FollowersActivity extends AppCompatActivity implements databaseInte
                 searchResults.add(new User(jObj.get("User_ID").getAsInt(), jObj.get("Username").toString(), jObj.get("Carbon_Saved_Points").getAsInt()));
             }
             Log.i("AccSearch", String.valueOf(searchResults.size()));
-
+            followingNumberLabel.setText("Following: "+searchResults.size());
         } else {
             //no users found
             Log.i("AccSearch", "no users found");

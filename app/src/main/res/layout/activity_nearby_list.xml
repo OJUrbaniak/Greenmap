@@ -36,7 +36,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
+                android:backgroundTint="#777777"
                 android:onClick="backToMap"
+                android:tint="#F4F4F4"
                 app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
 
             <Space
@@ -60,7 +62,7 @@
                 android:fontFamily="casual"
                 android:gravity="center"
                 android:text="Name"
-                android:textColor="#FFFFFF"
+                android:textColor="#F4F4F4"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -72,7 +74,7 @@
                 android:fontFamily="casual"
                 android:gravity="center"
                 android:text="Description"
-                android:textColor="#FFFFFF"
+                android:textColor="#F4F4F4"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
