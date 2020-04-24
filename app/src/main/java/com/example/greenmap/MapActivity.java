@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.CancellationSignal;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.content.Intent;
@@ -78,6 +79,8 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_map);
         called = false;
 
         userLoc = true;
@@ -91,9 +94,6 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
         loadPreferences();
 
         //Load markers based on users saved preferences
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
 
         profileButton = findViewById(R.id.button27);
         plotButton = findViewById(R.id.floatingAddButton);
@@ -306,6 +306,7 @@ public class MapActivity extends FragmentActivity implements GoogleMap.OnCameraM
 
     @Override
     public void resultsReturned(JsonArray jArray) { //Plot marker points after receiving them from the database
+        Log.i("JARRAYS MAP ASS SIZE IS:", String.valueOf(jArray.size()));
         if(jArray.size() > 0) {
             float rating;
             float[] results = new float[1];

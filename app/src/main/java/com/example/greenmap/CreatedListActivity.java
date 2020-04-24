@@ -92,6 +92,7 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
 //    }
 
     public void resultsReturned(JsonArray jArray) { //Plot marker points after receiving them from the database
+        table.removeAllViews();
         if(jArray.size() > 0) {
             float rating;
             for(int n = 0; n < jArray.size(); n++) {
@@ -114,8 +115,9 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
             //no POIs found
         }
 
-        if(plotted == false){
+//        if(plotted == false){
             for(final PointOfInterest currentItem : data){
+                Log.i("FOR LOOP TING TING WING WING", currentItem.name);
 
                 //Log.i("CreatedList", "added POI name= "+ jObj.get("Name").toString() + " type = "+ jObj.get("Type").getAsString()+ " index = "+ arrayListIndex+ " POID = "+ data.get(arrayListIndex).id);
 
@@ -172,17 +174,17 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                         Log.i("Edit Button", "clicked");
 //                        editPressed(arrayListIndex, v);
                         Log.i("Edit button:", currentItem.name);
-                        if(currentItem.type.equals('w')){
+                        if(currentItem.type.equals("w")){
                             Log.i("CreatedList", "type= "+currentItem.type);
                             Intent intent = new Intent(v.getContext(),EditWaterActivity.class);
                             intent.putExtra("currentPOI", currentItem);
                             startActivityForResult(intent, 1);
-                        }else if (currentItem.type.equals('r')){
+                        }else if (currentItem.type.equals("r")){
                             Intent intent = new Intent(v.getContext(),EditBinActivity.class);
                             Log.i("CreatedList", "type= "+currentItem.type);
                             intent.putExtra("currentPOI", currentItem);
                             startActivityForResult(intent, 1);
-                        } else if (currentItem.type.equals('b')){
+                        } else if (currentItem.type.equals("b")){
                             Log.i("CreatedList", "type= "+currentItem.type);
                             Intent intent = new Intent(v.getContext(),EditBikeActivity.class);
                             intent.putExtra("currentPOI", currentItem);
@@ -221,8 +223,8 @@ public class CreatedListActivity extends AppCompatActivity implements databaseIn
                 //Add row to table
                 table.addView(tr);
             }
-            plotted = true;
-        }
+//            plotted = true;
+//        }
     }
 
     private void editPressed(int index, View v){
