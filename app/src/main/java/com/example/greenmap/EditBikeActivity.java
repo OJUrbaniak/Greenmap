@@ -48,6 +48,9 @@ public class EditBikeActivity extends FragmentActivity implements OnMapReadyCall
         nameBox = findViewById(R.id.nameBox);
         descBox = findViewById(R.id.descBox);
 
+        nameBox.setText(currentPOI.name.replace("\"",""));
+        descBox.setText(currentPOI.desc.replace("\"",""));
+
         Button confirmbutton = findViewById(R.id.button32);
 
 
