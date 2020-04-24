@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -20,8 +21,8 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 
-public class AccountSearchActivity extends AppCompatActivity implements databaseInteracter {
-    EditText nameSearch;
+public class AccountSearchActivity extends AppCompatActivity implements databaseInteracter, SearchView.OnQueryTextListener {
+    SearchView nameSearch;
     ImageButton searchButton;
     TableLayout nameTable;
     ArrayList<User> searchResults  = new ArrayList<User>();
@@ -40,7 +41,7 @@ public class AccountSearchActivity extends AppCompatActivity implements database
         setContentView(R.layout.activity_account_search);
         nameTable = findViewById(R.id.createdPOITable);
         nameSearch = findViewById(R.id.nameSearch);
-        searchButton = findViewById(R.id.searchButton);
+        nameSearch.setOnQueryTextListener(this);
         Intent i = getIntent();
         currentUser = (User)i.getSerializableExtra("User");
 
@@ -75,14 +76,8 @@ public class AccountSearchActivity extends AppCompatActivity implements database
 //            tr.addView(name);
 //            tr.addView(add);
         }
+        dbi.selectUserbyUsername("" , this);
         //nameTable.addView(tr);
-    }
-
-    public void search(View view){
-
-        dbi.selectUserbyUsername(nameSearch.getText().toString() , this);
-
-
     }
 
     private void showResults(){
@@ -167,7 +162,6 @@ public class AccountSearchActivity extends AppCompatActivity implements database
             }
 
             //Set layout for content
-            tr.setLayoutParams(itemLayout);
             name.setLayoutParams(itemLayout);
             followButton.setLayoutParams(itemLayout);
 
@@ -282,5 +276,32 @@ public class AccountSearchActivity extends AppCompatActivity implements database
             Log.i("AccSearch", "no users found");
         }
         showResults();
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        for (int i = 0; i < nameTable.getChildCount(); i++) {
+            View v = nameTable.getChildAt(i);
+            if (v instanceof TableRow) {
+                View nameView = ((TableRow) v).getChildAt(0);
+                if (nameView instanceof TextView) {
+                    //Log.d("SEARCHD",((TextView) nameView).getText().toString()+"  searchString: "+s);
+                    String name = ((TextView) nameView).getText().toString();
+                    Log.i("querySearch","name: "+name);
+                    if (!name.toUpperCase().contains(s.toUpperCase())) {
+                        v.setVisibility(View.GONE);
+                    }
+                    else {
+                        v.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

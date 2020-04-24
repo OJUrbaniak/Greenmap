@@ -8,112 +8,97 @@
     tools:context=".AccountSearchActivity">
 
     <LinearLayout
-        android:id="@+id/tblHeaders"
-        android:layout_width="409dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameSearch">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/nameLabel"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#777777"
-            android:fontFamily="casual"
-            android:text="Name"
-            android:textAlignment="center"
-            android:textColor="#F4F4F4" />
-
-        <TextView
-            android:id="@+id/descLabel"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#777777"
-            android:fontFamily="casual"
-            android:singleLine="true"
-            android:text="Action"
-            android:textAlignment="center"
-            android:textColor="#F4F4F4" />
-
-        <TextView
-            android:id="@+id/actionLabel"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#777777"
-            android:fontFamily="casual"
-            android:text="Ban User"
-            android:textAlignment="center"
-            android:textColor="#F4F4F4"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/makeAdminLabel"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#777777"
-            android:fontFamily="casual"
-            android:singleLine="true"
-            android:text="Make Admin"
-            android:textAlignment="center"
-            android:textColor="#F4F4F4" />
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/nameSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:fontFamily="casual"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        android:textColor="#F4F4F4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-    <ImageButton
-        android:id="@+id/searchButton"
-        android:layout_width="68dp"
-        android:layout_height="52dp"
-        android:background="#353535"
-        android:onClick="search"
-        android:tint="#FFFFFF"
-        app:layout_constraintStart_toEndOf="@+id/nameSearch"
-        app:layout_constraintTop_toTopOf="@+id/nameSearch"
-        app:srcCompat="@android:drawable/ic_menu_search" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="casual"
-        android:text="Search for an account to follow"
-        android:textColor="#F4F4F4"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ScrollView
-        android:layout_width="409dp"
-        android:layout_height="475dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tblHeaders">
-
-        <TableLayout
-            android:id="@+id/createdPOITable"
+            android:id="@+id/textView10"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="*" />
-    </ScrollView>
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="0.05"
+            android:fontFamily="casual"
+            android:gravity="center_horizontal"
+            android:text="Search for an account to follow"
+            android:textColor="#F4F4F4"
+            android:textSize="20sp" />
+
+        <SearchView
+            android:id="@+id/nameSearch"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="0.1"
+            android:iconifiedByDefault="false"
+            android:queryHint="Search" />
+
+        <LinearLayout
+            android:id="@+id/tblHeaders"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.04">
+
+            <TextView
+                android:id="@+id/nameLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#777777"
+                android:fontFamily="casual"
+                android:text="Name"
+                android:textAlignment="center"
+                android:textColor="#F4F4F4" />
+
+            <TextView
+                android:id="@+id/descLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#777777"
+                android:fontFamily="casual"
+                android:singleLine="true"
+                android:text="Action"
+                android:textAlignment="center"
+                android:textColor="#F4F4F4" />
+
+            <TextView
+                android:id="@+id/actionLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#777777"
+                android:fontFamily="casual"
+                android:text="Ban User"
+                android:textAlignment="center"
+                android:textColor="#F4F4F4"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/makeAdminLabel"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#777777"
+                android:fontFamily="casual"
+                android:singleLine="true"
+                android:text="Make Admin"
+                android:textAlignment="center"
+                android:textColor="#F4F4F4" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.9">
+
+            <TableLayout
+                android:id="@+id/createdPOITable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*" />
+        </ScrollView>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
